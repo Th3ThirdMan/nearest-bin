@@ -1,4 +1,5 @@
 import requests
+import time
 from math import radians, sin, cos, sqrt, atan2
 
 
@@ -42,20 +43,23 @@ def calculate_distance(lat1, lon1, lat2, lon2):
 
 
 def get_bins(url, query, headers):
-    try:
-        response = requests.get(
-            url,
-            params={"data": query},
-            headers=headers,
-            timeout=20
-        )
-    except requests.exceptions.Timeout:
-        print("The Overpass API took too long to respond.")
-        return None
+    for attempt in range(3):
+        try:
+            response = requests.get(
+                url,
+                params={"data": query},
+                headers=headers,
+                timeout=20
+            )
+        except requests.exceptions.Timeout:
+            print("The Overpass API took too long to respond.")
+            return None
 
-    if response.status_code != 200:
-        print("Overpass API is busy. Please try again.")
-        return None
+        if response.status_code == 200:
+            break
+        print(f"Attempt {attempt + 1} failed. Retrying...")
+        time.sleep(2)
+    
 
     try:
         return response.json()
