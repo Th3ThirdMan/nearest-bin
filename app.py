@@ -6,13 +6,14 @@ from math import radians, sin, cos, sqrt, atan2
 # Configuration
 user_lat = 53.3498
 user_lon = -6.2603
+search_radius = 300
 
 url = "https://overpass-api.de/api/interpreter"
 
 query = f"""
 [out:json];
 node["amenity"="waste_basket"]
-(around:{user_lat},{user_lon});
+(around:{search_radius},{user_lat},{user_lon});
 out;
 """
 
@@ -43,6 +44,8 @@ def calculate_distance(lat1, lon1, lat2, lon2):
 
 
 def get_bins(url, query, headers):
+    response = None
+
     for attempt in range(3):
         try:
             response = requests.get(
@@ -52,13 +55,24 @@ def get_bins(url, query, headers):
                 timeout=20
             )
         except requests.exceptions.Timeout:
-            print("The Overpass API took too long to respond.")
+            if attempt < 2:
+                print(f"Attempt {attempt + 1} timed out. Retrying...")
+                time.sleep(2)
+            continue
+        
+        except requests.exceptions.RequestException as e:
+            print(f"Network error: {e}")
             return None
 
         if response.status_code == 200:
             break
-        print(f"Attempt {attempt + 1} failed. Retrying...")
-        time.sleep(2)
+        if attempt < 2:
+            print(f"Attempt {attempt + 1} failed. Retrying...")
+            time.sleep(2)
+        
+    if response is None or response.status_code != 200:
+        print("Overpass API is still unavailable after 3 attempts.")
+        return None
     
 
     try:
@@ -87,30 +101,34 @@ def find_nearest_bin(bins, user_lat, user_lon):
     return nearest_bin, nearest_distance
 
 
-# Main program
-data = get_bins(url, query, headers)
+def main():
+    data = get_bins(url, query, headers)
 
-if data is None:
-    exit()
+    if data is None:
+        return
 
-print(f"Found {len(data['elements'])} bins.")
+    print(f"Found {len(data['elements'])} bins.")
 
-nearest_bin, nearest_distance = find_nearest_bin(
-    data["elements"],
-    user_lat,
-    user_lon
-)
-
-if nearest_bin:
-    print("\nNearest bin:")
-    print(
-        f"Street: "
-        f"{nearest_bin['tags'].get('object:street', 'Unknown')}"
+    nearest_bin, nearest_distance = find_nearest_bin(
+        data["elements"],
+        user_lat,
+        user_lon
     )
-    print(f"Latitude: {nearest_bin['lat']}")
-    print(f"Longitude: {nearest_bin['lon']}")
-    print(f"Distance: {nearest_distance:.2f} metres")
-else:
-    print("No bins were found nearby.")
+
+    if nearest_bin:
+        print("\nNearest bin:")
+        print(
+            f"Street: "
+            f"{nearest_bin['tags'].get('object:street', 'Unknown')}"
+        )
+        print(f"Latitude: {nearest_bin['lat']}")
+        print(f"Longitude: {nearest_bin['lon']}")
+        print(f"Distance: {nearest_distance:.0f} metres")
+    else:
+        print(f"No bins were found within {search_radius} metres.")
+        
+        
+if __name__ == "__main__":
+    main()
 
 
