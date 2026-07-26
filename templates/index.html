@@ -5,26 +5,38 @@
     <title>{{ title }}</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css')}}"
+      href="{{ url_for('static', filename='style.css') }}"
     />
   </head>
+
   <body>
-    <body>
-      <div class="container">
-        <h1>{{ title }}</h1>
+    <div class="container">
+      <h1>{{ title }}</h1>
 
-        <p>Find the nearest public bin in Dublin.</p>
+      <p>Find the nearest public bin in Dublin.</p>
 
-        <form action="/find-bin" method="post">
-          <button type="submit">Find Nearest Bin</button>
-        </form>
+      <form action="/find-bin" method="post">
+        <button type="submit">Find Nearest Bin</button>
+      </form>
 
-        {% if nearest_bin %} ... {% elif error_message %}
-        <p>{{ error_message }}</p>
-        {% else %}
-        <p>No bin data available.</p>
-        {% endif %}
-      </div>
-    </body>
+      {% if nearest_bin %}
+      <h2>Nearest Bin</h2>
+
+      <p>
+        Street: {{ nearest_bin.get("tags", {}).get("addr:street", "Unknown
+        street") }}
+      </p>
+
+      <p>Distance: {{ nearest_distance|round|int }} metres</p>
+      <p>Latitude: {{ nearest_bin["lat"] }}</p>
+      <p>Longitude: {{ nearest_bin["lon"] }}</p>
+
+      {% elif error_message %}
+      <p>{{ error_message }}</p>
+
+      {% else %}
+      <p>No bin data available.</p>
+      {% endif %}
+    </div>
   </body>
 </html>

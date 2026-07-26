@@ -1,3 +1,4 @@
+import json
 import requests
 import time
 from math import radians, sin, cos, sqrt, atan2
@@ -54,31 +55,42 @@ def get_bins(url, query, headers):
                 headers=headers,
                 timeout=40
             )
+
         except requests.exceptions.Timeout:
             if attempt < 2:
                 print(f"Attempt {attempt + 1} timed out. Retrying...")
                 time.sleep(2)
             continue
-        
+
         except requests.exceptions.RequestException as e:
             print(f"Network error: {e}")
-            return None
+            break
 
         if response.status_code == 200:
-            break
+            try:
+                data = response.json()
+                data["source"] = "live"
+                return data
+
+            except requests.exceptions.JSONDecodeError:
+                print("The server returned invalid JSON.")
+                break
+
         if attempt < 2:
             print(f"Attempt {attempt + 1} failed. Retrying...")
             time.sleep(2)
-        
-    if response is None or response.status_code != 200:
-        print("Overpass API is still unavailable after 3 attempts.")
-        return None
-    
+
+    print("Overpass API is unavailable. Trying cached data.")
 
     try:
-        return response.json()
-    except requests.exceptions.JSONDecodeError:
-        print("The server returned invalid data. Please try again.")
+        with open("bins_cache.json", "r") as file:
+            data = json.load(file)
+            data["source"] = "cache"
+            print("Using cached bin data.")
+            return data
+
+    except FileNotFoundError:
+        print("No cached bin data was found.")
         return None
 
 
@@ -126,9 +138,7 @@ def main():
         print(f"Distance: {nearest_distance:.0f} metres")
     else:
         print(f"No bins were found within {search_radius} metres.")
-        
-        
+
+
 if __name__ == "__main__":
     main()
-
-

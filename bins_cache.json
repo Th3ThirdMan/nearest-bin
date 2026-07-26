@@ -1,0 +1,18 @@
+{
+  "elements": [
+    {
+      "lat": 53.3499081,
+      "lon": -6.2603209,
+      "tags": {
+        "addr:street": "O'Connell Street Upper"
+      }
+    },
+    {
+      "lat": 53.349622,
+      "lon": -6.259915,
+      "tags": {
+        "addr:street": "O'Connell Street Upper"
+      }
+    }
+  ]
+}
