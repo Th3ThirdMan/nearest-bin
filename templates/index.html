@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ title }}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css')}}"
+    />
+  </head>
+  <body>
+    <body>
+      <div class="container">
+        <h1>{{ title }}</h1>
+
+        <p>Find the nearest public bin in Dublin.</p>
+
+        <form action="/find-bin" method="post">
+          <button type="submit">Find Nearest Bin</button>
+        </form>
+
+        {% if nearest_bin %} ... {% elif error_message %}
+        <p>{{ error_message }}</p>
+        {% else %}
+        <p>No bin data available.</p>
+        {% endif %}
+      </div>
+    </body>
+  </body>
+</html>

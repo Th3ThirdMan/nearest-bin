@@ -52,7 +52,7 @@ def get_bins(url, query, headers):
                 url,
                 params={"data": query},
                 headers=headers,
-                timeout=20
+                timeout=40
             )
         except requests.exceptions.Timeout:
             if attempt < 2:
@@ -119,7 +119,7 @@ def main():
         print("\nNearest bin:")
         print(
             f"Street: "
-            f"{nearest_bin['tags'].get('object:street', 'Unknown')}"
+            f"{nearest_bin['tags'].get('addr:street', 'Unknown')}"
         )
         print(f"Latitude: {nearest_bin['lat']}")
         print(f"Longitude: {nearest_bin['lon']}")
