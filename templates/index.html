@@ -14,11 +14,17 @@
     <div class="container">
       <h1>{{ title }}</h1>
 
-      <p>Find the nearest public bin in Dublin.</p>
+      <p>Find the nearest public bin to your current location.</p>
 
-      <form action="/find-bin" method="post">
-        <button type="submit">Find Nearest Bin</button>
+      <form action="/find-bin" method="post" onsubmit="return getLocation();">
+        <input type="hidden" id="latitude" name="latitude" />
+
+        <input type="hidden" id="longitude" name="longitude" />
+
+        <button id="findButton" type="submit">Find Nearest Bin</button>
       </form>
+
+      <p id="loading" class="loading-message">Searching for nearby bins...</p>
 
       {% if nearest_bin %}
 
@@ -29,25 +35,73 @@
         {{ nearest_bin.get("tags", {}).get("addr:street", "Unknown street") }}
       </p>
 
-      <p><strong>Distance:</strong> {{ nearest_distance|round|int }} metres</p>
+      <p>
+        <strong>Distance:</strong>
+        {{ nearest_distance|round|int }} metres
+      </p>
 
-      <p><strong>Latitude:</strong> {{ nearest_bin["lat"] }}</p>
+      <p>
+        <strong>Latitude:</strong>
+        {{ nearest_bin["lat"] }}
+      </p>
 
-      <p><strong>Longitude:</strong> {{ nearest_bin["lon"] }}</p>
+      <p>
+        <strong>Longitude:</strong>
+        {{ nearest_bin["lon"] }}
+      </p>
 
       {% if data_source == "cache" %}
-      <p class="data-note">📦 Using saved bin data.</p>
+      <p class="data-note">Using saved bin data.</p>
       {% elif data_source == "live" %}
-      <p class="data-note">🌍 Using live OpenStreetMap data.</p>
+      <p class="data-note">Using live OpenStreetMap data.</p>
       {% endif %} {% elif error_message %}
 
       <p>{{ error_message }}</p>
 
-      {% else %}
-
-      <p>No bin data available.</p>
-
       {% endif %}
     </div>
+
+    <script>
+      function getLocation() {
+        const button = document.getElementById("findButton");
+        const loadingMessage = document.getElementById("loading");
+        const form = document.querySelector("form");
+
+        if (!navigator.geolocation) {
+          alert("Geolocation is not supported by your browser.");
+          return false;
+        }
+
+        button.disabled = true;
+        button.innerText = "Finding your location...";
+
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            document.getElementById("latitude").value =
+              position.coords.latitude;
+
+            document.getElementById("longitude").value =
+              position.coords.longitude;
+
+            button.innerText = "Searching...";
+            loadingMessage.style.display = "block";
+
+            form.submit();
+          },
+
+          function () {
+            alert(
+              "Unable to get your location. Please allow location access and try again.",
+            );
+
+            button.disabled = false;
+            button.innerText = "Find Nearest Bin";
+            loadingMessage.style.display = "none";
+          },
+        );
+
+        return false;
+      }
+    </script>
   </body>
 </html>
