@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>{{ title }}</title>
+
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
@@ -20,22 +21,32 @@
       </form>
 
       {% if nearest_bin %}
+
       <h2>Nearest Bin</h2>
 
       <p>
-        Street: {{ nearest_bin.get("tags", {}).get("addr:street", "Unknown
-        street") }}
+        <strong>Street:</strong>
+        {{ nearest_bin.get("tags", {}).get("addr:street", "Unknown street") }}
       </p>
 
-      <p>Distance: {{ nearest_distance|round|int }} metres</p>
-      <p>Latitude: {{ nearest_bin["lat"] }}</p>
-      <p>Longitude: {{ nearest_bin["lon"] }}</p>
+      <p><strong>Distance:</strong> {{ nearest_distance|round|int }} metres</p>
 
-      {% elif error_message %}
+      <p><strong>Latitude:</strong> {{ nearest_bin["lat"] }}</p>
+
+      <p><strong>Longitude:</strong> {{ nearest_bin["lon"] }}</p>
+
+      {% if data_source == "cache" %}
+      <p class="data-note">📦 Using saved bin data.</p>
+      {% elif data_source == "live" %}
+      <p class="data-note">🌍 Using live OpenStreetMap data.</p>
+      {% endif %} {% elif error_message %}
+
       <p>{{ error_message }}</p>
 
       {% else %}
+
       <p>No bin data available.</p>
+
       {% endif %}
     </div>
   </body>

@@ -1,8 +1,17 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
+  margin: 0;
+}
+
+.container {
+  width: 500px;
+  margin: 80px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   text-align: center;
-  margin-top: 50px;
 }
 
 h1 {
@@ -27,11 +36,9 @@ p {
   font-size: 18px;
 }
 
-.container {
-  width: 500px;
-  margin: 80px auto;
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.data-note {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
 }
