@@ -24,7 +24,7 @@ app = Flask(__name__)
 def home():
     return render_template(
         "index.html",
-        title="Find My Bin",
+        title="FindMyBin",
         nearest_bin=None,
         nearest_distance=None,
         error_message=None,
@@ -50,7 +50,7 @@ def find_bin():
 
         return render_template(
             "index.html",
-            title="Find My Bin",
+            title="FindMyBin",
             nearest_bin=None,
             nearest_distance=None,
             error_message=error_message,
@@ -105,7 +105,7 @@ def find_bin():
 
     return render_template(
         "index.html",
-        title="Find My Bin",
+        title="FindMyBin",
         nearest_bin=nearest_bin,
         nearest_distance=nearest_distance,
         error_message=error_message,

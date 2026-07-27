@@ -5,7 +5,7 @@ body {
 }
 
 .container {
-  width: 500px;
+  width: 600px;
   margin: 80px auto;
   background: white;
   padding: 40px;
@@ -34,12 +34,20 @@ body {
   color: #555;
 }
 
+.subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 25px;
+}
+
 h1 {
-  color: #0078d4;
+  color: #1f4e79;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
 }
 
 button {
-  background-color: #0078d4;
+  background-color: #2e8b57;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -49,12 +57,18 @@ button {
 }
 
 button:hover {
-  background-color: #005ea6;
+  background-color: #256f46;
+  transform: translateY(-2px);
+  transition: 0.2s ease;
 }
 
 button:disabled {
   background-color: #999;
   cursor: not-allowed;
+}
+
+#navigateButton {
+  margin-top: 25px;
 }
 
 p {
@@ -76,10 +90,10 @@ p {
 }
 
 #map {
-  height: 400px;
+  height: 500px;
   width: 100%;
   margin-top: 10px;
-  border-radius: 10px;
+  border-radius: 16px;
 }
 
 .custom-marker {
@@ -108,4 +122,20 @@ p {
   align-items: center;
   justify-content: center;
   font-size: 20px;
+}
+
+.result-card {
+  background: #fcfcfc;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 25px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.footer {
+  margin-top: 25px;
+  padding: 15px 0;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
 }
