@@ -2,11 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>{{ title }}</title>
 
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
   </head>
 
@@ -14,52 +21,44 @@
     <div class="container">
       <h1>{{ title }}</h1>
 
-      <p>Find the nearest public bin to your current location.</p>
+      <p>Locate the nearest public bin in seconds</p>
 
       <form action="/find-bin" method="post" onsubmit="return getLocation();">
         <input type="hidden" id="latitude" name="latitude" />
-
         <input type="hidden" id="longitude" name="longitude" />
 
-        <button id="findButton" type="submit">Find Nearest Bin</button>
+        <button id="findButton" type="submit">Find a Bin</button>
       </form>
 
       <p id="loading" class="loading-message">Searching for nearby bins...</p>
 
       {% if nearest_bin %}
+      <h2>🗑️ Bin Found</h2>
 
-      <h2>Nearest Bin</h2>
-
-      <p>
-        <strong>Street:</strong>
-        {{ nearest_bin.get("tags", {}).get("addr:street", "Unknown street") }}
+      <p class="distance">
+        <strong>{{ nearest_distance|round|int }} metres away</strong>
+        <span class="distance-note">straight-line distance</span>
       </p>
 
-      <p>
-        <strong>Distance:</strong>
-        {{ nearest_distance|round|int }} metres
+      <p id="walkingRoute" class="walking-route">
+        Calculating walking route...
       </p>
 
-      <p>
-        <strong>Latitude:</strong>
-        {{ nearest_bin["lat"] }}
-      </p>
+      <div id="map"></div>
 
-      <p>
-        <strong>Longitude:</strong>
-        {{ nearest_bin["lon"] }}
-      </p>
+      <button id="navigateButton" type="button">Navigate</button>
 
       {% if data_source == "cache" %}
       <p class="data-note">Using saved bin data.</p>
+
       {% elif data_source == "live" %}
       <p class="data-note">Using live OpenStreetMap data.</p>
       {% endif %} {% elif error_message %}
-
-      <p>{{ error_message }}</p>
-
+      <p class="error-message">{{ error_message }}</p>
       {% endif %}
     </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
       function getLocation() {
@@ -95,7 +94,7 @@
             );
 
             button.disabled = false;
-            button.innerText = "Find Nearest Bin";
+            button.innerText = "Find a Bin";
             loadingMessage.style.display = "none";
           },
         );
@@ -103,5 +102,140 @@
         return false;
       }
     </script>
+
+    {% if nearest_bin and user_lat is not none and user_lon is not none %}
+    <script>
+            const userLatitude = {{ user_lat | tojson }};
+            const userLongitude = {{ user_lon | tojson }};
+            const binLatitude = {{ nearest_bin["lat"] | tojson }};
+            const binLongitude = {{ nearest_bin["lon"] | tojson }};
+            const distance = {{ nearest_distance | round | int }};
+
+            const map = L.map("map").setView(
+              [userLatitude, userLongitude],
+              17
+            );
+
+            L.tileLayer(
+              "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              {
+                attribution: "&copy; OpenStreetMap contributors"
+              }
+            ).addTo(map);
+
+            const userIcon = L.divIcon({
+              className: "custom-marker",
+              html: '<div class="user-marker">●</div>',
+              iconSize: [30, 30],
+              iconAnchor: [15, 15]
+            });
+
+            const binIcon = L.divIcon({
+              className: "custom-marker",
+              html: '<div class="bin-marker">🗑️</div>',
+              iconSize: [36, 36],
+              iconAnchor: [18, 18]
+            });
+
+            L.marker(
+              [userLatitude, userLongitude],
+              { icon: userIcon }
+            )
+              .addTo(map)
+              .bindPopup("<strong>You are here</strong>");
+
+            L.marker(
+              [binLatitude, binLongitude],
+              { icon: binIcon }
+            )
+              .addTo(map)
+              .bindPopup(
+                `<strong>Nearest public bin</strong><br>${distance} metres away`
+              )
+              .openPopup();
+
+           async function loadWalkingRoute() {
+        const walkingRoute = document.getElementById("walkingRoute");
+
+        try {
+          const response = await fetch("/walking-route", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              user_lat: userLatitude,
+              user_lon: userLongitude,
+              bin_lat: binLatitude,
+              bin_lon: binLongitude
+            })
+          });
+
+          const routeData = await response.json();
+
+          if (!response.ok) {
+            throw new Error(
+              routeData.error || "Walking route could not be loaded."
+            );
+          }
+
+          const routeLayer = L.geoJSON(routeData, {
+            style: {
+              weight: 5,
+              opacity: 0.8
+            }
+          }).addTo(map);
+
+          map.fitBounds(routeLayer.getBounds(), {
+            padding: [40, 40]
+          });
+
+          const summary = routeData.features[0].properties.summary;
+          const walkingDistance = Math.round(summary.distance);
+          const walkingMinutes = Math.round(summary.duration / 60);
+
+          walkingRoute.innerText =
+            `${walkingDistance} metres walking — about ${walkingMinutes} minutes`;
+
+        } catch (error) {
+          console.error("Walking route error:", error);
+
+          map.fitBounds(
+            [
+              [userLatitude, userLongitude],
+              [binLatitude, binLongitude]
+            ],
+            {
+              padding: [40, 40]
+            }
+          );
+
+          walkingRoute.innerText =
+            "Walking route unavailable. Use Navigate for directions.";
+        }
+      }
+
+      loadWalkingRoute();
+
+            const navigateButton =
+              document.getElementById("navigateButton");
+
+            navigateButton.addEventListener("click", function () {
+              const mapsUrl =
+                "https://www.google.com/maps/dir/?api=1" +
+                `&origin=${userLatitude},${userLongitude}` +
+                `&destination=${binLatitude},${binLongitude}` +
+                "&travelmode=walking";
+
+              console.log("User latitude:", userLatitude);
+              console.log("User longitude:", userLongitude);
+              console.log("Bin latitude:", binLatitude);
+              console.log("Bin longitude:", binLongitude);
+              console.log("Maps URL:", mapsUrl);
+
+              window.open(mapsUrl, "_blank");
+            });
+    </script>
+    {% endif %}
   </body>
 </html>
