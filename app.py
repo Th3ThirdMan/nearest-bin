@@ -94,9 +94,8 @@ def get_bins(url, query, headers):
         return None
 
 
-def find_nearest_bin(bins, user_lat, user_lon):
-    nearest_distance = float("inf")
-    nearest_bin = None
+def find_nearest_bins(bins, user_lat, user_lon, limit=5):
+    bins_with_distance = []
 
     for waste_bin in bins:
         distance = calculate_distance(
@@ -106,11 +105,18 @@ def find_nearest_bin(bins, user_lat, user_lon):
             waste_bin["lon"]
         )
 
-        if distance < nearest_distance:
-            nearest_distance = distance
-            nearest_bin = waste_bin
-
-    return nearest_bin, nearest_distance
+        bins_with_distance.append(
+            {
+                "bin": waste_bin,
+                "distance": distance
+            }
+        )
+        
+        bins_with_distance.sort(
+            key=lambda item: item["distance"]
+        )
+        
+        return bins_with_distance[:limit]
 
 
 def main():

@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 from dotenv import load_dotenv
 
 from app import (
-    find_nearest_bin,
+    find_nearest_bins,
     get_bins,
     headers,
     search_radius,
@@ -73,11 +73,18 @@ def find_bin():
         bins = data.get("elements", [])
 
         if bins:
-            nearest_bin, nearest_distance = find_nearest_bin(
+            nearest_bins = find_nearest_bins(
                 bins,
                 user_lat,
                 user_lon
             )
+            for index, item in enumerate(nearest_bins, start=1):
+                print(
+                    f"{index}: {item['distance']:.0f}m "
+                    f"({item['bin']['lat']}, {item['bin']['lon']})"
+            )
+                nearest_bin = nearest_bins[0]["bin"]
+                nearest_distance = nearest_bins[0]["distance"]
 
             if (
                 data_source == "cache"
