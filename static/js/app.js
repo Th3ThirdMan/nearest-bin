@@ -66,6 +66,7 @@ if (window.findMyBinData) {
   const map = createMap();
 
   let currentRoute = null;
+  let selectedMarker = null;
 
   let selectedBinLatitude = binLatitude;
   let selectedBinLongitude = binLongitude;
@@ -87,13 +88,21 @@ if (window.findMyBinData) {
       iconAnchor: [18, 18],
     });
 
+    const selectedBinIcon = L.divIcon({
+      className: "custom-marker",
+      html: '<div class="bin-marker selected-bin">🗑️</div>',
+      iconSize: [42, 42],
+      iconAnchor: [21, 21],
+    });
+
     return {
       userIcon,
       binIcon,
+      selectedBinIcon,
     };
   }
 
-  const { userIcon, binIcon } = createIcons();
+  const { userIcon, binIcon, selectedBinIcon } = createIcons();
 
   // -----------------------------
   // Create bin markers
@@ -109,13 +118,26 @@ if (window.findMyBinData) {
           `<strong>🗑️ Bin ${index + 1}</strong><br>${binDistance} metres away`,
         );
       marker.on("click", function () {
+        if (selectedMarker) {
+          selectedMarker.setIcon(binIcon);
+        }
+        marker.setIcon(selectedBinIcon);
+        selectedMarker = marker;
+
         selectedBinLatitude = wasteBin.lat;
         selectedBinLongitude = wasteBin.lon;
+        const heading = document.getElementById("resultHeading");
+        const distanceLabel = document.getElementById("straightLineDistance");
+
+        heading.innerText = `🗑️ Bin ${index + 1}`;
+        distanceLabel.innerText = `${binDistance} metres away`;
 
         loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
       });
 
       if (index === 0) {
+        marker.setIcon(selectedBinIcon);
+        selectedMarker = marker;
         marker.openPopup();
       }
     });

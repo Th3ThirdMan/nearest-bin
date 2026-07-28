@@ -124,6 +124,11 @@ p {
   font-size: 20px;
 }
 
+.selected-bin {
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 8px gold);
+}
+
 .result-card {
   background: #fcfcfc;
   border-radius: 12px;

@@ -34,10 +34,12 @@
 
       <div class="result-card">
         {% if nearest_bin %}
-        <h2>🗑️ Nearest Bin</h2>
+        <h2 id="resultHeading">🗑️ Nearest Bin</h2>
 
         <p class="distance">
-          <strong>{{ nearest_distance|round|int }} metres away</strong>
+          <strong id="straightLineDistance">
+            {{ nearest_distance|round|int }} metres away</strong
+          >
           <span class="distance-note">straight-line distance</span>
         </p>
 
