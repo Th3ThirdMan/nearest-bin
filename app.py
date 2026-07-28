@@ -7,7 +7,7 @@ from math import radians, sin, cos, sqrt, atan2
 # Configuration
 user_lat = 53.3498
 user_lon = -6.2603
-search_radius = 300
+search_radius = 1000
 
 url = "https://overpass-api.de/api/interpreter"
 
@@ -112,11 +112,11 @@ def find_nearest_bins(bins, user_lat, user_lon, limit=5):
             }
         )
         
-        bins_with_distance.sort(
-            key=lambda item: item["distance"]
-        )
-        
-        return bins_with_distance[:limit]
+    bins_with_distance.sort(
+        key=lambda item: item["distance"]
+    )
+    
+    return bins_with_distance[:limit]
 
 
 def main():

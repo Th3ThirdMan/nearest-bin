@@ -37,6 +37,7 @@ def home():
 @app.route("/find-bin", methods=["POST"])
 def find_bin():
     nearest_bin = None
+    nearest_bins = []
     nearest_distance = None
     error_message = None
     data_source = None
@@ -71,6 +72,8 @@ def find_bin():
     if data is not None:
         data_source = data.get("source")
         bins = data.get("elements", [])
+        
+        print(f"Bins returned by Overpass: {len(bins)}")
 
         if bins:
             nearest_bins = find_nearest_bins(
@@ -78,6 +81,9 @@ def find_bin():
                 user_lat,
                 user_lon
             )
+            
+            print(f"Nearest bins found: {len(nearest_bins)}")
+            
             for index, item in enumerate(nearest_bins, start=1):
                 print(
                     f"{index}: {item['distance']:.0f}m "
@@ -114,6 +120,7 @@ def find_bin():
         "index.html",
         title="FindMyBin",
         nearest_bin=nearest_bin,
+        nearest_bins=nearest_bins,
         nearest_distance=nearest_distance,
         error_message=error_message,
         data_source=data_source,

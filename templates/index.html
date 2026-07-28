@@ -112,6 +112,9 @@
                               const binLatitude = {{ nearest_bin["lat"] | tojson }};
                               const binLongitude = {{ nearest_bin["lon"] | tojson }};
                               const distance = {{ nearest_distance | round | int }};
+                              const nearestBins = {{ nearest_bins | tojson }};
+
+                              console.log("Nearest bins:", nearestBins);
 
                               const map = L.map("map").setView(
                                 [userLatitude, userLongitude],
