@@ -36,15 +36,13 @@
         {% if nearest_bin %}
         <h2 id="resultHeading">🗑️ Nearest Bin</h2>
 
-        <p class="distance">
-          <strong id="straightLineDistance">
-            {{ nearest_distance|round|int }} metres away</strong
-          >
-          <span class="distance-note">straight-line distance</span>
-        </p>
+        <p id="walkingRoute" class="distance">Calculating walking route...</p>
 
-        <p id="walkingRoute" class="walking-route">
-          Calculating walking route...
+        <p class="straight-line-distance">
+          Straight-line distance:
+          <strong id="straightLineDistance">
+            {{ nearest_distance|round|int }} metres
+          </strong>
         </p>
 
         <div id="map"></div>

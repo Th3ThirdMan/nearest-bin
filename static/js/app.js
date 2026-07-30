@@ -130,7 +130,7 @@ if (window.findMyBinData) {
         const distanceLabel = document.getElementById("straightLineDistance");
 
         heading.innerText = `🗑️ Bin ${index + 1}`;
-        distanceLabel.innerText = `${binDistance} metres away`;
+        distanceLabel.innerText = `${binDistance} metres`;
 
         loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
       });
@@ -193,7 +193,7 @@ if (window.findMyBinData) {
       const walkingDistance = Math.round(summary.distance);
       const walkingMinutes = Math.round(summary.duration / 60);
 
-      walkingRoute.innerText = `${walkingDistance} metres walking — about ${walkingMinutes} minutes`;
+      walkingRoute.innerText = `🚶 ${walkingDistance} metres • About ${walkingMinutes} minutes`;
     } catch (error) {
       console.error("Walking route error:", error);
 
