@@ -46,9 +46,14 @@
         </p>
 
         <div id="map"></div>
-
+        <div class="result-actions">
         <button id="navigateButton" type="button">Open in Google Maps</button>
-
+        </button>
+        <button id="locateAgainButton" type="button">Locate Me Again</button>
+        <button id="copyCoordinatesButton" type="button">
+          Copy Coordinates
+        </button>
+        <div>
         {% if data_source == "cache" %}
         <p class="data-note">Using saved bin data.</p>
 
@@ -76,9 +81,5 @@
     {% endif %}
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-
-    <footer class="footer">
-      Map data © OpenStreetMap contributors • Routing by OpenRouteService
-    </footer>
   </body>
 </html>

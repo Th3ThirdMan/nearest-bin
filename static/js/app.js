@@ -1,5 +1,6 @@
-function getLocation() {
-  const button = document.getElementById("findButton");
+function getLocation(triggerButton = null) {
+  const button = triggerButton || document.getElementById("findButton");
+  const originalButtonText = button.innerText;
   const loadingMessage = document.getElementById("loading");
   const form = document.querySelector("form");
 
@@ -29,7 +30,7 @@ function getLocation() {
       );
 
       button.disabled = false;
-      button.innerText = "Find a Bin";
+      button.innerText = originalButtonText;
       loadingMessage.style.display = "none";
     },
   );
@@ -38,6 +39,9 @@ function getLocation() {
 }
 
 if (window.findMyBinData) {
+  const searchForm = document.querySelector("form");
+  searchForm.style.display = "none";
+
   // -----------------------------
   // Initial data
   // -----------------------------
@@ -231,5 +235,37 @@ if (window.findMyBinData) {
     });
   }
 
+  function setupLocateAgainButton() {
+    const locateAgainButton = document.getElementById("locateAgainButton");
+
+    locateAgainButton.addEventListener("click", function () {
+      getLocation(locateAgainButton);
+    });
+  }
+
+  function setupCopyCoordinatesButton() {
+    const copyButton = document.getElementById("copyCoordinatesButton");
+
+    copyButton.addEventListener("click", async function () {
+      const coordinates = `${selectedBinLatitude}, ${selectedBinLongitude}`;
+
+      try {
+        await navigator.clipboard.writeText(coordinates);
+
+        copyButton.disabled = true;
+        copyButton.innerText = "Copied!";
+
+        setTimeout(function () {
+          copyButton.disabled = false;
+          copyButton.innerText = "Copy Coordinates";
+        }, 2000);
+      } catch (error) {
+        alert("Unable to copy coordinates.");
+      }
+    });
+  }
+
   setupNavigationButton();
+  setupLocateAgainButton();
+  setupCopyCoordinatesButton();
 }
