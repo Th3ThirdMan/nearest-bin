@@ -74,6 +74,23 @@ if (window.findMyBinData) {
   }
   const map = createMap();
 
+  L.circle([userLatitude, userLongitude], {
+    radius: 20,
+    color: "#0078d4",
+    fillColor: "#0078d4",
+    fillOpacity: 0.12,
+    weight: 1,
+  }).addTo(map);
+
+  const { userIcon, binIcon, selectedBinIcon } = createIcons();
+
+  L.marker([userLatitude, userLongitude], {
+    icon: userIcon,
+    zIndexOffset: 1000,
+  })
+    .addTo(map)
+    .bindPopup("<strong>📍 You are here</strong>");
+
   let currentRoute = null;
   let selectedMarker = null;
 
@@ -93,15 +110,15 @@ if (window.findMyBinData) {
     const binIcon = L.divIcon({
       className: "custom-marker",
       html: '<div class="bin-marker">🗑️</div>',
-      iconSize: [36, 36],
-      iconAnchor: [18, 18],
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
     });
 
     const selectedBinIcon = L.divIcon({
       className: "custom-marker",
       html: '<div class="bin-marker selected-bin">🗑️</div>',
-      iconSize: [42, 42],
-      iconAnchor: [21, 21],
+      iconSize: [36, 36],
+      iconAnchor: [18, 18],
     });
 
     return {
@@ -142,7 +159,7 @@ if (window.findMyBinData) {
         const distanceLabel = document.getElementById("straightLineDistance");
 
         heading.innerText = `🗑️ Bin ${index + 1}`;
-        distanceLabel.innerText = `${binDistance} metres`;
+        distanceLabel.innerText = `${binDistance} m`;
 
         loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
       });
