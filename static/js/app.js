@@ -160,7 +160,7 @@ if (window.findMyBinData) {
         const distanceLabel = document.getElementById("straightLineDistance");
 
         heading.innerText = `🗑️ Bin ${index + 1}`;
-        distanceLabel.innerText = `${binDistance} m`;
+        distanceLabel.innerText = formatDistance(binDistance);
 
         loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
       });
@@ -175,14 +175,21 @@ if (window.findMyBinData) {
 
   createBinMarkers();
 
+  function formatDistance(distance) {
+    if (distance >= 1000) {
+      return `${(distance / 1000).toFixed(1)} km`;
+    }
+
+    return `${Math.round(distance)} m`;
+  }
+
   // -----------------------------
   // Walking route
   // -----------------------------
   async function loadWalkingRoute(selectedBinLatitude, selectedBinLongitude) {
     const walkingRoute = document.getElementById("walkingRoute");
     walkingRoute.classList.add("walking-loading");
-    walkingRoute.innerText = "Loading route...";
-
+    walkingRoute.innerText = `🚶 ${walkingMinutes} min walk • ${formatDistance(walkingDistance)}`;
     try {
       const response = await fetch("/walking-route", {
         method: "POST",
