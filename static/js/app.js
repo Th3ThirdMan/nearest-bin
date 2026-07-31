@@ -34,9 +34,9 @@ function getLocation(triggerButton = null) {
       loadingMessage.style.display = "none";
     },
     {
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0,
+      enableHighAccuracy: false,
+      timeout: 20000,
+      maximumAge: 60000,
     },
   );
 
