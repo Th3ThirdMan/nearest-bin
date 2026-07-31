@@ -75,11 +75,11 @@ if (window.findMyBinData) {
   const map = createMap();
 
   L.circle([userLatitude, userLongitude], {
-    radius: 20,
+    radius: 35,
     color: "#0078d4",
     fillColor: "#0078d4",
-    fillOpacity: 0.12,
-    weight: 1,
+    fillOpacity: 0.16,
+    weight: 2,
   }).addTo(map);
 
   let currentRoute = null;
