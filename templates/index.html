@@ -30,9 +30,9 @@
     <div class="container">
       <div class="logo-header">
         <img
-          src="{{ url_for('static', filename='icons/icon-192.png') }}"
-          alt="FindMyBin Logo"
+          src="{{ url_for('static', filename='icons/logo.png') }}"
           class="logo"
+          alt="FindMyBin"
         />
 
         <h1>{{ title }}</h1>
@@ -59,7 +59,7 @@
           <span class="direct-distance-label">📍 Direct distance</span>
 
           <strong id="straightLineDistance">
-            {{ nearest_distance|round|int }} m
+            {{ nearest_distance|round|int }}m
           </strong>
         </p>
         <div id="map"></div>
