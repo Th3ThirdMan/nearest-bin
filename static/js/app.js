@@ -33,6 +33,11 @@ function getLocation(triggerButton = null) {
       button.innerText = originalButtonText;
       loadingMessage.style.display = "none";
     },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0,
+    },
   );
 
   return false;
@@ -116,11 +121,12 @@ if (window.findMyBinData) {
       const wasteBin = item.bin;
       const binDistance = Math.round(item.distance);
 
-      const marker = L.marker([wasteBin.lat, wasteBin.lon], { icon: binIcon })
-        .addTo(map)
-        .bindPopup(
-          `<strong>🗑️ Bin ${index + 1}</strong><br>${binDistance} metres away`,
-        );
+      const marker = L.marker([wasteBin.lat, wasteBin.lon], {
+        icon: binIcon,
+      }).addTo(map);
+      // .bindPopup(
+      //   `<strong>🗑️ Bin ${index + 1}</strong><br>${binDistance} metres away`,
+      // );
       marker.on("click", function () {
         if (selectedMarker) {
           selectedMarker.setIcon(binIcon);
@@ -142,7 +148,7 @@ if (window.findMyBinData) {
       if (index === 0) {
         marker.setIcon(selectedBinIcon);
         selectedMarker = marker;
-        marker.openPopup();
+        // marker.openPopup();
       }
     });
   }
@@ -201,7 +207,7 @@ if (window.findMyBinData) {
       walkingRoute.classList.remove("walking-loading");
       walkingRoute.classList.add("walking-route-result");
 
-      walkingRoute.innerText = `🚶 ${walkingMinutes} min walk • ${walkingDistance} m`;
+      walkingRoute.innerText = `🚶 ${walkingMinutes} min walk • ${walkingDistance}m`;
     } catch (error) {
       console.error("Walking route error:", error);
 
