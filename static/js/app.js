@@ -87,6 +87,7 @@ if (window.findMyBinData) {
 
   let selectedBinLatitude = binLatitude;
   let selectedBinLongitude = binLongitude;
+
   // -----------------------------
   // Map icons
   // -----------------------------
@@ -186,10 +187,13 @@ if (window.findMyBinData) {
   // -----------------------------
   // Walking route
   // -----------------------------
+
   async function loadWalkingRoute(selectedBinLatitude, selectedBinLongitude) {
     const walkingRoute = document.getElementById("walkingRoute");
+
     walkingRoute.classList.add("walking-loading");
-    walkingRoute.innerText = `🚶 ${walkingMinutes} min walk • ${formatDistance(walkingDistance)}`;
+    walkingRoute.innerText = "Loading route...";
+
     try {
       const response = await fetch("/walking-route", {
         method: "POST",
@@ -231,10 +235,11 @@ if (window.findMyBinData) {
       const summary = routeData.features[0].properties.summary;
       const walkingDistance = Math.round(summary.distance);
       const walkingMinutes = Math.round(summary.duration / 60);
+
       walkingRoute.classList.remove("walking-loading");
       walkingRoute.classList.add("walking-route-result");
 
-      walkingRoute.innerText = `🚶 ${walkingMinutes} min walk • ${walkingDistance}m`;
+      walkingRoute.innerText = `🚶 ${walkingMinutes} min walk • ${formatDistance(walkingDistance)}`;
     } catch (error) {
       console.error("Walking route error:", error);
 
