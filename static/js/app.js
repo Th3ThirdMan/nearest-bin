@@ -123,10 +123,12 @@ if (window.findMyBinData) {
 
       const marker = L.marker([wasteBin.lat, wasteBin.lon], {
         icon: binIcon,
-      }).addTo(map);
-      // .bindPopup(
-      //   `<strong>🗑️ Bin ${index + 1}</strong><br>${binDistance} metres away`,
-      // );
+      })
+        .addTo(map)
+        .bindPopup(
+          `<strong>🗑️ Bin ${index + 1}</strong><br>${binDistance} metres away`,
+        );
+
       marker.on("click", function () {
         if (selectedMarker) {
           selectedMarker.setIcon(binIcon);
@@ -148,7 +150,7 @@ if (window.findMyBinData) {
       if (index === 0) {
         marker.setIcon(selectedBinIcon);
         selectedMarker = marker;
-        // marker.openPopup();
+        marker.openPopup();
       }
     });
   }

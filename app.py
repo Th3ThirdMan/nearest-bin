@@ -7,7 +7,7 @@ from math import radians, sin, cos, sqrt, atan2
 # Configuration
 user_lat = 53.3498
 user_lon = -6.2603
-search_radius = 1000
+search_radius = 3000
 
 url = "https://overpass-api.de/api/interpreter"
 
@@ -94,7 +94,7 @@ def get_bins(url, query, headers):
         return None
 
 
-def find_nearest_bins(bins, user_lat, user_lon, limit=5):
+def find_nearest_bins(bins, user_lat, user_lon, limit=10):
     bins_with_distance = []
 
     for waste_bin in bins:
@@ -118,33 +118,3 @@ def find_nearest_bins(bins, user_lat, user_lon, limit=5):
     
     return bins_with_distance[:limit]
 
-
-def main():
-    data = get_bins(url, query, headers)
-
-    if data is None:
-        return
-
-    print(f"Found {len(data['elements'])} bins.")
-
-    nearest_bin, nearest_distance = find_nearest_bin(
-        data["elements"],
-        user_lat,
-        user_lon
-    )
-
-    if nearest_bin:
-        print("\nNearest bin:")
-        print(
-            f"Street: "
-            f"{nearest_bin['tags'].get('addr:street', 'Unknown')}"
-        )
-        print(f"Latitude: {nearest_bin['lat']}")
-        print(f"Longitude: {nearest_bin['lon']}")
-        print(f"Distance: {nearest_distance:.0f} metres")
-    else:
-        print(f"No bins were found within {search_radius} metres.")
-
-
-if __name__ == "__main__":
-    main()
