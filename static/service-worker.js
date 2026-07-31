@@ -1,8 +1,8 @@
-const CACHE_NAME = "findmybin-v1";
+const CACHE_NAME = "findmybin-v2";
 
 const APP_SHELL = [
   "/",
-  "/static/css/style.css",
+  "/static/style.css",
   "/static/js/app.js",
   "/static/manifest.json",
 ];
