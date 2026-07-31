@@ -23,9 +23,17 @@
 
   <body>
     <div class="container">
-      <h1>{{ title }}</h1>
+      <div class="logo-header">
+  <img
+    src="{{ url_for('static', filename='icons/icon-192.png') }}"
+    alt="FindMyBin Logo"
+    class="logo"
+  />
 
-      <p class="subtitle">Locate the nearest public bin in seconds</p>
+  <h1>{{ title }}</h1>
+</div>
+
+<p class="subtitle">Locate the nearest public bin in seconds</p>
 
       <form action="/find-bin" method="post" onsubmit="return getLocation();">
         <input type="hidden" id="latitude" name="latitude" />
@@ -43,16 +51,16 @@
         <p id="walkingRoute" class="distance">Calculating walking route...</p>
 
         <p class="straight-line-distance">
-          Straight-line distance:
-          <strong id="straightLineDistance">
-            {{ nearest_distance|round|int }} metres
-          </strong>
-        </p>
+  <span class="direct-distance-label">📍 Direct distance</span>
+
+  <strong id="straightLineDistance">
+    {{ nearest_distance|round|int }} m
+  </strong>
+</p>
 
         <div id="map"></div>
         <div class="result-actions">
         <button id="navigateButton" type="button">Open in Google Maps</button>
-        </button>
         <button id="locateAgainButton" type="button">Locate Me Again</button>
         <button id="copyCoordinatesButton" type="button">
           Copy Coordinates
