@@ -199,7 +199,9 @@ if (window.findMyBinData) {
       const walkingDistance = Math.round(summary.distance);
       const walkingMinutes = Math.round(summary.duration / 60);
       walkingRoute.classList.remove("walking-loading");
-      walkingRoute.innerText = `🚶 ${walkingDistance} metres • About ${walkingMinutes} minutes`;
+      walkingRoute.classList.add("walking-route-result");
+
+      walkingRoute.innerText = `🚶 ${walkingMinutes} min walk • ${walkingDistance} m`;
     } catch (error) {
       console.error("Walking route error:", error);
 
@@ -214,6 +216,7 @@ if (window.findMyBinData) {
       );
 
       walkingRoute.classList.remove("walking-loading");
+      walkingRoute.classList.remove("walking-route-result");
 
       walkingRoute.innerText =
         "Walking route unavailable. Use Navigate for directions.";
