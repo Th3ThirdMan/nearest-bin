@@ -91,8 +91,8 @@ def find_bin():
                     f"{index}: {item['distance']:.0f}m "
                     f"({item['bin']['lat']}, {item['bin']['lon']})"
             )
-                nearest_bin = nearest_bins[0]["bin"]
-                nearest_distance = nearest_bins[0]["distance"]
+            nearest_bin = nearest_bins[0]["bin"]
+            nearest_distance = nearest_bins[0]["distance"]
 
             if (
                 data_source == "cache"

@@ -93,9 +93,13 @@ if (window.findMyBinData) {
   function createIcons() {
     const userIcon = L.divIcon({
       className: "custom-marker",
-      html: '<div class="user-marker">●</div>',
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
+      html: `
+    <div class="user-location">
+        <div class="user-dot"></div>
+    </div>
+  `,
+      iconSize: [24, 24],
+      iconAnchor: [12, 12],
     });
 
     const binIcon = L.divIcon({
