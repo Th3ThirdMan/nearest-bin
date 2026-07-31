@@ -2,9 +2,10 @@
 <html lang="en">
   <head>
     <link
-  rel="manifest"
-  href="{{ url_for('static', filename='manifest.json') }}"
-><meta name="theme-color" content="#2e8b57">
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.json') }}"
+    />
+    <meta name="theme-color" content="#2e8b57" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -24,16 +25,16 @@
   <body>
     <div class="container">
       <div class="logo-header">
-  <img
-    src="{{ url_for('static', filename='icons/icon-192.png') }}"
-    alt="FindMyBin Logo"
-    class="logo"
-  />
+        <img
+          src="{{ url_for('static', filename='icons/icon-192.png') }}"
+          alt="FindMyBin Logo"
+          class="logo"
+        />
 
-  <h1>{{ title }}</h1>
-</div>
+        <h1>{{ title }}</h1>
+      </div>
 
-<p class="subtitle">Locate the nearest public bin in seconds</p>
+      <p class="subtitle">Locate the nearest public bin in seconds</p>
 
       <form action="/find-bin" method="post" onsubmit="return getLocation();">
         <input type="hidden" id="latitude" name="latitude" />
@@ -51,21 +52,41 @@
         <p id="walkingRoute" class="distance">Calculating walking route...</p>
 
         <p class="straight-line-distance">
-  <span class="direct-distance-label">📍 Direct distance</span>
+          <span class="direct-distance-label">📍 Direct distance</span>
 
-  <strong id="straightLineDistance">
-    {{ nearest_distance|round|int }} m
-  </strong>
-</p>
+          <strong id="straightLineDistance">
+            {{ nearest_distance|round|int }} m
+          </strong>
+        </p>
 
-        <div id="map"></div>
         <div class="result-actions">
-        <button id="navigateButton" type="button">Open in Google Maps</button>
-        <button id="locateAgainButton" type="button">Locate Me Again</button>
-        <button id="copyCoordinatesButton" type="button">
-          Copy Coordinates
-        </button>
-        <div>
+          <button
+            id="navigateButton"
+            class="action-button primary-action"
+            type="button"
+          >
+            <span class="action-icon">📍</span>
+            <span>Open in Google Maps</span>
+          </button>
+
+          <button
+            id="locateAgainButton"
+            class="action-button secondary-action"
+            type="button"
+          >
+            <span class="action-icon">⌖</span>
+            <span>Locate Me Again</span>
+          </button>
+
+          <button
+            id="copyCoordinatesButton"
+            class="action-button secondary-action"
+            type="button"
+          >
+            <span class="action-icon">⧉</span>
+            <span>Copy Coordinates</span>
+          </button>
+        </div>
         {% if data_source == "cache" %}
         <p class="data-note">Using saved bin data.</p>
 
@@ -95,23 +116,18 @@
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
     <script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-      navigator.serviceWorker.register("/static/service-worker.js")
-        .then(function (registration) {
-          console.log(
-            "Service worker registered:",
-            registration.scope
-          );
-        })
-        .catch(function (error) {
-          console.error(
-            "Service worker registration failed:",
-            error
-          );
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("/static/service-worker.js")
+            .then(function (registration) {
+              console.log("Service worker registered:", registration.scope);
+            })
+            .catch(function (error) {
+              console.error("Service worker registration failed:", error);
+            });
         });
-    });
-  }
-</script>
+      }
+    </script>
   </body>
 </html>

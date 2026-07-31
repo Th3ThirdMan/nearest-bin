@@ -62,6 +62,22 @@ button {
     transform 0.2s ease;
 }
 
+button.primary-action {
+  background-color: #2e8b57;
+  color: white;
+}
+
+button.secondary-action {
+  background-color: white;
+  color: #374151;
+  border: 1px solid #e2e8f0;
+}
+
+button.secondary-action:hover:not(:disabled) {
+  background-color: #f4f6f8;
+  color: #374151;
+}
+
 button:hover:not(:disabled) {
   background-color: #256f46;
   transform: translateY(-2px);
@@ -74,10 +90,6 @@ button:active:not(:disabled) {
 button:disabled {
   background-color: #999;
   cursor: not-allowed;
-}
-
-#navigateButton {
-  margin-top: 25px;
 }
 
 p {
@@ -168,20 +180,50 @@ p {
 }
 
 .result-actions {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
-.result-actions button {
-  width: 100%;
-  min-height: 48px;
-  font-size: 1rem;
-  cursor: pointer;
+#copyCoordinatesButton {
+  grid-column: 1 / -1;
 }
 
-.result-actions button:disabled {
+.action-button {
+  min-height: 64px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.primary-action {
+  background-color: #2e8b57;
+  color: white;
+}
+
+.secondary-action {
+  background-color: white;
+  color: #374151;
+  border: 1px solid #e2e8f0;
+}
+
+.secondary-action:hover:not(:disabled) {
+  background-color: #f4f6f8;
+}
+
+.action-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.action-button:disabled {
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -202,16 +244,8 @@ p {
     font-size: 2rem;
   }
 
-  #map {
-    height: 350px;
-  }
-
   .distance {
     font-size: 1.75rem; /* 28px */
-  }
-
-  .subtitle {
-    font-size: 1rem;
   }
 
   h1 {
@@ -242,10 +276,5 @@ p {
 
   #map {
     height: 280px;
-  }
-
-  .logo {
-    width: 40px;
-    height: 40px;
   }
 }
