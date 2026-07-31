@@ -82,15 +82,6 @@ if (window.findMyBinData) {
     weight: 1,
   }).addTo(map);
 
-  const { userIcon, binIcon, selectedBinIcon } = createIcons();
-
-  L.marker([userLatitude, userLongitude], {
-    icon: userIcon,
-    zIndexOffset: 1000,
-  })
-    .addTo(map)
-    .bindPopup("<strong>📍 You are here</strong>");
-
   let currentRoute = null;
   let selectedMarker = null;
 
@@ -129,6 +120,12 @@ if (window.findMyBinData) {
   }
 
   const { userIcon, binIcon, selectedBinIcon } = createIcons();
+  L.marker([userLatitude, userLongitude], {
+    icon: userIcon,
+    zIndexOffset: 1000,
+  })
+    .addTo(map)
+    .bindPopup("<strong>📍 You are here</strong>");
 
   // -----------------------------
   // Create bin markers
