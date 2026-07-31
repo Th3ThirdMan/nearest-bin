@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   margin: 0;
+  color: #374151;
 }
 
 h1 {
@@ -187,6 +188,22 @@ p {
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-top: 18px;
+}
+
+.result-card h2 {
+  color: #1f4e79;
+}
+
+#walkingRoute {
+  color: #1f4e79;
+}
+
+#straightLineDistance {
+  color: #2e8b57;
+}
+
+.direct-distance-label {
+  color: #6b7280;
 }
 
 #copyCoordinatesButton {
