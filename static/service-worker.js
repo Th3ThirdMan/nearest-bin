@@ -1,4 +1,4 @@
-const CACHE_NAME = "findmybin-v2";
+const CACHE_NAME = "findmybin-v3";
 
 const APP_SHELL = [
   "/",
@@ -37,8 +37,18 @@ self.addEventListener("fetch", function (event) {
   }
 
   event.respondWith(
-    caches.match(event.request).then(function (cachedResponse) {
-      return cachedResponse || fetch(event.request);
-    }),
+    fetch(event.request)
+      .then(function (networkResponse) {
+        const responseCopy = networkResponse.clone();
+
+        caches.open(CACHE_NAME).then(function (cache) {
+          cache.put(event.request, responseCopy);
+        });
+
+        return networkResponse;
+      })
+      .catch(function () {
+        return caches.match(event.request);
+      }),
   );
 });
