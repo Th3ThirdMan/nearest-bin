@@ -154,6 +154,8 @@ if (window.findMyBinData) {
   // -----------------------------
   async function loadWalkingRoute(selectedBinLatitude, selectedBinLongitude) {
     const walkingRoute = document.getElementById("walkingRoute");
+    walkingRoute.classList.add("walking-loading");
+    walkingRoute.innerText = "Loading route...";
 
     try {
       const response = await fetch("/walking-route", {
@@ -196,7 +198,7 @@ if (window.findMyBinData) {
       const summary = routeData.features[0].properties.summary;
       const walkingDistance = Math.round(summary.distance);
       const walkingMinutes = Math.round(summary.duration / 60);
-
+      walkingRoute.classList.remove("walking-loading");
       walkingRoute.innerText = `🚶 ${walkingDistance} metres • About ${walkingMinutes} minutes`;
     } catch (error) {
       console.error("Walking route error:", error);
@@ -210,6 +212,8 @@ if (window.findMyBinData) {
           padding: [40, 40],
         },
       );
+
+      walkingRoute.classList.remove("walking-loading");
 
       walkingRoute.innerText =
         "Walking route unavailable. Use Navigate for directions.";

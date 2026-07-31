@@ -5,6 +5,10 @@
       rel="manifest"
       href="{{ url_for('static', filename='manifest.json') }}"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <meta name="theme-color" content="#2e8b57" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -49,7 +53,7 @@
         {% if nearest_bin %}
         <h2 id="resultHeading">🗑️ Nearest Bin</h2>
 
-        <p id="walkingRoute" class="distance">Calculating walking route...</p>
+        <p id="walkingRoute" class="distance">Loading route...</p>
 
         <p class="straight-line-distance">
           <span class="direct-distance-label">📍 Direct distance</span>
@@ -65,7 +69,9 @@
             class="action-button primary-action"
             type="button"
           >
-            <span class="action-icon">📍</span>
+            <span class="action-icon">
+              <i class="bi bi-map-fill"></i>
+            </span>
             <span>Open in Google Maps</span>
           </button>
 
@@ -74,7 +80,9 @@
             class="action-button secondary-action"
             type="button"
           >
-            <span class="action-icon">⌖</span>
+            <span class="action-icon">
+              <i class="bi bi-crosshair"></i>
+            </span>
             <span>Locate Me Again</span>
           </button>
 
@@ -83,7 +91,9 @@
             class="action-button secondary-action"
             type="button"
           >
-            <span class="action-icon">⧉</span>
+            <span class="action-icon">
+              <i class="bi bi-copy"></i>
+            </span>
             <span>Copy Coordinates</span>
           </button>
         </div>

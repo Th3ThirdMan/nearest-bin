@@ -233,6 +233,11 @@ p {
   height: 40px;
 }
 
+.distance.walking-loading {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .container {
     width: auto;
