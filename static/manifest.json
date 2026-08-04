@@ -3,20 +3,25 @@
   "short_name": "FindMyBin",
   "description": "Find the nearest public waste bin.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#f4f4f4",
-  "theme_color": "#2e8b57",
   "orientation": "portrait",
+  "background_color": "#f3f5f7",
+  "theme_color": "#2e8b57",
+  "categories": ["navigation", "utilities"],
+  "lang": "en-GB",
   "icons": [
     {
       "src": "/static/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/static/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

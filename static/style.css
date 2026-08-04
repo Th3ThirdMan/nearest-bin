@@ -358,6 +358,62 @@ button:disabled {
   line-height: 1.45;
 }
 
+.nearby-bins {
+  margin-top: 28px;
+  text-align: left;
+}
+
+.nearby-bins h3 {
+  margin-bottom: 14px;
+  color: #1f4e79;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+#nearbyBinsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nearby-bin-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nearby-bin-item:hover {
+  background: #f8fafc;
+  border-color: #2e8b57;
+}
+
+.nearby-bin-item.active {
+  background: #ecfdf5;
+  border-color: #2e8b57;
+}
+
+.nearby-bin-distance {
+  font-weight: 700;
+  color: #2e8b57;
+}
+
+.nearby-bin-arrow {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.nearby-bin-label {
+  margin-top: 2px;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
 /* Mobile */
 
 @media (max-width: 768px) {

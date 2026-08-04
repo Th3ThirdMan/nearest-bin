@@ -123,6 +123,44 @@ if (window.findMyBinData) {
     return `${Math.round(distance)} m`;
   }
 
+  function renderNearbyBinsList(bins) {
+    const container = document.getElementById("nearbyBinsList");
+
+    container.innerHTML = "";
+
+    bins.forEach(function (item, index) {
+      const binDistance = Math.round(item.distance);
+
+      const card = document.createElement("div");
+      card.className = "nearby-bin-item" + (index === 0 ? " active" : "");
+
+      card.innerHTML = `
+      <span>🗑️ Public Bin ${index + 1}</span>
+      <div>
+  <div class="nearby-bin-distance">
+    ${formatDistance(binDistance)}
+  </div>
+  <div class="nearby-bin-label">
+    Tap to navigate
+  </div>
+</div>
+      <span class="nearby-bin-arrow">›</span>
+    `;
+
+      card.addEventListener("click", function () {
+        binMarkers[index].fire("click");
+
+        document.querySelectorAll(".nearby-bin-item").forEach(function (item) {
+          item.classList.remove("active");
+        });
+
+        card.classList.add("active");
+      });
+
+      container.appendChild(card);
+    });
+  }
+
   // -----------------------------
   // Create the map
   // -----------------------------
@@ -293,6 +331,7 @@ if (window.findMyBinData) {
   }
 
   createBinMarkers(nearestBins);
+  renderNearbyBinsList(nearestBins);
 
   // -----------------------------
   // Walking route
@@ -463,6 +502,7 @@ if (window.findMyBinData) {
           }
 
           createBinMarkers(data.nearestBins);
+          renderNearbyBinsList(data.nearestBins);
 
           const nearestBin = data.nearestBins[0];
           const nearestDistance = Math.round(nearestBin.distance);
