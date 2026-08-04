@@ -1,4 +1,4 @@
-const CACHE_NAME = "findmybin-v7";
+const CACHE_NAME = "findmybin-v8";
 
 const APP_SHELL = [
   "/",
@@ -8,6 +8,8 @@ const APP_SHELL = [
 ];
 
 self.addEventListener("install", function (event) {
+  self.skipWaiting();
+
   event.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
       return cache.addAll(APP_SHELL);
@@ -16,6 +18,8 @@ self.addEventListener("install", function (event) {
 });
 
 self.addEventListener("activate", function (event) {
+  self.clients.claim();
+
   event.waitUntil(
     caches.keys().then(function (cacheNames) {
       return Promise.all(

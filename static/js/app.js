@@ -1,3 +1,6 @@
+const INITIAL_VISIBLE_BINS = 3;
+const MAX_VISIBLE_BINS = 5;
+
 function getLocation(triggerButton = null) {
   const button = triggerButton || document.getElementById("findButton");
   const originalButtonText = button.innerText;
@@ -123,12 +126,12 @@ if (window.findMyBinData) {
     return `${Math.round(distance)} m`;
   }
 
-  function renderNearbyBinsList(bins) {
+  function renderNearbyBinsList(bins, visibleCount = INITIAL_VISIBLE_BINS) {
     const container = document.getElementById("nearbyBinsList");
 
     container.innerHTML = "";
 
-    bins.forEach(function (item, index) {
+    bins.slice(0, visibleCount).forEach(function (item, index) {
       const binDistance = Math.round(item.distance);
 
       const card = document.createElement("div");
@@ -159,6 +162,22 @@ if (window.findMyBinData) {
 
       container.appendChild(card);
     });
+    if (visibleCount < Math.min(MAX_VISIBLE_BINS, bins.length)) {
+      const showMore = document.createElement("button");
+
+      showMore.className = "secondary-action";
+      showMore.style.marginTop = "12px";
+
+      const remaining = Math.min(MAX_VISIBLE_BINS, bins.length) - visibleCount;
+
+      showMore.innerText = `Show ${remaining} more...`;
+
+      showMore.addEventListener("click", function () {
+        renderNearbyBinsList(bins, Math.min(MAX_VISIBLE_BINS, bins.length));
+      });
+
+      container.appendChild(showMore);
+    }
   }
 
   // -----------------------------
