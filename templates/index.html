@@ -1,77 +1,108 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <link
-      rel="manifest"
-      href="{{ url_for('static', filename='manifest.json') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-    <meta name="theme-color" content="#2e8b57" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2e8b57" />
 
     <title>{{ title }}</title>
 
     <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.json') }}"
+    />
+
+    <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
 
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
   </head>
 
   <body>
-    <div class="container">
-      <div class="logo-header">
+    <main class="container">
+      <header class="app-header">
         <img
           src="{{ url_for('static', filename='icons/logo.png') }}"
           class="logo"
-          alt="FindMyBin"
+          alt="FindMyBin logo"
         />
 
-        <h1>{{ title }}</h1>
-      </div>
+        <h1 class="brand-title">
+          <span>Find</span><span class="brand-accent">My</span><span>Bin</span>
+        </h1>
 
-      <p class="subtitle">Locate the nearest public bin in seconds</p>
+        <p class="subtitle">
+          Find the nearest public bin,<br />
+          right where you are.
+        </p>
+      </header>
 
-      <form action="/find-bin" method="post" onsubmit="return getLocation();">
+      <form
+        class="location-form"
+        action="/find-bin"
+        method="post"
+        onsubmit="return getLocation();"
+      >
         <input type="hidden" id="latitude" name="latitude" />
         <input type="hidden" id="longitude" name="longitude" />
 
-        <button id="findButton" type="submit">Find a Bin</button>
+        <button id="findButton" class="find-button" type="submit">
+          <i class="bi bi-crosshair"></i>
+          <span>Find a Bin</span>
+        </button>
       </form>
 
       <p id="loading" class="loading-message">Searching for nearby bins...</p>
 
-      <div class="result-card">
-        {% if nearest_bin %}
-        <h2 id="resultHeading">🗑️ Nearest Bin</h2>
+      {% if nearest_bin %}
+      <section class="result-card">
+        <div class="result-summary">
+          <div class="result-heading">
+            <div class="result-bin-icon" aria-hidden="true">
+              <i class="bi bi-trash3-fill"></i>
+            </div>
 
-        <p id="walkingRoute" class="distance">Loading route...</p>
+            <h2 id="resultHeading">Nearest public bin</h2>
+          </div>
 
-        <p class="straight-line-distance">
-          <span class="direct-distance-label">📍 Direct distance</span>
+          <div class="result-details">
+            <p id="walkingRoute" class="result-detail walking-detail">
+              Loading route...
+            </p>
 
-          <strong id="straightLineDistance">
-            {{ nearest_distance|round|int }}m
-          </strong>
-        </p>
+            <div class="result-divider" aria-hidden="true"></div>
+
+            <p class="result-detail distance-detail">
+              <i class="bi bi-geo-alt-fill"></i>
+
+              <strong id="straightLineDistance">
+                {% if nearest_distance >= 1000 %} {{
+                "%.1f"|format(nearest_distance / 1000) }} km away {% else %} {{
+                nearest_distance|round|int }} m away {% endif %}
+              </strong>
+            </p>
+          </div>
+        </div>
+
         <div id="map"></div>
+
         <div class="result-actions">
           <button
             id="navigateButton"
             class="action-button primary-action"
             type="button"
           >
-            <span class="action-icon">
-              <i class="bi bi-map-fill"></i>
-            </span>
+            <i class="bi bi-map-fill"></i>
             <span>Open in Google Maps</span>
           </button>
 
@@ -80,10 +111,8 @@
             class="action-button secondary-action"
             type="button"
           >
-            <span class="action-icon">
-              <i class="bi bi-crosshair"></i>
-            </span>
-            <span>Locate Me Again</span>
+            <i class="bi bi-crosshair"></i>
+            <span>Locate Again</span>
           </button>
 
           <button
@@ -91,22 +120,25 @@
             class="action-button secondary-action"
             type="button"
           >
-            <span class="action-icon">
-              <i class="bi bi-copy"></i>
-            </span>
+            <i class="bi bi-copy"></i>
             <span>Copy Coordinates</span>
           </button>
         </div>
+
         {% if data_source == "cache" %}
         <p class="data-note">Using saved bin data.</p>
-
         {% elif data_source == "live" %}
-        <p class="data-note">Using live OpenStreetMap data.</p>
-        {% endif %} {% elif error_message %}
-        <p class="error-message">{{ error_message }}</p>
+        <p class="data-note">Data © OpenStreetMap contributors.</p>
         {% endif %}
-      </div>
-    </div>
+      </section>
+
+      {% elif error_message %}
+      <section class="result-card error-card">
+        <i class="bi bi-exclamation-circle"></i>
+        <p class="error-message">{{ error_message }}</p>
+      </section>
+      {% endif %}
+    </main>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 

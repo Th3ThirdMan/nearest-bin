@@ -160,8 +160,8 @@ if (window.findMyBinData) {
         const heading = document.getElementById("resultHeading");
         const distanceLabel = document.getElementById("straightLineDistance");
 
-        heading.innerText = `🗑️ Bin ${index + 1}`;
-        distanceLabel.innerText = formatDistance(binDistance);
+        heading.innerText = `Public bin ${index + 1}`;
+        distanceLabel.innerText = `${formatDistance(binDistance)} away`;
 
         loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
       });
@@ -239,7 +239,8 @@ if (window.findMyBinData) {
       walkingRoute.classList.remove("walking-loading");
       walkingRoute.classList.add("walking-route-result");
 
-      walkingRoute.innerText = `🚶 ${walkingMinutes} min walk • ${formatDistance(walkingDistance)}`;
+      const displayedMinutes = Math.max(1, walkingMinutes);
+      walkingRoute.innerText = `${displayedMinutes} min walk`;
     } catch (error) {
       console.error("Walking route error:", error);
 
