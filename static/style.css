@@ -191,15 +191,24 @@ button:disabled {
 
 .walking-detail {
   color: var(--navy);
+  font-weight: 800;
 }
 
 .distance-detail {
   color: var(--green);
+  font-weight: 800;
 }
 
-.result-detail i {
-  flex: 0 0 auto;
-  font-size: 1.05rem;
+.result-detail {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 .result-divider {
@@ -228,7 +237,7 @@ button:disabled {
   width: 100%;
   height: 360px;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 22px;
 }
 
 .custom-marker {
@@ -275,9 +284,9 @@ button:disabled {
 
 .result-actions {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-top: 18px;
+  margin-top: 20px;
 }
 
 .action-button {
@@ -294,9 +303,11 @@ button:disabled {
 
 .primary-action {
   grid-column: 1 / -1;
+  min-height: 60px;
   background: var(--green);
   color: white;
-  box-shadow: 0 6px 16px rgba(46, 139, 87, 0.2);
+  font-size: 1.05rem;
+  box-shadow: 0 8px 18px rgba(46, 139, 87, 0.22);
 }
 
 .primary-action:hover:not(:disabled) {
@@ -304,9 +315,11 @@ button:disabled {
 }
 
 .secondary-action {
+  min-height: 52px;
   border: 1px solid var(--border);
   background: white;
   color: var(--text);
+  box-shadow: none;
 }
 
 .secondary-action:hover:not(:disabled) {
@@ -352,11 +365,11 @@ button:disabled {
   }
 
   .logo {
-    width: 82px;
+    width: 72px;
   }
 
   .brand-title {
-    font-size: 2.65rem;
+    font-size: 2.35rem;
   }
 
   .subtitle {
@@ -370,7 +383,7 @@ button:disabled {
   }
 
   .result-summary {
-    padding-bottom: 18px;
+    padding: 2px 4px 16px;
   }
 
   .result-heading h2 {
