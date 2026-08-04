@@ -138,7 +138,7 @@ if (window.findMyBinData) {
       card.className = "nearby-bin-item" + (index === 0 ? " active" : "");
 
       card.innerHTML = `
-      <span>🗑️ Public Bin ${index + 1}</span>
+      <span>🗑️ Public Bin</span>
       <div>
   <div class="nearby-bin-distance">
     ${formatDistance(binDistance)}
@@ -165,7 +165,8 @@ if (window.findMyBinData) {
     if (visibleCount < Math.min(MAX_VISIBLE_BINS, bins.length)) {
       const showMore = document.createElement("button");
 
-      showMore.className = "secondary-action";
+      showMore.type = "button";
+      showMore.className = "action-button secondary-action";
       showMore.style.marginTop = "12px";
 
       const remaining = Math.min(MAX_VISIBLE_BINS, bins.length) - visibleCount;
