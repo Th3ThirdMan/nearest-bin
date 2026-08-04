@@ -136,7 +136,7 @@ if (window.findMyBinData) {
   // Create bin markers
   // -----------------------------
   function createBinMarkers() {
-    nearestBins.forEach(function (item, index) {
+    nearestBins.forEach(function (item) {
       const wasteBin = item.bin;
       const binDistance = Math.round(item.distance);
 
@@ -144,9 +144,7 @@ if (window.findMyBinData) {
         icon: binIcon,
       })
         .addTo(map)
-        .bindPopup(
-          `<strong>🗑️ Bin ${index + 1}</strong><br>${binDistance} away`,
-        );
+        .bindPopup(`<strong>🗑️ Public Bin</strong><br>${binDistance}m away`);
 
       marker.on("click", function () {
         if (selectedMarker) {
