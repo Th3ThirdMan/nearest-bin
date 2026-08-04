@@ -266,18 +266,24 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border: 2px solid white;
+  width: 30px;
+  height: 30px;
+  border: 3px solid white;
   border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+  background: #173f67;
+  color: white;
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.4),
+    0 0 0 2px rgba(23, 63, 103, 0.22);
   font-size: 16px;
 }
 
 .selected-bin {
-  transform: scale(1.2);
-  filter: drop-shadow(0 0 6px rgba(255, 193, 7, 0.9));
+  transform: scale(1.22);
+  background: #2e8b57;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.45),
+    0 0 0 4px rgba(46, 139, 87, 0.28);
 }
 
 /* Result buttons */

@@ -14,9 +14,19 @@ function getLocation(triggerButton = null) {
 
   navigator.geolocation.getCurrentPosition(
     function (position) {
-      document.getElementById("latitude").value = position.coords.latitude;
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
 
-      document.getElementById("longitude").value = position.coords.longitude;
+      document.getElementById("latitude").value = latitude;
+      document.getElementById("longitude").value = longitude;
+
+      sessionStorage.setItem(
+        "findMyBinLocation",
+        JSON.stringify({
+          latitude,
+          longitude,
+        }),
+      );
 
       button.innerText = "Searching...";
       loadingMessage.style.display = "block";
@@ -24,7 +34,9 @@ function getLocation(triggerButton = null) {
       form.submit();
     },
 
-    function () {
+    function (error) {
+      console.error("Geolocation error:", error.code, error.message);
+
       alert(
         "Unable to get your location. Please allow location access and try again.",
       );
@@ -33,6 +45,7 @@ function getLocation(triggerButton = null) {
       button.innerText = originalButtonText;
       loadingMessage.style.display = "none";
     },
+
     {
       enableHighAccuracy: true,
       timeout: 15000,
@@ -43,6 +56,36 @@ function getLocation(triggerButton = null) {
   return false;
 }
 
+// Restore the last location when the home page is refreshed.
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.findMyBinData) {
+    return;
+  }
+
+  const savedLocation = sessionStorage.getItem("findMyBinLocation");
+
+  if (!savedLocation) {
+    return;
+  }
+
+  try {
+    const location = JSON.parse(savedLocation);
+    const latitudeInput = document.getElementById("latitude");
+    const longitudeInput = document.getElementById("longitude");
+    const loadingMessage = document.getElementById("loading");
+    const form = document.querySelector("form");
+
+    latitudeInput.value = location.latitude;
+    longitudeInput.value = location.longitude;
+    loadingMessage.style.display = "block";
+
+    form.submit();
+  } catch (error) {
+    sessionStorage.removeItem("findMyBinLocation");
+    console.error("Saved location could not be read:", error);
+  }
+});
+
 if (window.findMyBinData) {
   const searchForm = document.querySelector("form");
   searchForm.style.display = "none";
@@ -52,19 +95,43 @@ if (window.findMyBinData) {
   // -----------------------------
 
   const {
-    userLatitude,
-    userLongitude,
+    userLatitude: initialUserLatitude,
+    userLongitude: initialUserLongitude,
     binLatitude,
     binLongitude,
-    distance,
     nearestBins,
   } = window.findMyBinData;
+
+  let currentUserLatitude = initialUserLatitude;
+  let currentUserLongitude = initialUserLongitude;
+
+  let selectedBinLatitude = binLatitude;
+  let selectedBinLongitude = binLongitude;
+
+  let currentRoute = null;
+  let selectedMarker = null;
+
+  // -----------------------------
+  // Distance formatting
+  // -----------------------------
+
+  function formatDistance(distance) {
+    if (distance >= 1000) {
+      return `${(distance / 1000).toFixed(1)} km`;
+    }
+
+    return `${Math.round(distance)} m`;
+  }
 
   // -----------------------------
   // Create the map
   // -----------------------------
+
   function createMap() {
-    const newMap = L.map("map").setView([userLatitude, userLongitude], 17);
+    const newMap = L.map("map").setView(
+      [currentUserLatitude, currentUserLongitude],
+      17,
+    );
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap contributors",
@@ -72,33 +139,21 @@ if (window.findMyBinData) {
 
     return newMap;
   }
+
   const map = createMap();
-
-  L.circle([userLatitude, userLongitude], {
-    radius: 35,
-    color: "#0078d4",
-    fillColor: "#0078d4",
-    fillOpacity: 0.16,
-    weight: 2,
-  }).addTo(map);
-
-  let currentRoute = null;
-  let selectedMarker = null;
-
-  let selectedBinLatitude = binLatitude;
-  let selectedBinLongitude = binLongitude;
 
   // -----------------------------
   // Map icons
   // -----------------------------
+
   function createIcons() {
     const userIcon = L.divIcon({
       className: "custom-marker",
       html: `
-    <div class="user-location">
-        <div class="user-dot"></div>
-    </div>
-  `,
+        <div class="user-location">
+          <div class="user-dot"></div>
+        </div>
+      `,
       iconSize: [24, 24],
       iconAnchor: [12, 12],
     });
@@ -125,18 +180,73 @@ if (window.findMyBinData) {
   }
 
   const { userIcon, binIcon, selectedBinIcon } = createIcons();
-  L.marker([userLatitude, userLongitude], {
+
+  // -----------------------------
+  // User location marker
+  // -----------------------------
+
+  const userAccuracyCircle = L.circle(
+    [currentUserLatitude, currentUserLongitude],
+    {
+      radius: 35,
+      color: "#0078d4",
+      fillColor: "#0078d4",
+      fillOpacity: 0.16,
+      weight: 2,
+    },
+  ).addTo(map);
+
+  const userMarker = L.marker([currentUserLatitude, currentUserLongitude], {
     icon: userIcon,
     zIndexOffset: 1000,
   })
     .addTo(map)
-    .bindPopup("<strong>📍 You are here</strong>");
+    .bindPopup("<strong>You are here</strong>");
+
+  // Keep the blue dot updated while the page is open.
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(
+      function (position) {
+        currentUserLatitude = position.coords.latitude;
+        currentUserLongitude = position.coords.longitude;
+
+        const updatedLocation = [currentUserLatitude, currentUserLongitude];
+
+        userMarker.setLatLng(updatedLocation);
+        userAccuracyCircle.setLatLng(updatedLocation);
+        userAccuracyCircle.setRadius(Math.max(position.coords.accuracy, 20));
+
+        sessionStorage.setItem(
+          "findMyBinLocation",
+          JSON.stringify({
+            latitude: currentUserLatitude,
+            longitude: currentUserLongitude,
+          }),
+        );
+      },
+
+      function (error) {
+        console.error(
+          "Live location update failed:",
+          error.code,
+          error.message,
+        );
+      },
+
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 5000,
+      },
+    );
+  }
 
   // -----------------------------
   // Create bin markers
   // -----------------------------
+
   function createBinMarkers() {
-    nearestBins.forEach(function (item) {
+    nearestBins.forEach(function (item, index) {
       const wasteBin = item.bin;
       const binDistance = Math.round(item.distance);
 
@@ -144,26 +254,31 @@ if (window.findMyBinData) {
         icon: binIcon,
       })
         .addTo(map)
-        .bindPopup(`<strong>🗑️ Public Bin</strong><br>${binDistance}m away`);
+        .bindPopup(
+          `<strong>🗑️ Public Bin</strong><br>${formatDistance(binDistance)} away`,
+        );
 
       marker.on("click", function () {
         if (selectedMarker) {
           selectedMarker.setIcon(binIcon);
         }
+
         marker.setIcon(selectedBinIcon);
         selectedMarker = marker;
 
         selectedBinLatitude = wasteBin.lat;
         selectedBinLongitude = wasteBin.lon;
+
         const heading = document.getElementById("resultHeading");
         const distanceLabel = document.getElementById("straightLineDistance");
 
-        heading.innerText = `Nearest Public Bin ${index + 1}`;
+        heading.innerText = "Nearest Public Bin";
         distanceLabel.innerText = `${formatDistance(binDistance)} away`;
 
         loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
       });
 
+      // Select the nearest bin automatically.
       if (index === 0) {
         marker.setIcon(selectedBinIcon);
         selectedMarker = marker;
@@ -174,22 +289,15 @@ if (window.findMyBinData) {
 
   createBinMarkers();
 
-  function formatDistance(distance) {
-    if (distance >= 1000) {
-      return `${(distance / 1000).toFixed(1)} km`;
-    }
-
-    return `${Math.round(distance)} m`;
-  }
-
   // -----------------------------
   // Walking route
   // -----------------------------
 
-  async function loadWalkingRoute(selectedBinLatitude, selectedBinLongitude) {
+  async function loadWalkingRoute(destinationLatitude, destinationLongitude) {
     const walkingRoute = document.getElementById("walkingRoute");
 
     walkingRoute.classList.add("walking-loading");
+    walkingRoute.classList.remove("walking-route-result");
     walkingRoute.innerText = "Loading route...";
 
     try {
@@ -199,10 +307,10 @@ if (window.findMyBinData) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_lat: userLatitude,
-          user_lon: userLongitude,
-          bin_lat: selectedBinLatitude,
-          bin_lon: selectedBinLongitude,
+          user_lat: currentUserLatitude,
+          user_lon: currentUserLongitude,
+          bin_lat: destinationLatitude,
+          bin_lon: destinationLongitude,
         }),
       });
 
@@ -231,21 +339,21 @@ if (window.findMyBinData) {
       });
 
       const summary = routeData.features[0].properties.summary;
-      const walkingDistance = Math.round(summary.distance);
+
       const walkingMinutes = Math.round(summary.duration / 60);
+
+      const displayedMinutes = Math.max(1, walkingMinutes);
 
       walkingRoute.classList.remove("walking-loading");
       walkingRoute.classList.add("walking-route-result");
-
-      const displayedMinutes = Math.max(1, walkingMinutes);
       walkingRoute.innerText = `${displayedMinutes} min walk`;
     } catch (error) {
       console.error("Walking route error:", error);
 
       map.fitBounds(
         [
-          [userLatitude, userLongitude],
-          [selectedBinLatitude, selectedBinLongitude],
+          [currentUserLatitude, currentUserLongitude],
+          [destinationLatitude, destinationLongitude],
         ],
         {
           padding: [40, 40],
@@ -256,28 +364,33 @@ if (window.findMyBinData) {
       walkingRoute.classList.remove("walking-route-result");
 
       walkingRoute.innerText =
-        "Walking route unavailable. Use Navigate for directions.";
+        "Walking route unavailable. Use Google Maps for directions.";
     }
   }
 
-  loadWalkingRoute(binLatitude, binLongitude);
+  loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
 
   // -----------------------------
   // Google Maps button
   // -----------------------------
+
   function setupNavigationButton() {
     const navigateButton = document.getElementById("navigateButton");
 
     navigateButton.addEventListener("click", function () {
       const mapsUrl =
         "https://www.google.com/maps/dir/?api=1" +
-        `&origin=${userLatitude},${userLongitude}` +
+        `&origin=${currentUserLatitude},${currentUserLongitude}` +
         `&destination=${selectedBinLatitude},${selectedBinLongitude}` +
         "&travelmode=walking";
 
       window.open(mapsUrl, "_blank");
     });
   }
+
+  // -----------------------------
+  // Locate again button
+  // -----------------------------
 
   function setupLocateAgainButton() {
     const locateAgainButton = document.getElementById("locateAgainButton");
@@ -287,8 +400,14 @@ if (window.findMyBinData) {
     });
   }
 
+  // -----------------------------
+  // Copy coordinates button
+  // -----------------------------
+
   function setupCopyCoordinatesButton() {
     const copyButton = document.getElementById("copyCoordinatesButton");
+
+    const originalButtonContent = copyButton.innerHTML;
 
     copyButton.addEventListener("click", async function () {
       const coordinates = `${selectedBinLatitude}, ${selectedBinLongitude}`;
@@ -301,9 +420,10 @@ if (window.findMyBinData) {
 
         setTimeout(function () {
           copyButton.disabled = false;
-          copyButton.innerText = "Copy Coordinates";
+          copyButton.innerHTML = originalButtonContent;
         }, 2000);
       } catch (error) {
+        console.error("Clipboard error:", error);
         alert("Unable to copy coordinates.");
       }
     });
