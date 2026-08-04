@@ -145,7 +145,7 @@ if (window.findMyBinData) {
       })
         .addTo(map)
         .bindPopup(
-          `<strong>🗑️ Bin ${index + 1}</strong><br>${binDistance} metres away`,
+          `<strong>🗑️ Bin ${index + 1}</strong><br>${binDistance} away`,
         );
 
       marker.on("click", function () {
@@ -160,7 +160,7 @@ if (window.findMyBinData) {
         const heading = document.getElementById("resultHeading");
         const distanceLabel = document.getElementById("straightLineDistance");
 
-        heading.innerText = `Public bin ${index + 1}`;
+        heading.innerText = `Nearest Public Bin ${index + 1}`;
         distanceLabel.innerText = `${formatDistance(binDistance)} away`;
 
         loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
