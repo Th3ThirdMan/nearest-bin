@@ -43,54 +43,46 @@ def calculate_distance(lat1, lon1, lat2, lon2):
 
     return earth_radius * c
 
-
 def get_bins(url, query, headers):
-    response = None
-
-    for attempt in range(3):
+    for attempt in range(2):
         try:
             response = requests.get(
                 url,
                 params={"data": query},
                 headers=headers,
-                timeout=40
+                timeout=(5, 12),
             )
 
-        except requests.exceptions.Timeout:
-            if attempt < 2:
-                print(f"Attempt {attempt + 1} timed out. Retrying...")
-                time.sleep(2)
-            continue
+            response.raise_for_status()
 
-        except requests.exceptions.RequestException as e:
-            print(f"Network error: {e}")
+            data = response.json()
+            data["source"] = "live"
+            return data
+
+        except requests.exceptions.JSONDecodeError:
+            print("Overpass returned invalid JSON.")
             break
 
-        if response.status_code == 200:
-            try:
-                data = response.json()
-                data["source"] = "live"
-                return data
+        except requests.exceptions.Timeout:
+            print(f"Overpass attempt {attempt + 1} timed out.")
 
-            except requests.exceptions.JSONDecodeError:
-                print("The server returned invalid JSON.")
-                break
+        except requests.exceptions.RequestException as error:
+            print(f"Overpass request failed: {error}")
 
-        if attempt < 2:
-            print(f"Attempt {attempt + 1} failed. Retrying...")
-            time.sleep(2)
+        if attempt == 0:
+            time.sleep(1)
 
-    print("Overpass API is unavailable. Trying cached data.")
+    print("Overpass API unavailable. Trying cached data.")
 
     try:
-        with open("bins_cache.json", "r") as file:
+        with open("bins_cache.json", "r", encoding="utf-8") as file:
             data = json.load(file)
             data["source"] = "cache"
             print("Using cached bin data.")
             return data
 
-    except FileNotFoundError:
-        print("No cached bin data was found.")
+    except (FileNotFoundError, json.JSONDecodeError) as error:
+        print(f"Cached bin data unavailable: {error}")
         return None
 
 
