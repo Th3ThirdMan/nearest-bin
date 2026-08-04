@@ -1,4 +1,4 @@
-const CACHE_NAME = "findmybin-v6";
+const CACHE_NAME = "findmybin-v7";
 
 const APP_SHELL = [
   "/",

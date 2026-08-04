@@ -2,7 +2,7 @@ import os
 import requests
 
 
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 from dotenv import load_dotenv
 
 from app import (
@@ -129,6 +129,58 @@ def find_bin():
         user_lat=user_lat,
         user_lon=user_lon
     )
+    
+    
+@app.route("/nearby-bins", methods=["POST"])
+def nearby_bins():
+    request_data = request.get_json()
+
+    if not request_data:
+        return jsonify({"error": "No coordinates were supplied."}), 400
+
+    try:
+        user_lat = float(request_data["latitude"])
+        user_lon = float(request_data["longitude"])
+
+    except (KeyError, TypeError, ValueError):
+        return jsonify({"error": "Invalid coordinates."}), 400
+
+    query = f"""
+    [out:json];
+    node["amenity"="waste_basket"]
+    (around:{search_radius},{user_lat},{user_lon});
+    out;
+    """
+
+    data = get_bins(url, query, headers)
+
+    if data is None:
+        return jsonify({
+            "error": "The bin service is temporarily unavailable."
+        }), 503
+
+    bins = data.get("elements", [])
+
+    if not bins:
+        return jsonify({
+            "error": (
+                f"No public bins were found within "
+                f"{search_radius} metres."
+            )
+        }), 404
+
+    nearest_bins = find_nearest_bins(
+        bins,
+        user_lat,
+        user_lon,
+    )
+
+    return jsonify({
+        "userLatitude": user_lat,
+        "userLongitude": user_lon,
+        "nearestBins": nearest_bins,
+        "dataSource": data.get("source"),
+    })
     
     
 @app.route("/walking-route", methods=["POST"])

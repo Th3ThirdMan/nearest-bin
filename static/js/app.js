@@ -245,13 +245,18 @@ if (window.findMyBinData) {
   // Create bin markers
   // -----------------------------
 
-  function createBinMarkers() {
-    nearestBins.forEach(function (item, index) {
+  let binMarkers = [];
+
+  function createBinMarkers(bins) {
+    binMarkers.forEach((marker) => map.removeLayer(marker));
+    binMarkers = [];
+
+    bins.forEach(function (item, index) {
       const wasteBin = item.bin;
       const binDistance = Math.round(item.distance);
 
       const marker = L.marker([wasteBin.lat, wasteBin.lon], {
-        icon: binIcon,
+        icon: index === 0 ? selectedBinIcon : binIcon,
       })
         .addTo(map)
         .bindPopup(
@@ -269,25 +274,25 @@ if (window.findMyBinData) {
         selectedBinLatitude = wasteBin.lat;
         selectedBinLongitude = wasteBin.lon;
 
-        const heading = document.getElementById("resultHeading");
-        const distanceLabel = document.getElementById("straightLineDistance");
+        document.getElementById("resultHeading").innerText =
+          "Nearest Public Bin";
 
-        heading.innerText = "Nearest Public Bin";
-        distanceLabel.innerText = `${formatDistance(binDistance)} away`;
+        document.getElementById("straightLineDistance").innerText =
+          `${formatDistance(binDistance)} away`;
 
         loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
       });
 
-      // Select the nearest bin automatically.
       if (index === 0) {
-        marker.setIcon(selectedBinIcon);
         selectedMarker = marker;
         marker.openPopup();
       }
+
+      binMarkers.push(marker);
     });
   }
 
-  createBinMarkers();
+  createBinMarkers(nearestBins);
 
   // -----------------------------
   // Walking route
@@ -338,10 +343,10 @@ if (window.findMyBinData) {
 
       const routeLine = L.geoJSON(routeData, {
         style: {
-          color: "#2e8b57",
+          color: "#23844b",
           weight: 6,
           opacity: 1,
-          dashArray: "10, 10",
+          dashArray: "6, 6",
           lineCap: "round",
           lineJoin: "round",
         },
@@ -403,6 +408,101 @@ if (window.findMyBinData) {
     });
   }
 
+  function refreshNearbyBins(button) {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    const originalButtonContent = button.innerHTML;
+
+    button.disabled = true;
+    button.innerText = "Updating...";
+
+    navigator.geolocation.getCurrentPosition(
+      async function (position) {
+        currentUserLatitude = position.coords.latitude;
+        currentUserLongitude = position.coords.longitude;
+
+        const updatedLocation = [currentUserLatitude, currentUserLongitude];
+
+        userMarker.setLatLng(updatedLocation);
+        userAccuracyCircle.setLatLng(updatedLocation);
+        userAccuracyCircle.setRadius(Math.max(position.coords.accuracy, 20));
+
+        sessionStorage.setItem(
+          "findMyBinLocation",
+          JSON.stringify({
+            latitude: currentUserLatitude,
+            longitude: currentUserLongitude,
+          }),
+        );
+
+        try {
+          const response = await fetch("/nearby-bins", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              latitude: currentUserLatitude,
+              longitude: currentUserLongitude,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(
+              data.error || "Nearby bins could not be refreshed.",
+            );
+          }
+
+          if (!data.nearestBins || data.nearestBins.length === 0) {
+            throw new Error("No nearby public bins were found.");
+          }
+
+          createBinMarkers(data.nearestBins);
+
+          const nearestBin = data.nearestBins[0];
+          const nearestDistance = Math.round(nearestBin.distance);
+
+          selectedBinLatitude = nearestBin.bin.lat;
+          selectedBinLongitude = nearestBin.bin.lon;
+
+          document.getElementById("resultHeading").innerText =
+            "Nearest Public Bin";
+
+          document.getElementById("straightLineDistance").innerText =
+            `${formatDistance(nearestDistance)} away`;
+
+          await loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
+        } catch (error) {
+          console.error("Nearby-bin refresh failed:", error);
+          alert(error.message);
+        } finally {
+          button.disabled = false;
+          button.innerHTML = originalButtonContent;
+        }
+      },
+
+      function (error) {
+        console.error("Location refresh failed:", error.code, error.message);
+
+        alert("Unable to update your location.");
+
+        button.disabled = false;
+        button.innerHTML = originalButtonContent;
+      },
+
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 5000,
+      },
+    );
+  }
+
   // -----------------------------
   // Locate again button
   // -----------------------------
@@ -411,7 +511,7 @@ if (window.findMyBinData) {
     const locateAgainButton = document.getElementById("locateAgainButton");
 
     locateAgainButton.addEventListener("click", function () {
-      getLocation(locateAgainButton);
+      refreshNearbyBins(locateAgainButton);
     });
   }
 
