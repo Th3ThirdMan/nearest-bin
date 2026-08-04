@@ -326,15 +326,30 @@ if (window.findMyBinData) {
         map.removeLayer(currentRoute);
       }
 
-      currentRoute = L.geoJSON(routeData, {
+      const routeOutline = L.geoJSON(routeData, {
         style: {
-          color: "#2e8b57",
-          weight: 6,
-          opacity: 0.9,
+          color: "#ffffff",
+          weight: 10,
+          opacity: 0.95,
+          lineCap: "round",
+          lineJoin: "round",
         },
       }).addTo(map);
 
-      map.fitBounds(currentRoute.getBounds(), {
+      const routeLine = L.geoJSON(routeData, {
+        style: {
+          color: "#2e8b57",
+          weight: 6,
+          opacity: 1,
+          dashArray: "10, 10",
+          lineCap: "round",
+          lineJoin: "round",
+        },
+      }).addTo(map);
+
+      currentRoute = L.layerGroup([routeOutline, routeLine]).addTo(map);
+
+      map.fitBounds(routeLine.getBounds(), {
         padding: [40, 40],
       });
 
