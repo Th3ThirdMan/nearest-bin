@@ -613,7 +613,8 @@ if (window.findMyBinData) {
           selectedBinLatitude = nearestBin.bin.lat;
           selectedBinLongitude = nearestBin.bin.lon;
 
-          document.getElementById("resultHeading").innerText = binHeading;
+          document.getElementById("resultHeading").innerText =
+            binDisplay.heading;
 
           document.getElementById("straightLineDistance").innerText =
             `${formatDistance(nearestDistance)} away`;
