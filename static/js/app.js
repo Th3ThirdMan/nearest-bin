@@ -3,6 +3,12 @@ const MAX_VISIBLE_BINS = 5;
 
 let selectedBinType = "public";
 
+window.addEventListener("pageshow", function (event) {
+  if (event.persisted) {
+    window.location.reload();
+  }
+});
+
 function getLocation(triggerButton = null) {
   const button = triggerButton || document.getElementById("findButton");
   const originalButtonText = button.innerText;
