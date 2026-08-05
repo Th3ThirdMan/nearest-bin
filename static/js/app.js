@@ -1,6 +1,8 @@
 const INITIAL_VISIBLE_BINS = 3;
 const MAX_VISIBLE_BINS = 5;
 
+let selectedBinType = "public";
+
 function getLocation(triggerButton = null) {
   const button = triggerButton || document.getElementById("findButton");
   const originalButtonText = button.innerText;
@@ -576,6 +578,28 @@ if (window.findMyBinData) {
   }
 
   // -----------------------------
+  // Filter Buttons
+  // -----------------------------
+
+  function setupFilterButtons() {
+    const filterAll = document.getElementById("filterAll");
+    const filterPublic = document.getElementById("filterPublic");
+    const filterRecycling = document.getElementById("filterRecycling");
+
+    filterAll.addEventListener("click", function () {
+      selectedBinType = "all";
+    });
+
+    filterPublic.addEventListener("click", function () {
+      selectedBinType = "public";
+    });
+
+    filterRecycling.addEventListener("click", function () {
+      selectedBinType = "recycling";
+    });
+  }
+
+  // -----------------------------
   // Copy coordinates button
   // -----------------------------
 
@@ -607,4 +631,5 @@ if (window.findMyBinData) {
   setupNavigationButton();
   setupLocateAgainButton();
   setupCopyCoordinatesButton();
+  setupFilterButtons();
 }
