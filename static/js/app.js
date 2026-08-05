@@ -61,7 +61,48 @@ function getLocation(triggerButton = null) {
   return false;
 }
 
-// Restore the last location when the home page is refreshed.
+// -----------------------------
+// Filter Buttons
+// -----------------------------
+
+function setupFilterButtons() {
+  const filterAll = document.getElementById("filterAll");
+  const filterPublic = document.getElementById("filterPublic");
+  const filterRecycling = document.getElementById("filterRecycling");
+
+  const filterButtons = [filterAll, filterPublic, filterRecycling];
+
+  filterAll.addEventListener("click", function () {
+    selectedBinType = "all";
+    document.getElementById("binType").value = "all";
+    filterButtons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    filterAll.classList.add("active");
+  });
+
+  filterPublic.addEventListener("click", function () {
+    selectedBinType = "public";
+    document.getElementById("binType").value = "public";
+    filterButtons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    filterPublic.classList.add("active");
+  });
+
+  filterRecycling.addEventListener("click", function () {
+    selectedBinType = "recycling";
+    document.getElementById("binType").value = "recycling";
+    filterButtons.forEach((button) => {
+      button.classList.remove("active");
+    });
+    filterRecycling.classList.add("active");
+  });
+}
+
+setupFilterButtons();
+
+// Restore the saved coordinates without automatically searching again.
 document.addEventListener("DOMContentLoaded", function () {
   if (window.findMyBinData) {
     return;
@@ -75,16 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   try {
     const location = JSON.parse(savedLocation);
-    const latitudeInput = document.getElementById("latitude");
-    const longitudeInput = document.getElementById("longitude");
-    const loadingMessage = document.getElementById("loading");
-    const form = document.querySelector("form");
 
-    latitudeInput.value = location.latitude;
-    longitudeInput.value = location.longitude;
-    loadingMessage.style.display = "block";
-
-    form.submit();
+    document.getElementById("latitude").value = location.latitude;
+    document.getElementById("longitude").value = location.longitude;
   } catch (error) {
     sessionStorage.removeItem("findMyBinLocation");
     console.error("Saved location could not be read:", error);
@@ -105,7 +139,43 @@ if (window.findMyBinData) {
     binLatitude,
     binLongitude,
     nearestBins,
+    binType,
   } = window.findMyBinData;
+
+  const binDisplay =
+    binType === "recycling"
+      ? {
+          label: "Recycling Bin",
+          heading: "Nearest Recycling Bin",
+          nearbyHeading: "Nearby Recycling Bins",
+          icon: "♻️",
+        }
+      : binType === "all"
+        ? {
+            label: "Bin",
+            heading: "Nearest Bin",
+            nearbyHeading: "Nearby Bins",
+            icon: "📍",
+          }
+        : {
+            label: "Public Bin",
+            heading: "Nearest Public Bin",
+            nearbyHeading: "Nearby Public Bins",
+            icon: "🗑️",
+          };
+
+  function updateResultHeadings() {
+    const resultHeading = document.getElementById("resultHeading");
+    const nearbyBinsHeading = document.getElementById("nearbyBinsHeading");
+
+    if (resultHeading) {
+      resultHeading.innerText = binDisplay.heading;
+    }
+
+    if (nearbyBinsHeading) {
+      nearbyBinsHeading.innerText = binDisplay.nearbyHeading;
+    }
+  }
 
   let currentUserLatitude = initialUserLatitude;
   let currentUserLongitude = initialUserLongitude;
@@ -138,9 +208,12 @@ if (window.findMyBinData) {
 
       const card = document.createElement("div");
       card.className = "nearby-bin-item" + (index === 0 ? " active" : "");
-
+      const itemLabel =
+        item.bin.tags?.amenity === "recycling"
+          ? "♻️ Recycling Bin"
+          : "🗑️ Public Bin";
       card.innerHTML = `
-      <span>🗑️ Public Bin</span>
+      <span>${binType === "all" ? itemLabel : `${binDisplay.icon} ${binDisplay.label}`}</span>
       <div>
   <div class="nearby-bin-distance">
     ${formatDistance(binDistance)}
@@ -220,14 +293,14 @@ if (window.findMyBinData) {
 
     const binIcon = L.divIcon({
       className: "custom-marker",
-      html: '<div class="bin-marker">🗑️</div>',
+      html: '<div class="bin-marker">${binDisplay.icon}</div>',
       iconSize: [30, 30],
       iconAnchor: [15, 15],
     });
 
     const selectedBinIcon = L.divIcon({
       className: "custom-marker",
-      html: '<div class="bin-marker selected-bin">🗑️</div>',
+      html: `<div class="bin-marker selected-bin">${binDisplay.icon}</div>`,
       iconSize: [36, 36],
       iconAnchor: [18, 18],
     });
@@ -320,7 +393,7 @@ if (window.findMyBinData) {
       })
         .addTo(map)
         .bindPopup(
-          `<strong>🗑️ Public Bin</strong><br>${formatDistance(binDistance)} away`,
+          `<strong>${binDisplay.icon} ${binDisplay.label}</strong><br>${formatDistance(binDistance)} away`,
         );
 
       marker.on("click", function () {
@@ -334,8 +407,9 @@ if (window.findMyBinData) {
         selectedBinLatitude = wasteBin.lat;
         selectedBinLongitude = wasteBin.lon;
 
-        document.getElementById("resultHeading").innerText =
-          "Nearest Public Bin";
+        document.getElementById("resultHeading").innerText = binDisplay.heading;
+        document.getElementById("nearbyBinsHeading").innerText =
+          binDisplay.nearbyHeading;
 
         document.getElementById("straightLineDistance").innerText =
           `${formatDistance(binDistance)} away`;
@@ -354,6 +428,7 @@ if (window.findMyBinData) {
 
   createBinMarkers(nearestBins);
   renderNearbyBinsList(nearestBins);
+  updateResultHeadings();
 
   // -----------------------------
   // Walking route
@@ -532,8 +607,7 @@ if (window.findMyBinData) {
           selectedBinLatitude = nearestBin.bin.lat;
           selectedBinLongitude = nearestBin.bin.lon;
 
-          document.getElementById("resultHeading").innerText =
-            "Nearest Public Bin";
+          document.getElementById("resultHeading").innerText = binHeading;
 
           document.getElementById("straightLineDistance").innerText =
             `${formatDistance(nearestDistance)} away`;
@@ -578,28 +652,6 @@ if (window.findMyBinData) {
   }
 
   // -----------------------------
-  // Filter Buttons
-  // -----------------------------
-
-  function setupFilterButtons() {
-    const filterAll = document.getElementById("filterAll");
-    const filterPublic = document.getElementById("filterPublic");
-    const filterRecycling = document.getElementById("filterRecycling");
-
-    filterAll.addEventListener("click", function () {
-      selectedBinType = "all";
-    });
-
-    filterPublic.addEventListener("click", function () {
-      selectedBinType = "public";
-    });
-
-    filterRecycling.addEventListener("click", function () {
-      selectedBinType = "recycling";
-    });
-  }
-
-  // -----------------------------
   // Copy coordinates button
   // -----------------------------
 
@@ -631,5 +683,4 @@ if (window.findMyBinData) {
   setupNavigationButton();
   setupLocateAgainButton();
   setupCopyCoordinatesButton();
-  setupFilterButtons();
 }

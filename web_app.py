@@ -46,6 +46,8 @@ def find_bin():
     try:
         user_lat = float(request.form["latitude"])
         user_lon = float(request.form["longitude"])
+        bin_type = request.form.get("bin_type", "public")
+        print(f"Selected bin type: {bin_type}")
 
     except (KeyError, TypeError, ValueError):
         error_message = "Your location could not be read."
@@ -61,13 +63,33 @@ def find_bin():
             user_lat=None,
             user_lon=None
         )
+        
+    if bin_type == "all":
+        query = f"""
+        [out:json];
+        (
+          node["amenity"="waste_basket"]
+          (around:{search_radius},{user_lat},{user_lon});
 
-    query = f"""
-    [out:json];
-    node["amenity"="waste_basket"]
-    (around:{search_radius},{user_lat},{user_lon});
-    out;
-    """
+          node["amenity"="recycling"]
+          (around:{search_radius},{user_lat},{user_lon});
+        );
+        out;
+        """
+
+    else:
+        amenity = (
+            "recycling"
+            if bin_type == "recycling"
+            else "waste_basket"
+        )
+
+        query = f"""
+        [out:json];
+        node["amenity"="{amenity}"]
+        (around:{search_radius},{user_lat},{user_lon});
+        out;
+        """
 
     data = get_bins(url, query, headers)
 
@@ -127,7 +149,8 @@ def find_bin():
         error_message=error_message,
         data_source=data_source,
         user_lat=user_lat,
-        user_lon=user_lon
+        user_lon=user_lon,
+        bin_type=bin_type
     )
     
     
