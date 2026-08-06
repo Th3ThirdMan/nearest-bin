@@ -299,7 +299,7 @@ if (window.findMyBinData) {
 
     const binIcon = L.divIcon({
       className: "custom-marker",
-      html: '<div class="bin-marker">${binDisplay.icon}</div>',
+      html: `<div class="bin-marker">${binDisplay.icon}</div>`,
       iconSize: [30, 30],
       iconAnchor: [15, 15],
     });
