@@ -393,13 +393,20 @@ if (window.findMyBinData) {
     bins.forEach(function (item, index) {
       const wasteBin = item.bin;
       const binDistance = Math.round(item.distance);
-
+      const popupLabel =
+        wasteBin.tags?.amenity === "recycling"
+          ? "♻️ Recycling Bin"
+          : "🗑️ Public Bin";
       const marker = L.marker([wasteBin.lat, wasteBin.lon], {
         icon: index === 0 ? selectedBinIcon : binIcon,
       })
         .addTo(map)
         .bindPopup(
-          `<strong>${binDisplay.icon} ${binDisplay.label}</strong><br>${formatDistance(binDistance)} away`,
+          `<strong>${
+            binType === "all"
+              ? popupLabel
+              : `${binDisplay.icon} ${binDisplay.label}`
+          }</strong><br>${formatDistance(binDistance)} away`,
         );
 
       marker.on("click", function () {
