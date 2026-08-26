@@ -189,7 +189,6 @@ if (window.findMyBinData) {
   let selectedBinLatitude = binLatitude;
   let selectedBinLongitude = binLongitude;
 
-  let currentRoute = null;
   let selectedMarker = null;
 
   // -----------------------------
@@ -447,6 +446,12 @@ if (window.findMyBinData) {
   // Walking route
   // -----------------------------
 
+  // -----------------------------
+  // Walking route
+  // -----------------------------
+
+  const routeGroup = L.layerGroup().addTo(map);
+
   async function loadWalkingRoute(destinationLatitude, destinationLongitude) {
     const walkingRoute = document.getElementById("walkingRoute");
 
@@ -476,32 +481,22 @@ if (window.findMyBinData) {
         );
       }
 
-      if (currentRoute) {
-        map.removeLayer(currentRoute);
-      }
+      // Remove the previous walking route.
+      routeGroup.clearLayers();
 
-      const routeOutline = L.geoJSON(routeData, {
-        style: {
-          color: "#ffffff",
-          weight: 10,
-          opacity: 0.95,
-          lineCap: "round",
-          lineJoin: "round",
-        },
-      }).addTo(map);
+      const isMobile = window.innerWidth <= 768;
 
+      // Draw one route only.
       const routeLine = L.geoJSON(routeData, {
         style: {
           color: "#006400",
-          weight: 4,
-          opacity: 1,
-          dashArray: "2, 5",
+          weight: isMobile ? 3 : 4,
+          opacity: 0.9,
+          dashArray: "4, 6",
           lineCap: "round",
           lineJoin: "round",
         },
-      }).addTo(map);
-
-      currentRoute = L.layerGroup([routeOutline, routeLine]).addTo(map);
+      }).addTo(routeGroup);
 
       map.fitBounds(routeLine.getBounds(), {
         padding: [40, 40],
@@ -510,7 +505,6 @@ if (window.findMyBinData) {
       const summary = routeData.features[0].properties.summary;
 
       const walkingMinutes = Math.round(summary.duration / 60);
-
       const displayedMinutes = Math.max(1, walkingMinutes);
 
       walkingRoute.classList.remove("walking-loading");
