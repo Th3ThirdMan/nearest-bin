@@ -492,10 +492,10 @@ if (window.findMyBinData) {
 
       const routeLine = L.geoJSON(routeData, {
         style: {
-          color: "#23844b",
-          weight: 6,
+          color: "#006400",
+          weight: 4,
           opacity: 1,
-          dashArray: "6, 6",
+          dashArray: "2, 5",
           lineCap: "round",
           lineJoin: "round",
         },
