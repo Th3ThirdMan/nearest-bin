@@ -397,6 +397,80 @@ button:disabled {
   line-height: 1.45;
 }
 
+.site-footer {
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-footer a,
+.privacy-container a {
+  color: var(--green-dark);
+  font-weight: 700;
+}
+
+.privacy-container {
+  width: min(100%, 820px);
+  text-align: left;
+}
+
+.privacy-back-link {
+  display: inline-block;
+  margin-bottom: 28px;
+  text-decoration: none;
+}
+
+.privacy-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.privacy-logo {
+  width: 64px;
+  height: auto;
+}
+
+.privacy-header h1 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 2.25rem;
+  letter-spacing: -0.7px;
+}
+
+.privacy-header p,
+.privacy-updated {
+  margin: 7px 0 0;
+  color: var(--muted);
+}
+
+.privacy-container section {
+  margin-top: 30px;
+}
+
+.privacy-container h2 {
+  margin: 0 0 10px;
+  color: var(--navy);
+  font-size: 1.35rem;
+}
+
+.privacy-container h3 {
+  margin: 18px 0 8px;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.privacy-container p,
+.privacy-container li {
+  line-height: 1.65;
+}
+
+.privacy-container ul {
+  padding-left: 24px;
+}
+
 .nearby-bins {
   margin-top: 28px;
   text-align: left;
@@ -463,6 +537,10 @@ button:disabled {
   .container {
     padding: 28px 18px;
     border-radius: 20px;
+  }
+
+  .privacy-header h1 {
+    font-size: 1.85rem;
   }
 
   .logo {

@@ -187,6 +187,11 @@ def home():
     )
 
 
+@app.route("/privacy")
+def privacy_policy():
+    return render_template("privacy.html")
+
+
 @app.route("/.well-known/assetlinks.json")
 def asset_links():
     return jsonify(ASSET_LINKS)

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2e8b57" />
+    <meta name="description" content="Privacy Policy for FindMyBin." />
+
+    <title>Privacy Policy | FindMyBin</title>
+
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='icons/favicon.ico') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body>
+    <main class="container privacy-container">
+      <a class="privacy-back-link" href="{{ url_for('home') }}">
+        &larr; Back to FindMyBin
+      </a>
+
+      <header class="privacy-header">
+        <img
+          src="{{ url_for('static', filename='icons/logo.png') }}"
+          class="privacy-logo"
+          alt="FindMyBin logo"
+        />
+        <div>
+          <h1>Privacy Policy</h1>
+          <p>FindMyBin</p>
+        </div>
+      </header>
+
+      <p class="privacy-updated"><strong>Effective date:</strong> 27 August 2026</p>
+
+      <section>
+        <h2>Overview</h2>
+        <p>
+          FindMyBin helps you find nearby public and recycling bins and obtain
+          walking directions. This policy explains what information the app
+          processes, why it is needed, and the choices available to you.
+          FindMyBin is operated by the FindMyBin developer, Th3ThirdMan.
+        </p>
+      </section>
+
+      <section>
+        <h2>Information we process</h2>
+        <h3>Precise location</h3>
+        <p>
+          When you tap <strong>Find a Bin</strong>, <strong>Locate Again</strong>,
+          or use live results, the app asks your device for its precise latitude
+          and longitude. Location access is optional and only begins after you
+          grant permission. The app cannot provide nearby-bin and route results
+          without it.
+        </p>
+        <p>
+          Your most recent coordinates are temporarily stored in your device's
+          session storage so the current search continues to work. FindMyBin
+          does not create a location-history database or associate coordinates
+          with an account.
+        </p>
+
+        <h3>Technical information</h3>
+        <p>
+          Our hosting provider and the external services described below may
+          receive routine technical information such as your IP address, browser
+          or device type, request time, and diagnostic information needed to
+          deliver and protect their services. FindMyBin does not use advertising
+          or analytics SDKs.
+        </p>
+      </section>
+
+      <section>
+        <h2>How information is used</h2>
+        <p>Location and technical information are used only to:</p>
+        <ul>
+          <li>find and display bins near your current position;</li>
+          <li>calculate distances and walking routes;</li>
+          <li>open directions when you choose Google Maps; and</li>
+          <li>operate, secure, and troubleshoot the service.</li>
+        </ul>
+        <p>
+          FindMyBin does not sell personal information, use it for advertising,
+          or create user profiles.
+        </p>
+      </section>
+
+      <section>
+        <h2>Service providers and external services</h2>
+        <p>
+          To provide its core functions, FindMyBin transmits or exposes relevant
+          information to these providers:
+        </p>
+        <ul>
+          <li>
+            <strong>Google Cloud</strong> hosts the FindMyBin website and server.
+          </li>
+          <li>
+            <strong>OpenStreetMap and the Overpass API</strong> provide bin and
+            map data. A nearby-area query containing your coordinates is sent to
+            the Overpass API, and map requests reveal the area being displayed.
+          </li>
+          <li>
+            <strong>openrouteservice</strong> receives the start and destination
+            coordinates needed to calculate a walking route.
+          </li>
+          <li>
+            <strong>Google Maps</strong> receives the start and destination
+            coordinates only when you choose to open directions in Google Maps.
+          </li>
+          <li>
+            <strong>jsDelivr and UNPKG</strong> deliver interface libraries and
+            may receive routine network information such as your IP address.
+          </li>
+        </ul>
+        <p>
+          These providers process information under their own terms and privacy
+          policies. FindMyBin does not permit them to use information on its
+          behalf for FindMyBin advertising.
+        </p>
+      </section>
+
+      <section>
+        <h2>Retention and deletion</h2>
+        <p>
+          FindMyBin does not intentionally retain your precise location on its
+          server after responding to a request. The temporary location stored on
+          your device lasts only for the current browser or app session and can
+          be removed by closing the session or clearing the app's site data.
+          Service providers may retain routine security and operational records
+          according to their own retention policies.
+        </p>
+        <p>
+          FindMyBin has no user accounts or stored user profiles to delete. If
+          you have a privacy or deletion question, use the contact method below.
+        </p>
+      </section>
+
+      <section>
+        <h2>Your choices</h2>
+        <p>
+          You can decline or revoke location permission in your device or
+          browser settings. You may also clear FindMyBin's temporary site data.
+          Revoking location access prevents nearby-bin searches and walking-route
+          calculations from working.
+        </p>
+      </section>
+
+      <section>
+        <h2>Security</h2>
+        <p>
+          FindMyBin uses HTTPS to encrypt information in transit and limits its
+          processing to the data needed to provide the requested feature. No
+          internet service can guarantee absolute security.
+        </p>
+      </section>
+
+      <section>
+        <h2>Children</h2>
+        <p>
+          FindMyBin is a general-audience utility and is not directed to children
+          under 13. The app does not knowingly create profiles of children or
+          collect their names, contact details, or account information.
+        </p>
+      </section>
+
+      <section>
+        <h2>Changes to this policy</h2>
+        <p>
+          This policy may be updated if FindMyBin's features or data practices
+          change. The effective date at the top of this page will identify the
+          latest version.
+        </p>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>
+          For privacy questions or requests, contact the developer through
+          <a href="https://github.com/Th3ThirdMan/nearest-bin/issues/new"
+            >FindMyBin support on GitHub</a
+          >.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
