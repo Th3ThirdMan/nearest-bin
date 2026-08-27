@@ -20,6 +20,22 @@ ORS_API_KEY = os.getenv("ORS_API_KEY")
 app = Flask(__name__)
 
 
+ASSET_LINKS = [
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.davidkennedy.findmybin",
+            "sha256_cert_fingerprints": [
+                "FC:57:B5:2A:56:F8:CF:38:DA:DE:C0:0C:73:FC:92:8E:93:AE:26:47:B9:5C:88:21:A2:06:23:41:9B:98:0C:A0",
+                "B7:FA:16:50:DD:D2:DF:B5:C8:2F:83:6F:E9:A4:70:3D:89:38:88:3D:28:6E:DE:FD:4F:B9:98:97:E3:59:81:ED",
+                "98:29:B5:3A:BA:C6:91:97:EA:F0:03:10:CD:77:F5:9E:FA:88:18:07:BB:9A:86:68:BA:22:2B:14:4E:00:7B:20",
+            ],
+        },
+    }
+]
+
+
 # --------------------------------------------------
 # Dublin City Council public-bin data
 # --------------------------------------------------
@@ -169,6 +185,11 @@ def home():
         user_lat=None,
         user_lon=None,
     )
+
+
+@app.route("/.well-known/assetlinks.json")
+def asset_links():
+    return jsonify(ASSET_LINKS)
 
 
 # --------------------------------------------------
