@@ -1,10 +1,12 @@
-const CACHE_NAME = "findmybin-v11";
+const CACHE_NAME = "findmybin-v12";
 
 const APP_SHELL = [
   "/",
   "/static/style.css",
   "/static/js/app.js",
   "/static/manifest.json",
+  "/static/icons/icon-v2-192.png",
+  "/static/icons/icon-v2-512.png",
 ];
 
 self.addEventListener("install", function (event) {
