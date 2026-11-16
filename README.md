@@ -160,7 +160,8 @@ Every push to the `main` branch triggers a new deployment.
 
 - OpenStreetMap contributors
 - OpenRouteService
-- Dublin City Council open data for public bins and recycling centres
+- [Dublin City Council open data](https://data.gov.ie/en_GB/dataset/waste-data-glassco)
+  for public bins, recycling centres and mapped bottle banks (Glassco)
 
 ---
 

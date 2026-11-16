@@ -120,6 +120,57 @@ class RecyclingSearchTests(unittest.TestCase):
             "recycling",
         )
 
+    def test_local_bottle_banks_cover_overpass_outage(self):
+        with patch("web_app.get_bins", return_value=None):
+            response = self.client.post("/nearby-bins", json={
+                "latitude": 53.3210,
+                "longitude": -6.2666,
+                "bin_type": "recycling",
+            })
+
+        response_data = response.get_json()
+        nearest = response_data["nearestBins"][0]
+
+        self.assertEqual(response.status_code, 200)
+        self.assertLess(nearest["distance"], 100)
+        self.assertEqual(
+            nearest["bin"]["tags"]["name"],
+            "Tesco Car Park Rathmines",
+        )
+        self.assertEqual(
+            nearest["bin"]["tags"]["source"],
+            "Dublin City Council / Glassco",
+        )
+
+    def test_live_osm_duplicate_does_not_repeat_official_bottle_bank(self):
+        live_osm_bin = {
+            "id": 564430856,
+            "lat": 53.3210247,
+            "lon": -6.2665921,
+            "tags": {"amenity": "recycling"},
+        }
+
+        official_bins = web_app.get_dcc_recycling_bins_nearby(
+            53.3210,
+            -6.2666,
+        )
+        merged = web_app.merge_recycling_bins(
+            [live_osm_bin],
+            official_bins,
+        )
+
+        nearby = [
+            bin_item for bin_item in merged
+            if web_app.distance_metres(
+                53.3210,
+                -6.2666,
+                bin_item["lat"],
+                bin_item["lon"],
+            ) < 100
+        ]
+
+        self.assertEqual(len(nearby), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

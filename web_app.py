@@ -1,3 +1,4 @@
+import csv
 import json
 import math
 import os
@@ -53,6 +54,12 @@ DCC_RECYCLING_DATA_FILE = os.path.join(
     os.path.dirname(__file__),
     "data",
     "dcc_recycling_centres.geojson",
+)
+
+DCC_BOTTLE_BANKS_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "data",
+    "dcc_bottle_banks.csv",
 )
 
 
@@ -144,6 +151,69 @@ def load_dcc_recycling_bins():
 DCC_RECYCLING_BINS = load_dcc_recycling_bins()
 
 
+def load_dcc_bottle_banks():
+    """Load DCC/Glassco bottle-bank coordinates for outage coverage."""
+    try:
+        with open(
+            DCC_BOTTLE_BANKS_FILE,
+            "r",
+            encoding="utf-8-sig",
+            newline="",
+        ) as file:
+            rows = csv.DictReader(file)
+            bins = []
+
+            for index, row in enumerate(rows, start=1):
+                latitude = float(row["Latitude"])
+                longitude = float(row["Longitude"])
+
+                # Reject obvious source-data coordinate errors outside Dublin.
+                if not (
+                    53.20 <= latitude <= 53.50
+                    and -6.45 <= longitude <= -6.05
+                ):
+                    continue
+
+                facility_id = row.get("Facility ID") or index
+                address_parts = [
+                    row.get("Street"),
+                    row.get("Locality Name"),
+                    row.get("PostCode Name"),
+                ]
+
+                bins.append({
+                    "id": f"dcc-bottle-bank-{facility_id}",
+                    "lat": latitude,
+                    "lon": longitude,
+                    "tags": {
+                        "amenity": "recycling",
+                        "source": "Dublin City Council / Glassco",
+                        "name": row.get("Facility Name"),
+                        "address": ", ".join(
+                            part for part in address_parts if part
+                        ),
+                        "accepted_materials": row.get("More Info"),
+                        "facility_type": "bottle_bank",
+                    },
+                })
+
+        print(f"DCC bottle banks loaded: {len(bins)}")
+        return bins
+
+    except (
+        OSError,
+        csv.Error,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        print(f"Could not load DCC bottle-bank data: {error}")
+        return []
+
+
+DCC_BOTTLE_BANKS = load_dcc_bottle_banks()
+
+
 def distance_metres(lat1, lon1, lat2, lon2):
     earth_radius = 6371000
 
@@ -188,7 +258,14 @@ def get_dcc_bins_nearby(user_lat, user_lon):
 def get_dcc_recycling_bins_nearby(user_lat, user_lon):
     nearby = []
 
-    for bin_item in DCC_RECYCLING_BINS:
+    # Bottle banks contain the broad mapped coverage. The smaller recycling-
+    # centre file adds full-service sites, with close duplicates removed.
+    official_bins = merge_recycling_bins(
+        DCC_RECYCLING_BINS,
+        DCC_BOTTLE_BANKS,
+    )
+
+    for bin_item in official_bins:
         distance = distance_metres(
             user_lat,
             user_lon,
