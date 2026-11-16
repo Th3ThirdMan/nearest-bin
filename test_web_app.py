@@ -102,6 +102,24 @@ class RecyclingSearchTests(unittest.TestCase):
         )
         self.assertFalse(get_bins.call_args.kwargs["allow_cache"])
 
+    def test_official_recycling_centres_cover_overpass_outage(self):
+        with patch("web_app.get_bins", return_value=None):
+            response = self.client.post("/nearby-bins", json={
+                "latitude": 53.3498,
+                "longitude": -6.2603,
+                "bin_type": "recycling",
+            })
+
+        response_data = response.get_json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_data["dataSource"], "Dublin City Council")
+        self.assertGreaterEqual(len(response_data["nearestBins"]), 1)
+        self.assertEqual(
+            response_data["nearestBins"][0]["bin"]["tags"]["amenity"],
+            "recycling",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

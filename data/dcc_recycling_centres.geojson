@@ -1,0 +1,42 @@
+{
+  "type": "FeatureCollection",
+  "name": "Dublin City Council Recycling Centres",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Name": "Ballymun Recycling Centre",
+        "Address": "Carton Way, Dublin 11",
+        "Eircode": "D11 XH7P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-6.277193, 53.405735]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Name": "North Strand Recycling Centre",
+        "Address": "Shamrock Terrace, North Strand, Dublin 11",
+        "Eircode": "D01C1F1"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-6.24435, 53.355]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Name": "Ringsend Recycling Centre",
+        "Address": "Pigeon House Road, Ringsend, Dublin 4",
+        "Eircode": "D04RF79"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-6.21433, 53.34177]
+      }
+    }
+  ]
+}

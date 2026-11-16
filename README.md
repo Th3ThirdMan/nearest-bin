@@ -160,6 +160,7 @@ Every push to the `main` branch triggers a new deployment.
 
 - OpenStreetMap contributors
 - OpenRouteService
+- Dublin City Council open data for public bins and recycling centres
 
 ---
 

@@ -49,6 +49,12 @@ DCC_DATA_FILE = os.path.join(
     "dcc_public_bin_locations.geojson",
 )
 
+DCC_RECYCLING_DATA_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "data",
+    "dcc_recycling_centres.geojson",
+)
+
 
 def load_dcc_bins():
     try:
@@ -93,6 +99,51 @@ def load_dcc_bins():
 DCC_BINS = load_dcc_bins()
 
 
+def load_dcc_recycling_bins():
+    try:
+        with open(
+            DCC_RECYCLING_DATA_FILE,
+            "r",
+            encoding="utf-8",
+        ) as file:
+            geojson = json.load(file)
+
+        bins = []
+
+        for feature in geojson.get("features", []):
+            geometry = feature.get("geometry", {})
+            properties = feature.get("properties", {})
+            coordinates = geometry.get("coordinates", [])
+
+            if geometry.get("type") != "Point" or len(coordinates) < 2:
+                continue
+
+            lon, lat = coordinates[:2]
+
+            bins.append({
+                "id": f"dcc-recycling-{len(bins)}",
+                "lat": float(lat),
+                "lon": float(lon),
+                "tags": {
+                    "amenity": "recycling",
+                    "source": "Dublin City Council",
+                    "name": properties.get("Name"),
+                    "address": properties.get("Address"),
+                    "eircode": properties.get("Eircode"),
+                },
+            })
+
+        print(f"DCC recycling centres loaded: {len(bins)}")
+        return bins
+
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
+        print(f"Could not load DCC recycling data: {error}")
+        return []
+
+
+DCC_RECYCLING_BINS = load_dcc_recycling_bins()
+
+
 def distance_metres(lat1, lon1, lat2, lon2):
     earth_radius = 6371000
 
@@ -129,6 +180,23 @@ def get_dcc_bins_nearby(user_lat, user_lon):
         )
 
         if distance <= search_radius:
+            nearby.append(bin_item)
+
+    return nearby
+
+
+def get_dcc_recycling_bins_nearby(user_lat, user_lon):
+    nearby = []
+
+    for bin_item in DCC_RECYCLING_BINS:
+        distance = distance_metres(
+            user_lat,
+            user_lon,
+            bin_item["lat"],
+            bin_item["lon"],
+        )
+
+        if distance <= RECYCLING_SEARCH_RADIUS:
             nearby.append(bin_item)
 
     return nearby
@@ -175,6 +243,53 @@ def merge_public_bins(osm_bins, dcc_bins):
             merged.append(osm_bin)
 
     return merged
+
+
+def merge_recycling_bins(osm_bins, dcc_bins):
+    """Prefer official recycling centres over nearby duplicate OSM records."""
+    merged = list(dcc_bins)
+
+    for osm_bin in osm_bins:
+        osm_lat = osm_bin.get("lat")
+        osm_lon = osm_bin.get("lon")
+
+        if osm_lat is None or osm_lon is None:
+            continue
+
+        if osm_bin.get("tags", {}).get("amenity") != "recycling":
+            merged.append(osm_bin)
+            continue
+
+        duplicate = any(
+            distance_metres(
+                osm_lat,
+                osm_lon,
+                dcc_bin["lat"],
+                dcc_bin["lon"],
+            ) <= 30
+            for dcc_bin in dcc_bins
+        )
+
+        if not duplicate:
+            merged.append(osm_bin)
+
+    return merged
+
+
+def merge_with_official_bins(osm_bins, bin_type, user_lat, user_lon):
+    public_bins = []
+    recycling_bins = []
+    bins = list(osm_bins)
+
+    if bin_type in ("public", "all"):
+        public_bins = get_dcc_bins_nearby(user_lat, user_lon)
+        bins = merge_public_bins(bins, public_bins)
+
+    if bin_type in ("recycling", "all"):
+        recycling_bins = get_dcc_recycling_bins_nearby(user_lat, user_lon)
+        bins = merge_recycling_bins(bins, recycling_bins)
+
+    return bins, public_bins, recycling_bins
 
 
 def get_search_radius(bin_type):
@@ -319,25 +434,18 @@ def find_bin():
 
         print(f"Bins returned by Overpass: {len(osm_bins)}")
 
-        # DCC bins apply only to Public and All.
-        if bin_type in ("public", "all"):
-            dcc_bins = get_dcc_bins_nearby(
-                user_lat,
-                user_lon,
-            )
+        bins, dcc_bins, dcc_recycling_bins = merge_with_official_bins(
+            osm_bins,
+            bin_type,
+            user_lat,
+            user_lon,
+        )
 
-            print(f"DCC bins nearby: {len(dcc_bins)}")
+        print(f"DCC public bins nearby: {len(dcc_bins)}")
+        print(f"DCC recycling centres nearby: {len(dcc_recycling_bins)}")
 
-            bins = merge_public_bins(
-                osm_bins,
-                dcc_bins,
-            )
-
-            if dcc_bins:
-                data_source = "OSM + Dublin City Council"
-
-        else:
-            bins = osm_bins
+        if dcc_bins or dcc_recycling_bins:
+            data_source = "OSM + Dublin City Council"
 
         print(f"Combined bins: {len(bins)}")
 
@@ -391,31 +499,23 @@ def find_bin():
             )
 
     else:
-        # Even if Overpass is unavailable, official DCC data
-        # can still provide public bins.
-        if bin_type in ("public", "all"):
-            dcc_bins = get_dcc_bins_nearby(
+        bins, _, _ = merge_with_official_bins(
+            [],
+            bin_type,
+            user_lat,
+            user_lon,
+        )
+
+        if bins:
+            nearest_bins = find_nearest_bins(
+                bins,
                 user_lat,
                 user_lon,
             )
 
-            if dcc_bins:
-                nearest_bins = find_nearest_bins(
-                    dcc_bins,
-                    user_lat,
-                    user_lon,
-                )
-
-                nearest_bin = nearest_bins[0]["bin"]
-                nearest_distance = nearest_bins[0]["distance"]
-                data_source = "Dublin City Council"
-
-            else:
-                error_message = (
-                    "The bin service is temporarily unavailable. "
-                    "Please try again."
-                )
-
+            nearest_bin = nearest_bins[0]["bin"]
+            nearest_distance = nearest_bins[0]["distance"]
+            data_source = "Dublin City Council"
         else:
             error_message = (
                 "The bin service is temporarily unavailable. "
@@ -480,20 +580,12 @@ def nearby_bins():
     if data is not None:
         osm_bins = normalise_osm_bins(data.get("elements", []))
 
-    dcc_bins = []
-
-    if bin_type in ("public", "all"):
-        dcc_bins = get_dcc_bins_nearby(
-            user_lat,
-            user_lon,
-        )
-
-        bins = merge_public_bins(
-            osm_bins,
-            dcc_bins,
-        )
-    else:
-        bins = osm_bins
+    bins, dcc_bins, dcc_recycling_bins = merge_with_official_bins(
+        osm_bins,
+        bin_type,
+        user_lat,
+        user_lon,
+    )
 
     if not bins:
         result_radius = get_search_radius(bin_type)
@@ -511,9 +603,11 @@ def nearby_bins():
         user_lon,
     )
 
-    if dcc_bins and osm_bins:
+    official_bins = dcc_bins or dcc_recycling_bins
+
+    if official_bins and osm_bins:
         data_source = "OSM + Dublin City Council"
-    elif dcc_bins:
+    elif official_bins:
         data_source = "Dublin City Council"
     elif data is not None:
         data_source = data.get("source")
