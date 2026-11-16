@@ -43,7 +43,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
 
     return earth_radius * c
 
-def get_bins(url, query, headers):
+def get_bins(url, query, headers, allow_cache=True):
     for attempt in range(2):
         try:
             response = requests.get(
@@ -71,6 +71,10 @@ def get_bins(url, query, headers):
 
         if attempt == 0:
             time.sleep(1)
+
+    if not allow_cache:
+        print("Overpass API unavailable. Cache disabled for this search.")
+        return None
 
     print("Overpass API unavailable. Trying cached data.")
 

@@ -20,6 +20,9 @@ ORS_API_KEY = os.getenv("ORS_API_KEY")
 app = Flask(__name__)
 
 
+RECYCLING_SEARCH_RADIUS = 10000
+
+
 ASSET_LINKS = [
     {
         "relation": ["delegate_permission/common.handle_all_urls"],
@@ -148,6 +151,12 @@ def merge_public_bins(osm_bins, dcc_bins):
         if osm_lat is None or osm_lon is None:
             continue
 
+        # Recycling points are a different amenity and must not be removed
+        # merely because they happen to be close to a public-bin record.
+        if osm_bin.get("tags", {}).get("amenity") == "recycling":
+            merged.append(osm_bin)
+            continue
+
         duplicate = False
 
         for dcc_bin in dcc_bins:
@@ -166,6 +175,67 @@ def merge_public_bins(osm_bins, dcc_bins):
             merged.append(osm_bin)
 
     return merged
+
+
+def get_search_radius(bin_type):
+    if bin_type == "recycling":
+        return RECYCLING_SEARCH_RADIUS
+
+    return search_radius
+
+
+def build_bins_query(bin_type, user_lat, user_lon):
+    if bin_type == "all":
+        return f"""
+        [out:json];
+        (
+          node["amenity"="waste_basket"]
+          (around:{search_radius},{user_lat},{user_lon});
+
+          nwr["amenity"="recycling"]
+          (around:{RECYCLING_SEARCH_RADIUS},{user_lat},{user_lon});
+        );
+        out center;
+        """
+
+    if bin_type == "recycling":
+        return f"""
+        [out:json];
+        nwr["amenity"="recycling"]
+        (around:{RECYCLING_SEARCH_RADIUS},{user_lat},{user_lon});
+        out center;
+        """
+
+    return f"""
+    [out:json];
+    node["amenity"="waste_basket"]
+    (around:{search_radius},{user_lat},{user_lon});
+    out;
+    """
+
+
+def normalise_osm_bins(elements):
+    """Give Overpass nodes, ways and relations a common lat/lon shape."""
+    bins = []
+
+    for element in elements:
+        latitude = element.get("lat")
+        longitude = element.get("lon")
+
+        if latitude is None or longitude is None:
+            center = element.get("center", {})
+            latitude = center.get("lat")
+            longitude = center.get("lon")
+
+        if latitude is None or longitude is None:
+            continue
+
+        normalised = dict(element)
+        normalised["lat"] = latitude
+        normalised["lon"] = longitude
+        bins.append(normalised)
+
+    return bins
 
 
 # --------------------------------------------------
@@ -231,38 +301,21 @@ def find_bin():
             user_lon=None,
         )
 
-    if bin_type == "all":
-        query = f"""
-        [out:json];
-        (
-          node["amenity"="waste_basket"]
-          (around:{search_radius},{user_lat},{user_lon});
+    if bin_type not in ("public", "recycling", "all"):
+        bin_type = "public"
 
-          node["amenity"="recycling"]
-          (around:{search_radius},{user_lat},{user_lon});
-        );
-        out;
-        """
+    query = build_bins_query(bin_type, user_lat, user_lon)
 
-    else:
-        amenity = (
-            "recycling"
-            if bin_type == "recycling"
-            else "waste_basket"
-        )
-
-        query = f"""
-        [out:json];
-        node["amenity"="{amenity}"]
-        (around:{search_radius},{user_lat},{user_lon});
-        out;
-        """
-
-    data = get_bins(url, query, headers)
+    data = get_bins(
+        url,
+        query,
+        headers,
+        allow_cache=bin_type != "recycling",
+    )
 
     if data is not None:
         data_source = data.get("source")
-        osm_bins = data.get("elements", [])
+        osm_bins = normalise_osm_bins(data.get("elements", []))
 
         print(f"Bins returned by Overpass: {len(osm_bins)}")
 
@@ -330,9 +383,11 @@ def find_bin():
                 )
 
         else:
+            result_radius = get_search_radius(bin_type)
+            bin_label = "recycling bins" if bin_type == "recycling" else "bins"
             error_message = (
-                f"No bins were found within "
-                f"{search_radius} metres."
+                f"No {bin_label} were found within "
+                f"{result_radius} metres."
             )
 
     else:
@@ -401,41 +456,52 @@ def nearby_bins():
         user_lon = float(
             request_data["longitude"]
         )
+        bin_type = request_data.get("bin_type", "public")
 
     except (KeyError, TypeError, ValueError):
         return jsonify({
             "error": "Invalid coordinates."
         }), 400
 
-    query = f"""
-    [out:json];
-    node["amenity"="waste_basket"]
-    (around:{search_radius},{user_lat},{user_lon});
-    out;
-    """
+    if bin_type not in ("public", "recycling", "all"):
+        bin_type = "public"
 
-    data = get_bins(url, query, headers)
+    query = build_bins_query(bin_type, user_lat, user_lon)
+
+    data = get_bins(
+        url,
+        query,
+        headers,
+        allow_cache=bin_type != "recycling",
+    )
 
     osm_bins = []
 
     if data is not None:
-        osm_bins = data.get("elements", [])
+        osm_bins = normalise_osm_bins(data.get("elements", []))
 
-    dcc_bins = get_dcc_bins_nearby(
-        user_lat,
-        user_lon,
-    )
+    dcc_bins = []
 
-    bins = merge_public_bins(
-        osm_bins,
-        dcc_bins,
-    )
+    if bin_type in ("public", "all"):
+        dcc_bins = get_dcc_bins_nearby(
+            user_lat,
+            user_lon,
+        )
+
+        bins = merge_public_bins(
+            osm_bins,
+            dcc_bins,
+        )
+    else:
+        bins = osm_bins
 
     if not bins:
+        result_radius = get_search_radius(bin_type)
+        bin_label = "recycling bins" if bin_type == "recycling" else "bins"
         return jsonify({
             "error": (
-                f"No public bins were found within "
-                f"{search_radius} metres."
+                f"No {bin_label} were found within "
+                f"{result_radius} metres."
             )
         }), 404
 
@@ -459,6 +525,7 @@ def nearby_bins():
         "userLongitude": user_lon,
         "nearestBins": nearest_bins,
         "dataSource": data_source,
+        "binType": bin_type,
     })
 
 

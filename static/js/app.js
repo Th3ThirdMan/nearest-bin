@@ -590,6 +590,7 @@ if (window.findMyBinData) {
             body: JSON.stringify({
               latitude: currentUserLatitude,
               longitude: currentUserLongitude,
+              bin_type: binType,
             }),
           });
 
@@ -602,7 +603,7 @@ if (window.findMyBinData) {
           }
 
           if (!data.nearestBins || data.nearestBins.length === 0) {
-            throw new Error("No nearby public bins were found.");
+            throw new Error("No nearby matching bins were found.");
           }
 
           createBinMarkers(data.nearestBins);
