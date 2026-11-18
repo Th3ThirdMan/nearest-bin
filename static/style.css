@@ -781,15 +781,27 @@ button:disabled {
   }
 
   .filter-buttons {
-    gap: 8px;
-    margin: 16px 0 24px;
+    gap: 6px;
+    margin: 14px 0 18px;
   }
 
   .filter-button {
-    flex: 0 1 108px;
+    flex: 1 1 0;
     min-width: 0;
-    padding: 10px 7px;
+    min-height: 44px;
+    padding: 8px 6px;
     font-size: 0.9rem;
+  }
+
+  .find-button {
+    min-height: 50px;
+    padding: 11px 24px;
+  }
+
+  .manual-search-toggle {
+    min-height: 44px;
+    margin-top: 8px;
+    padding: 8px 10px;
   }
 
   .result-card {
@@ -828,16 +840,32 @@ button:disabled {
   }
 
   .result-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 16px;
   }
 
   .primary-action {
-    grid-column: auto;
+    grid-column: 1 / -1;
+    min-height: 52px;
   }
 
   .action-button {
     width: 100%;
-    min-height: 56px;
+    min-height: 46px;
+    padding: 9px 10px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+  }
+
+  .new-search-action {
+    grid-column: 1 / -1;
+    width: min(100%, 240px);
+    min-height: 44px;
+    justify-self: center;
+  }
+
+  .action-button i {
     font-size: 1rem;
   }
 }
@@ -872,11 +900,18 @@ button:disabled {
   }
 
   .filter-buttons {
-    flex-direction: column;
-    align-items: stretch;
+    gap: 4px;
   }
 
   .filter-button {
-    width: 100%;
+    gap: 5px;
+    padding-inline: 4px;
+    font-size: 0.82rem;
+  }
+
+  .action-button {
+    gap: 6px;
+    padding-inline: 7px;
+    font-size: 0.82rem;
   }
 }
