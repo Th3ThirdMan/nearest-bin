@@ -1,5 +1,4 @@
-const INITIAL_VISIBLE_BINS = 3;
-const MAX_VISIBLE_BINS = 5;
+const VISIBLE_NEARBY_BINS = 2;
 
 let selectedBinType = "public";
 
@@ -203,12 +202,12 @@ if (window.findMyBinData) {
     return `${Math.round(distance)} m`;
   }
 
-  function renderNearbyBinsList(bins, visibleCount = INITIAL_VISIBLE_BINS) {
+  function renderNearbyBinsList(bins) {
     const container = document.getElementById("nearbyBinsList");
 
     container.innerHTML = "";
 
-    bins.slice(0, visibleCount).forEach(function (item, index) {
+    bins.slice(0, VISIBLE_NEARBY_BINS).forEach(function (item, index) {
       const binDistance = Math.round(item.distance);
 
       const card = document.createElement("div");
@@ -242,23 +241,6 @@ if (window.findMyBinData) {
 
       container.appendChild(card);
     });
-    if (visibleCount < Math.min(MAX_VISIBLE_BINS, bins.length)) {
-      const showMore = document.createElement("button");
-
-      showMore.type = "button";
-      showMore.className = "action-button secondary-action";
-      showMore.style.marginTop = "12px";
-
-      const remaining = Math.min(MAX_VISIBLE_BINS, bins.length) - visibleCount;
-
-      showMore.innerText = `Show ${remaining} more...`;
-
-      showMore.addEventListener("click", function () {
-        renderNearbyBinsList(bins, Math.min(MAX_VISIBLE_BINS, bins.length));
-      });
-
-      container.appendChild(showMore);
-    }
   }
 
   // -----------------------------
@@ -299,15 +281,15 @@ if (window.findMyBinData) {
     const binIcon = L.divIcon({
       className: "custom-marker",
       html: `<div class="bin-marker">${binDisplay.icon}</div>`,
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
+      iconSize: [26, 26],
+      iconAnchor: [13, 13],
     });
 
     const selectedBinIcon = L.divIcon({
       className: "custom-marker",
       html: `<div class="bin-marker selected-bin">${binDisplay.icon}</div>`,
-      iconSize: [36, 36],
-      iconAnchor: [18, 18],
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
     });
 
     return {
@@ -394,18 +376,22 @@ if (window.findMyBinData) {
       const binDistance = Math.round(item.distance);
       const popupLabel =
         wasteBin.tags?.amenity === "recycling"
-          ? "♻️ Recycling Bin"
-          : "🗑️ Public Bin";
+          ? "Recycling Bin"
+          : "Public Bin";
       const marker = L.marker([wasteBin.lat, wasteBin.lon], {
         icon: index === 0 ? selectedBinIcon : binIcon,
       })
         .addTo(map)
         .bindPopup(
-          `<strong>${
+          `<span>${
             binType === "all"
               ? popupLabel
-              : `${binDisplay.icon} ${binDisplay.label}`
-          }</strong><br>${formatDistance(binDistance)} away`,
+              : binDisplay.label
+          } · ${formatDistance(binDistance)}</span>`,
+          {
+            className: "bin-popup",
+            closeButton: false,
+          },
         );
 
       marker.on("click", function () {
@@ -446,12 +432,6 @@ if (window.findMyBinData) {
   // Walking route
   // -----------------------------
 
-  // -----------------------------
-  // Walking route
-  // -----------------------------
-
-  const routeGroup = L.layerGroup().addTo(map);
-
   async function loadWalkingRoute(destinationLatitude, destinationLongitude) {
     const walkingRoute = document.getElementById("walkingRoute");
 
@@ -481,24 +461,11 @@ if (window.findMyBinData) {
         );
       }
 
-      // Remove the previous walking route.
-      routeGroup.clearLayers();
-
-      const isMobile = window.innerWidth <= 768;
-
-      // Draw one route only.
-      const routeLine = L.geoJSON(routeData, {
-        style: {
-          color: "#006400",
-          weight: isMobile ? 2 : 4,
-          opacity: 0.9,
-          dashArray: "3, 6",
-          lineCap: "round",
-          lineJoin: "round",
-        },
-      }).addTo(routeGroup);
-
-      map.fitBounds(routeLine.getBounds(), {
+      // Keep the user and destination visible without drawing a route line.
+      map.fitBounds([
+        [currentUserLatitude, currentUserLongitude],
+        [destinationLatitude, destinationLongitude],
+      ], {
         padding: [40, 40],
       });
 

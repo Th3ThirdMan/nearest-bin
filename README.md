@@ -14,7 +14,7 @@ The application provides walking directions, an interactive map, nearby bin loca
 - ♻️ Find the nearest recycling bin
 - 🌍 Search all supported bin types
 - 🗺️ Interactive Leaflet map
-- 🚶 Walking route and estimated walking time
+- 🚶 Estimated walking time
 - 📍 Straight-line distance calculation
 - 📋 Nearby bins list
 - 📱 Responsive mobile-first interface
