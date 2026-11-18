@@ -41,7 +41,7 @@
 
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css', v='20') }}"
+      href="{{ url_for('static', filename='style.css', v='21') }}"
     />
   </head>
 
@@ -261,13 +261,13 @@
     </script>
     {% endif %}
 
-    <script src="{{ url_for('static', filename='js/app.js', v='20') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js', v='21') }}"></script>
 
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker
-            .register("/static/service-worker.js?v=20", {
+            .register("/static/service-worker.js?v=21", {
               updateViaCache: "none",
             })
             .then(function (registration) {
