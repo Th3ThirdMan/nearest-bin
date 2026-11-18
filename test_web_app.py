@@ -196,6 +196,19 @@ class RecyclingSearchTests(unittest.TestCase):
             "Dublin City Council / Glassco",
         )
 
+    def test_herzog_park_uses_verified_bring_centre_location(self):
+        herzog = next(
+            bin_item for bin_item in web_app.DCC_BOTTLE_BANKS
+            if bin_item["tags"]["name"] == "Herzog Park Bring Centre"
+        )
+
+        self.assertAlmostEqual(herzog["lat"], 53.310115668987)
+        self.assertAlmostEqual(herzog["lon"], -6.2742715679229)
+        self.assertIn(
+            "Small WEEE",
+            herzog["tags"]["accepted_materials"],
+        )
+
     def test_live_osm_duplicate_does_not_repeat_official_bottle_bank(self):
         live_osm_bin = {
             "id": 564430856,
