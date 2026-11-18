@@ -1,0 +1,698 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 0,
+        "area": "Sandyford",
+        "centre": "Arkle Road",
+        "sitelocati": "Arkle Road, Sandyford",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2083688694687638,
+          53.278266473716023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 1,
+        "area": "Blackrock",
+        "centre": "Bath Place (opposite DART Station)",
+        "sitelocati": "Blackrock Dart Station",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "No",
+        "textiles": "No"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1783910755562479,
+          53.302531867531329
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 2,
+        "area": "Booterstown",
+        "centre": "Booterston DART Station",
+        "sitelocati": "Booterstown Dart Station",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1959250253900411,
+          53.309108713823115
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 3,
+        "area": "Sandyford",
+        "centre": "Bracken Road",
+        "sitelocati": "Bracken Road, Sandyford",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2164905126215508,
+          53.275521571844529
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 4,
+        "area": "Cabinteely",
+        "centre": "Cabinteely Park Car Park",
+        "sitelocati": "Cabinteely Park car park, Cabinteely",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1628340145582703,
+          53.261030718038334
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 5,
+        "area": "Dalkey",
+        "centre": "Dalkey Dart Station",
+        "sitelocati": "Dalkey Dart Station",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1032539004087987,
+          53.275885214567879
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 6,
+        "area": "Monkstown",
+        "centre": "Dunedin Park (Blue Pool)",
+        "sitelocati": "Dunedin Park (Blue Pool), Monkstown",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1540844847290268,
+          53.288163262094024
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 7,
+        "area": "Dundrum",
+        "centre": "Old Shopping Centre Dundrum",
+        "sitelocati": "Dundrum, Old Shopping Centre",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2455016150347236,
+          53.290277809255855
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 8,
+        "area": "Cornelscourt",
+        "centre": " Cornelscourt Dunnes Stores",
+        "sitelocati": "Dunnes Stores Cornelscourt",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1612898097691584,
+          53.267675191269788
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 9,
+        "area": "Churchtown",
+        "centre": "Finsbury Park",
+        "sitelocati": "Finsbury Park, Churchtown",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "No",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.252801679889112,
+          53.293658317151767
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 10,
+        "area": "Blackrock",
+        "centre": "Frascati Shopping Centre",
+        "sitelocati": "Frascatti Shopping Centre",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "No"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1829539785714287,
+          53.301023046319379
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 11,
+        "area": "Goatstown",
+        "centre": "Goat Grill Pub",
+        "sitelocati": "Goat Grill Pub, Goatstown",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "No"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2306731876607735,
+          53.292421055676257
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 12,
+        "area": "Killiney",
+        "centre": "Killiney Dart Station",
+        "sitelocati": "Killiney Dart Station",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1133009947391503,
+          53.257131199554891
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 13,
+        "area": "Dalkey",
+        "centre": "Killiney Hill Park Car Park",
+        "sitelocati": "Killiney Hill Park, Dalkey",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "No",
+        "textiles": "No"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1096448093974578,
+          53.269345820654017
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 14,
+        "area": "Sandyford",
+        "centre": "Lamb Doyles Pub",
+        "sitelocati": "Lamb Doyles Pub, Sandyford",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2401648136005106,
+          53.264232145343151
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 15,
+        "area": "Marlay Park",
+        "centre": "College Road car park",
+        "sitelocati": "Marlay Park (College Road car park)",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2733534216524509,
+          53.268727201240466
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 16,
+        "area": "Marlay Park",
+        "centre": "Grange Road car park",
+        "sitelocati": "Marlay Park (Grange Road car park)",
+        "dlr": "Yes",
+        "f24hours": "No",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.267689256656289,
+          53.277946223710828
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 17,
+        "area": "Deansgrange",
+        "centre": "Meadow Vale Tennis Club",
+        "sitelocati": "Meadow Vale Tennis Club, Deansgrange",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": " ",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1574127787648107,
+          53.272268312550949
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 18,
+        "area": "Dundrum",
+        "centre": "Meadowbrook Leisure Centre",
+        "sitelocati": "Meadowbrook Leisure Centre, Dundrum",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": " ",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2562399519061325,
+          53.282282256294202
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 19,
+        "area": "Blackrock",
+        "centre": "Frascati Shopping Centre",
+        "sitelocati": "Newtownpark Shopping Centre",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "No"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1764741564181955,
+          53.288048713620093
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 20,
+        "area": "Nutgrove",
+        "centre": "Nutgrove Shopping Centre",
+        "sitelocati": "Nutgrove Shopping Centre, Nutgrove",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "No"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2659669906264552,
+          53.29017905508109
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 21,
+        "area": "Cabinteely",
+        "centre": "Seapoint Rugby Club, Kilbogget Park",
+        "sitelocati": "Seapoint Rugby Club, Kilgobbet Park, Cabinteely",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1396441234965282,
+          53.25949834260895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 22,
+        "area": "Shankill",
+        "centre": "Shankill Dart Station",
+        "sitelocati": "Shankill Dart Station",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1180337553461932,
+          53.236621263012225
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 23,
+        "area": "Stillorgan",
+        "centre": "Stillorgan Shopping Centre",
+        "sitelocati": "Stillorgan Shopping Centre, Stillorgan",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2007882417157978,
+          53.288082766930849
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 24,
+        "area": "Ballinteer",
+        "centre": "Stonemason's Way",
+        "sitelocati": "Stonemasons Way",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2636805782830898,
+          53.283259658921814
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 25,
+        "area": "Balally",
+        "centre": "Wedgewood Estate",
+        "sitelocati": "Supervalu, Balally",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2235118024960645,
+          53.277027292001094
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 26,
+        "area": "Ballinteer",
+        "centre": "Ballinteer Supervalu",
+        "sitelocati": "Supervalu, Ballinteer",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2521663973427541,
+          53.275429076214593
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 27,
+        "area": "Churchtown",
+        "centre": "Churchtown Supervalu",
+        "sitelocati": "Supervalu, Churchtown",
+        "dlr": "No",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "No"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2608911276933128,
+          53.295895633991208
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 28,
+        "area": "Dundrum",
+        "centre": "Sweetmount Avenue",
+        "sitelocati": "Sweetmount Avenue, Dundrum",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "No",
+        "textiles": "No"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2470644558592605,
+          53.292253812994858
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 29,
+        "area": "Blackrock",
+        "centre": "Temple Hill",
+        "sitelocati": "Temple Hill, Blackrock",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.169831124899356,
+          53.297712449789309
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 30,
+        "area": "Salthill/Monkstown",
+        "centre": "West Pier",
+        "sitelocati": "West Pier, Salthill, Monkstown",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1497403719812826,
+          53.295744170506964
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 31,
+        "area": "Dun Laoghaire",
+        "centre": "Lidl, Pottery Road",
+        "sitelocati": "Lidl, Pottery Road",
+        "dlr": "Yes",
+        "f24hours": "Yes",
+        "glass": "Yes",
+        "cans": "Yes",
+        "textiles": "Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1577957562959735,
+          53.275588220545707
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 32,
+        "area": " Ballyogan",
+        "centre": "Jamestown",
+        "sitelocati": " Ballyogan Rd",
+        "dlr": " Yes",
+        "f24hours": " No",
+        "glass": " Yes",
+        "cans": " Yes",
+        "textiles": " Yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1890147840018397,
+          53.255523769452942
+        ]
+      }
+    }
+  ]
+}

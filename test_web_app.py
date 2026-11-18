@@ -268,6 +268,58 @@ class RecyclingSearchTests(unittest.TestCase):
         )
         get_bins.assert_not_called()
 
+    @patch("web_app.get_bins")
+    def test_dlr_public_bins_cover_dun_laoghaire_without_live_data(
+        self,
+        get_bins,
+    ):
+        response = self.client.post("/nearby-bins", json={
+            "latitude": 53.2922794,
+            "longitude": -6.1360079,
+            "bin_type": "public",
+        })
+
+        response_data = response.get_json()
+        nearest = response_data["nearestBins"][0]
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(
+            "Dún Laoghaire–Rathdown County Council",
+            response_data["dataSource"],
+        )
+        self.assertLess(nearest["distance"], 10)
+        self.assertEqual(
+            nearest["bin"]["tags"]["data_last_updated"],
+            "2016",
+        )
+        get_bins.assert_not_called()
+
+    @patch("web_app.get_bins")
+    def test_dlr_recycling_data_covers_dun_laoghaire_without_live_data(
+        self,
+        get_bins,
+    ):
+        response = self.client.post("/nearby-bins", json={
+            "latitude": 53.2922794,
+            "longitude": -6.1360079,
+            "bin_type": "recycling",
+        })
+
+        response_data = response.get_json()
+        nearest = response_data["nearestBins"][0]
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(
+            "Dún Laoghaire–Rathdown County Council",
+            response_data["dataSource"],
+        )
+        self.assertLess(nearest["distance"], 800)
+        self.assertEqual(
+            nearest["bin"]["tags"]["name"],
+            "Eden Park Recycling Centre",
+        )
+        get_bins.assert_not_called()
+
     def test_live_osm_duplicate_does_not_repeat_official_bottle_bank(self):
         live_osm_bin = {
             "id": 564430856,

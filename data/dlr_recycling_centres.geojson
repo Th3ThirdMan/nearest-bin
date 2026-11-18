@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 1,
+        "name": "Ballyogan Recycling Park",
+        "url": "https://www.dlrcoco.ie/recycling-waste/recycling-centres"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1891256287446552,
+          53.254889464878275
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 2,
+        "name": "Eden Park Recycling Centre",
+        "url": "https://www.dlrcoco.ie/recycling-waste/recycling-centres"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1267454830026216,
+          53.288024255787249
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "objectid": 3,
+        "name": "Shanganagh Recycling Centre",
+        "url": "https://www.dlrcoco.ie/recycling-waste/recycling-centres"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1169598572836597,
+          53.2224608016285
+        ]
+      }
+    }
+  ]
+}

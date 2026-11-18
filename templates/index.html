@@ -229,13 +229,7 @@
         {% elif data_source == "live" %}
         <p class="data-note">Data © OpenStreetMap contributors.</p>
         {% elif data_source and "Council" in data_source %}
-        <p class="data-note">
-          Data ©{% if "OSM" in data_source %} OpenStreetMap contributors and{% endif %}
-          {% if "Dublin City Council" in data_source %}Dublin City Council{% endif %}
-          {% if "Dublin City Council" in data_source and "Fingal County Council" in data_source %} and {% endif %}
-          {% if "Fingal County Council" in data_source %}Fingal County Council{% endif %}
-          (CC BY 4.0).
-        </p>
+        <p class="data-note">{{ data_source | data_attribution }}</p>
         {% endif %}
       </section>
 

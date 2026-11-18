@@ -91,6 +91,24 @@ FINGAL_RECYCLING_CENTRES_FILE = os.path.join(
     "fingal_recycling_centres.geojson",
 )
 
+DLR_PUBLIC_BINS_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "data",
+    "dlr_public_bins.csv",
+)
+
+DLR_BRING_BANKS_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "data",
+    "dlr_bring_banks.geojson",
+)
+
+DLR_RECYCLING_CENTRES_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "data",
+    "dlr_recycling_centres.geojson",
+)
+
 
 def load_dcc_bins():
     try:
@@ -382,6 +400,150 @@ FINGAL_BRING_BANKS = load_fingal_bring_banks()
 FINGAL_RECYCLING_CENTRES = load_fingal_recycling_centres()
 
 
+def load_dlr_public_bins():
+    """Load DLR's published public-bin file, last updated in 2016."""
+    try:
+        with open(
+            DLR_PUBLIC_BINS_FILE,
+            "r",
+            encoding="utf-8-sig",
+            newline="",
+        ) as file:
+            bins = []
+
+            for index, row in enumerate(csv.DictReader(file), start=1):
+                bins.append({
+                    "id": f"dlr-{row.get('Bin no.') or index}",
+                    "lat": float(row["Latitude"]),
+                    "lon": float(row["Longitude"]),
+                    "tags": {
+                        "amenity": "waste_basket",
+                        "source": (
+                            "Dún Laoghaire–Rathdown County Council"
+                        ),
+                        "description": row.get("Description"),
+                        "data_last_updated": "2016",
+                    },
+                })
+
+        print(f"DLR public bins loaded: {len(bins)}")
+        return bins
+
+    except (
+        OSError,
+        csv.Error,
+        KeyError,
+        TypeError,
+        ValueError,
+    ) as error:
+        print(f"Could not load DLR public-bin data: {error}")
+        return []
+
+
+def load_dlr_bring_banks():
+    """Load DLR's 2025 bring-bank locations and accepted materials."""
+    try:
+        with open(DLR_BRING_BANKS_FILE, "r", encoding="utf-8") as file:
+            geojson = json.load(file)
+
+        bins = []
+
+        for feature in geojson.get("features", []):
+            geometry = feature.get("geometry", {})
+            properties = feature.get("properties", {})
+            coordinates = geometry.get("coordinates", [])
+
+            if geometry.get("type") != "Point" or len(coordinates) < 2:
+                continue
+
+            lon, lat = coordinates[:2]
+            accepted_materials = [
+                label
+                for field, label in (
+                    ("glass", "Glass"),
+                    ("cans", "Cans"),
+                    ("textiles", "Textiles"),
+                )
+                if str(properties.get(field, "")).strip().casefold() == "yes"
+            ]
+
+            bins.append({
+                "id": f"dlr-bring-{properties.get('FID', len(bins))}",
+                "lat": float(lat),
+                "lon": float(lon),
+                "tags": {
+                    "amenity": "recycling",
+                    "source": "Dún Laoghaire–Rathdown County Council",
+                    "name": properties.get("centre"),
+                    "address": properties.get("sitelocati"),
+                    "accepted_materials": ", ".join(accepted_materials),
+                    "facility_type": "bottle_bank",
+                    "opening": (
+                        "24 hours"
+                        if str(properties.get("f24hours", ""))
+                        .strip()
+                        .casefold() == "yes"
+                        else None
+                    ),
+                },
+            })
+
+        print(f"DLR bring banks loaded: {len(bins)}")
+        return bins
+
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
+        print(f"Could not load DLR bring-bank data: {error}")
+        return []
+
+
+def load_dlr_recycling_centres():
+    """Load DLR's 2025 full-service recycling centres."""
+    try:
+        with open(
+            DLR_RECYCLING_CENTRES_FILE,
+            "r",
+            encoding="utf-8",
+        ) as file:
+            geojson = json.load(file)
+
+        bins = []
+
+        for feature in geojson.get("features", []):
+            geometry = feature.get("geometry", {})
+            properties = feature.get("properties", {})
+            coordinates = geometry.get("coordinates", [])
+
+            if geometry.get("type") != "Point" or len(coordinates) < 2:
+                continue
+
+            lon, lat = coordinates[:2]
+
+            bins.append({
+                "id": f"dlr-recycling-{properties.get('objectid', len(bins))}",
+                "lat": float(lat),
+                "lon": float(lon),
+                "tags": {
+                    "amenity": "recycling",
+                    "source": "Dún Laoghaire–Rathdown County Council",
+                    "name": properties.get("name"),
+                    "website": properties.get("url"),
+                    "facility_type": "recycling_centre",
+                },
+            })
+
+        print(f"DLR recycling centres loaded: {len(bins)}")
+        return bins
+
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
+        print(f"Could not load DLR recycling-centre data: {error}")
+        return []
+
+
+DLR_PUBLIC_BINS = load_dlr_public_bins()
+DLR_BRING_BANKS = load_dlr_bring_banks()
+DLR_RECYCLING_CENTRES = load_dlr_recycling_centres()
+
+
 def distance_metres(lat1, lon1, lat2, lon2):
     earth_radius = 6371000
 
@@ -409,7 +571,7 @@ def distance_metres(lat1, lon1, lat2, lon2):
 def get_official_public_bins_nearby(user_lat, user_lon):
     nearby = []
 
-    for bin_item in DCC_BINS + FINGAL_PUBLIC_BINS:
+    for bin_item in DCC_BINS + FINGAL_PUBLIC_BINS + DLR_PUBLIC_BINS:
         distance = distance_metres(
             user_lat,
             user_lon,
@@ -438,6 +600,14 @@ def get_official_recycling_bins_nearby(user_lat, user_lon):
     )
     official_bins = merge_recycling_bins(
         FINGAL_BRING_BANKS,
+        official_bins,
+    )
+    official_bins = merge_recycling_bins(
+        DLR_RECYCLING_CENTRES,
+        official_bins,
+    )
+    official_bins = merge_recycling_bins(
+        DLR_BRING_BANKS,
         official_bins,
     )
 
@@ -469,6 +639,9 @@ def describe_data_source(data, osm_bins, official_bins):
     if "Fingal County Council" in source_values:
         authorities.append("Fingal County Council")
 
+    if "Dún Laoghaire–Rathdown County Council" in source_values:
+        authorities.append("Dún Laoghaire–Rathdown County Council")
+
     sources = []
 
     if (
@@ -487,6 +660,39 @@ def describe_data_source(data, osm_bins, official_bins):
         return data.get("source")
 
     return None
+
+
+@app.template_filter("data_attribution")
+def data_attribution(data_source):
+    """Format source labels for display beneath a result."""
+    if not data_source:
+        return ""
+
+    labels = []
+
+    if "OSM" in data_source:
+        labels.append("OpenStreetMap contributors")
+
+    for authority in (
+        "Dublin City Council",
+        "Fingal County Council",
+        "Dún Laoghaire–Rathdown County Council",
+    ):
+        if authority in data_source:
+            labels.append(authority)
+
+    if not labels:
+        return ""
+
+    if len(labels) == 1:
+        source_text = labels[0]
+    else:
+        source_text = ", ".join(labels[:-1]) + f" and {labels[-1]}"
+
+    council_credit = any("Council" in label for label in labels)
+    licence_text = " (CC BY 4.0)" if council_credit else ""
+
+    return f"Data © {source_text}{licence_text}."
 
 
 def merge_public_bins(osm_bins, dcc_bins):
