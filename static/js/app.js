@@ -266,8 +266,8 @@ if (window.findMyBinData) {
   // Map icons
   // -----------------------------
 
-  function createIcons() {
-    const userIcon = L.divIcon({
+  function createUserIcon() {
+    return L.divIcon({
       className: "custom-marker",
       html: `
         <div class="user-location">
@@ -277,29 +277,32 @@ if (window.findMyBinData) {
       iconSize: [24, 24],
       iconAnchor: [12, 12],
     });
-
-    const binIcon = L.divIcon({
-      className: "custom-marker",
-      html: `<div class="bin-marker">${binDisplay.icon}</div>`,
-      iconSize: [26, 26],
-      iconAnchor: [13, 13],
-    });
-
-    const selectedBinIcon = L.divIcon({
-      className: "custom-marker",
-      html: `<div class="bin-marker selected-bin">${binDisplay.icon}</div>`,
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
-    });
-
-    return {
-      userIcon,
-      binIcon,
-      selectedBinIcon,
-    };
   }
 
-  const { userIcon, binIcon, selectedBinIcon } = createIcons();
+  function createBinIcon(amenity, selected = false) {
+    const isRecycling = amenity === "recycling";
+    const typeClass = isRecycling
+      ? "recycling-marker"
+      : "public-bin-marker";
+    const symbolClass = isRecycling
+      ? "bi bi-recycle"
+      : "bi bi-trash3-fill";
+    const markerSize = selected ? 30 : 26;
+    const markerAnchor = markerSize / 2;
+
+    return L.divIcon({
+      className: "custom-marker",
+      html: `
+        <div class="bin-marker ${typeClass}${selected ? " selected-bin" : ""}">
+          <i class="${symbolClass}" aria-hidden="true"></i>
+        </div>
+      `,
+      iconSize: [markerSize, markerSize],
+      iconAnchor: [markerAnchor, markerAnchor],
+    });
+  }
+
+  const userIcon = createUserIcon();
 
   // -----------------------------
   // User location marker
@@ -370,16 +373,20 @@ if (window.findMyBinData) {
   function createBinMarkers(bins) {
     binMarkers.forEach((marker) => map.removeLayer(marker));
     binMarkers = [];
+    selectedMarker = null;
 
     bins.forEach(function (item, index) {
       const wasteBin = item.bin;
       const binDistance = Math.round(item.distance);
+      const amenity = wasteBin.tags?.amenity;
+      const normalBinIcon = createBinIcon(amenity);
+      const selectedBinIcon = createBinIcon(amenity, true);
       const popupLabel =
-        wasteBin.tags?.amenity === "recycling"
+        amenity === "recycling"
           ? "Recycling Bin"
           : "Public Bin";
       const marker = L.marker([wasteBin.lat, wasteBin.lon], {
-        icon: index === 0 ? selectedBinIcon : binIcon,
+        icon: index === 0 ? selectedBinIcon : normalBinIcon,
       })
         .addTo(map)
         .bindPopup(
@@ -394,12 +401,15 @@ if (window.findMyBinData) {
           },
         );
 
+      marker.normalBinIcon = normalBinIcon;
+      marker.selectedBinIcon = selectedBinIcon;
+
       marker.on("click", function () {
         if (selectedMarker) {
-          selectedMarker.setIcon(binIcon);
+          selectedMarker.setIcon(selectedMarker.normalBinIcon);
         }
 
-        marker.setIcon(selectedBinIcon);
+        marker.setIcon(marker.selectedBinIcon);
         selectedMarker = marker;
 
         selectedBinLatitude = wasteBin.lat;

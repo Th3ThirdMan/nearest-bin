@@ -1,5 +1,5 @@
-const CACHE_NAME = "findmybin-v13";
-const ASSET_VERSION = "13";
+const CACHE_NAME = "findmybin-v14";
+const ASSET_VERSION = "14";
 
 const APP_SHELL = [
   "/",
