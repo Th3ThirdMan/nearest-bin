@@ -321,7 +321,7 @@ if (window.findMyBinData) {
 
       const routeLabel = document.createElement("div");
       routeLabel.className = "nearby-bin-label";
-      routeLabel.textContent = "Tap to navigate";
+      routeLabel.textContent = "Tap to select";
 
       routeInfo.append(distance, routeLabel);
 
