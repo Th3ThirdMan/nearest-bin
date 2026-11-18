@@ -1,0 +1,1205 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 2,
+        "Bring_Bank_Site": "Swords - Airside Business Park",
+        "Latitude": 53.4489695,
+        "Longitude": -6.22080366,
+        "What_it_Takes_in_Bring_Banks__e": "Glass -Brown",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Swords",
+        "Full_Address_of_Bring_Bank_Loca": "Airside Business Park, Swords, Co Dublin"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.22080366,
+          53.4489695
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 3,
+        "Bring_Bank_Site": "Balbriggan - Church Car Park",
+        "Latitude": 53.604315,
+        "Longitude": -6.185167,
+        "What_it_Takes_in_Bring_Banks__e": "Glass -Clear/Brown/Green & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Balbriggan",
+        "Full_Address_of_Bring_Bank_Loca": "Balbriggan Church - Church Car Park Site opposite church  "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.185167,
+          53.604315
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 4,
+        "Bring_Bank_Site": "Balbriggan - Glebe North Football Club",
+        "Latitude": 53.605609,
+        "Longitude": -6.181773,
+        "What_it_Takes_in_Bring_Banks__e": "Glass -Clear/Brown/Green & Recoverable Resources / Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Balbriggan",
+        "Full_Address_of_Bring_Bank_Loca": "Glebe North Football Club Site"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.181773,
+          53.605609
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 5,
+        "Bring_Bank_Site": "Balbriggan - Millfield SC",
+        "Latitude": 53.606375,
+        "Longitude": -6.195519,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Brown/Clear & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Balbriggan",
+        "Full_Address_of_Bring_Bank_Loca": "Millfield Shopping Centre Site"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.195519,
+          53.606375
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 6,
+        "Bring_Bank_Site": "Balbriggan - O Dwyers GAA Club",
+        "Latitude": 53.61690118,
+        "Longitude": -6.19473931,
+        "What_it_Takes_in_Bring_Banks__e": "Glass-Clear/Brown/Green & Recoverable Resources / Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Balbriggan",
+        "Full_Address_of_Bring_Bank_Loca": "O Dwyers GAA Club Site "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.19473931,
+          53.61690118
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 7,
+        "Bring_Bank_Site": "Balbriggan SuperValu",
+        "Latitude": 53.612409,
+        "Longitude": -6.186135,
+        "What_it_Takes_in_Bring_Banks__e": "Glass-Clear/Brown/Green & Recoverable Resources / Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Balbriggan",
+        "Full_Address_of_Bring_Bank_Loca": " Balbriggan -SuperValu Site, Main Street, Balbriggan, Co Dublin"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.186135,
+          53.612409
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 8,
+        "Bring_Bank_Site": "Baldoyle- Baldoyle Badmington Club",
+        "Latitude": 53.39677,
+        "Longitude": -6.148617,
+        "What_it_Takes_in_Bring_Banks__e": "Glass-Clear/Brown/Green & Recoverable Resources / Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Baldoyle",
+        "Full_Address_of_Bring_Bank_Loca": "Car Park of Baldoyle Badmington Club"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.148617,
+          53.39677
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 9,
+        "Bring_Bank_Site": "Balgriffin - Fingal Cemetery",
+        "Latitude": 53.410733,
+        "Longitude": -6.183923,
+        "What_it_Takes_in_Bring_Banks__e": "Glass- Clear/Brown/Green",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Balgriffin",
+        "Full_Address_of_Bring_Bank_Loca": "Balgriffin Cemetery Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.183923,
+          53.410733
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 10,
+        "Bring_Bank_Site": "Balgriffin - Innisfail GAA club",
+        "Latitude": 53.410634,
+        "Longitude": -6.18394,
+        "What_it_Takes_in_Bring_Banks__e": "Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Balgriffin",
+        "Full_Address_of_Bring_Bank_Loca": "Innisfall GAA Car Park 350 L Wheelie Bin"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.18394,
+          53.410634
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 11,
+        "Bring_Bank_Site": "Ballyboughal Pitch and Putt",
+        "Latitude": 53.522318,
+        "Longitude": -6.267027,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Brown/Green & Recoverable Resourse/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Ballyboughill",
+        "Full_Address_of_Bring_Bank_Loca": "Ballyboughal Pitch n Putt Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.267027,
+          53.522318
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 12,
+        "Bring_Bank_Site": "Ballymadun",
+        "Latitude": 53.533353,
+        "Longitude": -6.396038,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Brown/Green & Recoverable Resourse/Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Ballymadun",
+        "Full_Address_of_Bring_Bank_Loca": "Ballymadrun Site (The Fox Inn)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.396038,
+          53.533353
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 13,
+        "Bring_Bank_Site": "Balscadden",
+        "Latitude": 53.618628,
+        "Longitude": -6.230815,
+        "What_it_Takes_in_Bring_Banks__e": "Glass -Clear/Brown/Green & Recoverable Resources / Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Balscadden",
+        "Full_Address_of_Bring_Bank_Loca": "Balscadden Site 360 L Bins  x 6"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.230815,
+          53.618628
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 14,
+        "Bring_Bank_Site": "Barnageeragh Car Park",
+        "Latitude": 53.587962,
+        "Longitude": -6.152434,
+        "What_it_Takes_in_Bring_Banks__e": "Glass- Clear/Brown/Green & Recoverable Resources/Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Barnageeragh",
+        "Full_Address_of_Bring_Bank_Loca": "Barnageeragh Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.152434,
+          53.587962
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 15,
+        "Bring_Bank_Site": "D15 Blanch Supervalu",
+        "Latitude": 53.386829,
+        "Longitude": -6.378744,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Brown/Green",
+        "Ownership_FCC_Private": "Rehab / Glassco",
+        "Location": "Blanchardstown",
+        "Full_Address_of_Bring_Bank_Loca": "Blancahardstown Supervalu Car Park "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.378744,
+          53.386829
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 16,
+        "Bring_Bank_Site": "D15 Blanchardstown Shopping Centre (rear of McDonalds)",
+        "Latitude": 53.3925189,
+        "Longitude": -6.39529069,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Brown/Green",
+        "Ownership_FCC_Private": "Rehab / Glassco",
+        "Location": "Blanchardstown",
+        "Full_Address_of_Bring_Bank_Loca": "Blanchardstown Shopping Centre  Bring Bottle Bank (rear of McDonalds)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.39529069,
+          53.392518899999985
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 17,
+        "Bring_Bank_Site": "D15 Corduff Resource Centre",
+        "Latitude": 53.39955286,
+        "Longitude": -6.37790411,
+        "What_it_Takes_in_Bring_Banks__e": "Glass- Clear/Brown/Green & Recoverable Resources/Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Corduff",
+        "Full_Address_of_Bring_Bank_Loca": "Corduff Resource Centre, Corduff Road, Dublin 15"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.37790411,
+          53.39955286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 18,
+        "Bring_Bank_Site": "D15 Elm Green Golf Club",
+        "Latitude": 53.3876348,
+        "Longitude": -6.35067184,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Brown/Green & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Castleknock",
+        "Full_Address_of_Bring_Bank_Loca": "Elm Green Golf Club "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.35067184,
+          53.3876348
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 19,
+        "Bring_Bank_Site": "D15 Littlepace Shopping Centre",
+        "Latitude": 53.40462774,
+        "Longitude": -6.42772706,
+        "What_it_Takes_in_Bring_Banks__e": "Glass- Clear/Brown/Green & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Clonee",
+        "Full_Address_of_Bring_Bank_Loca": "Littlepace Shopping Centre in the car park far side"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.42772706,
+          53.404627739999988
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 20,
+        "Bring_Bank_Site": "D15 Millenium Park, blanchardstown",
+        "Latitude": 53.385623,
+        "Longitude": -6.399547,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Brown/Green",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Porterstown",
+        "Full_Address_of_Bring_Bank_Loca": "Millenium Park/Playground Car Park, Dublin 15"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.399547,
+          53.385623
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 21,
+        "Bring_Bank_Site": "D15 Porterstown / Luttrelstown",
+        "Latitude": 53.371296,
+        "Longitude": -6.402687,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Brown/Green",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Porterstown",
+        "Full_Address_of_Bring_Bank_Loca": "Porterstown Sports Car Park - D15 Porterstown / Luttrelstown"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.402687,
+          53.371296
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 22,
+        "Bring_Bank_Site": "D15 Roselawn Shopping Centre",
+        "Latitude": 53.38385571,
+        "Longitude": -6.38260128,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Rehab / Glassco",
+        "Location": "Roselawn",
+        "Full_Address_of_Bring_Bank_Loca": "Tesco -Car Park Roselawn Shopping Center, Dublin 15"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.38260128,
+          53.38385571
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 23,
+        "Bring_Bank_Site": "Donabate - Beach Car Park",
+        "Latitude": 53.478658,
+        "Longitude": -6.115561,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Donabate",
+        "Full_Address_of_Bring_Bank_Loca": "Donabate Beach - Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.115561,
+          53.478658
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 24,
+        "Bring_Bank_Site": "Donabate, Supervalu, ",
+        "Latitude": 53.486328,
+        "Longitude": -6.149042,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Donabate",
+        "Full_Address_of_Bring_Bank_Loca": "Donabate-  SuperValu, Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.149042,
+          53.486328
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 25,
+        "Bring_Bank_Site": "Donabate/ Portrane Community Centre",
+        "Latitude": 53.49044341,
+        "Longitude": -6.14257181,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Donabate/Portane",
+        "Full_Address_of_Bring_Bank_Loca": "Donabate/Portrane Community Centre"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.14257181,
+          53.49044341
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 26,
+        "Bring_Bank_Site": "Garristown  ",
+        "Latitude": 53.568591,
+        "Longitude": -6.383967,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Garristown",
+        "Full_Address_of_Bring_Bank_Loca": "Garristown Site 240L "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.383967,
+          53.568591
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 27,
+        "Bring_Bank_Site": "Howth Marina Car Park ",
+        "Latitude": 53.388064,
+        "Longitude": -6.066388,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Rehab / Glassco",
+        "Location": "Howth",
+        "Full_Address_of_Bring_Bank_Loca": "Howth Marina Car Park "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.066388,
+          53.388064
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 28,
+        "Bring_Bank_Site": "Portrane at Village Shops Lay-bye",
+        "Latitude": 53.49349521,
+        "Longitude": -6.11048134,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Portrane",
+        "Full_Address_of_Bring_Bank_Loca": "Portrane at Village Shops in Lay-bye"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.11048134,
+          53.493495209999985
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 29,
+        "Bring_Bank_Site": "Lifeguard area, Harbour Road  Skerries",
+        "Latitude": 53.58281492,
+        "Longitude": -6.1051113,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Skerries",
+        "Full_Address_of_Bring_Bank_Loca": "\nSkerries - Harbour Road beside lifeguard station"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1051113,
+          53.58281492
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 30,
+        "Bring_Bank_Site": "Loughshinny Community Centre",
+        "Latitude": 53.547015,
+        "Longitude": -6.09976,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Loughshinny",
+        "Full_Address_of_Bring_Bank_Loca": "Loughshinny Community Centre 1100 Ltr Bins"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.09976,
+          53.547015
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 31,
+        "Bring_Bank_Site": "Lusk / Skerries Road (Ardgillan Junction)",
+        "Latitude": 53.56263916,
+        "Longitude": -6.14538922,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Lusk",
+        "Full_Address_of_Bring_Bank_Loca": "Skerries- Argdillan Junction "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.14538922,
+          53.56263916000001
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 32,
+        "Bring_Bank_Site": "Lusk Supervalu",
+        "Latitude": 53.526834,
+        "Longitude": -6.164027,
+        "What_it_Takes_in_Bring_Banks__e": "Glass- Clear/Green/Brown",
+        "Ownership_FCC_Private": "Rehab / Glassco",
+        "Location": "Lusk",
+        "Full_Address_of_Bring_Bank_Loca": "Lusk Supervalu Site Bottle Bank "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.164027,
+          53.526834
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 33,
+        "Bring_Bank_Site": "Lusk, Round Towers GAA club ",
+        "Latitude": 53.52721829,
+        "Longitude": -6.17672226,
+        "What_it_Takes_in_Bring_Banks__e": null,
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Lusk",
+        "Full_Address_of_Bring_Bank_Loca": "Lusk - Round Towers"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.17672226,
+          53.527218289999986
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 34,
+        "Bring_Bank_Site": "Malahide - Beach Car Park",
+        "Latitude": 53.450014,
+        "Longitude": -6.139124,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Malahide",
+        "Full_Address_of_Bring_Bank_Loca": "Malahide Beach Car Park "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.139124,
+          53.450014
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 35,
+        "Bring_Bank_Site": "Malahide - Bridge Club",
+        "Latitude": 53.440119,
+        "Longitude": -6.150862,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Malahide",
+        "Full_Address_of_Bring_Bank_Loca": "Malahide - Bridge Club Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.150862,
+          53.440119
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 36,
+        "Bring_Bank_Site": "Malahide - Malahide Castle",
+        "Latitude": 53.443174,
+        "Longitude": -6.163629,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Malahide",
+        "Full_Address_of_Bring_Bank_Loca": "Malahide - Malahide Castle Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.163629,
+          53.443174
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 37,
+        "Bring_Bank_Site": "Milverton Hills Cricket Club",
+        "Latitude": 53.56444232,
+        "Longitude": -6.14378615,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Skerries",
+        "Full_Address_of_Bring_Bank_Loca": "Skerries -Milverton Hills Cricket Club 360 L"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.14378615,
+          53.56444232
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 38,
+        "Bring_Bank_Site": "Naul - Church Laneway",
+        "Latitude": 53.585354,
+        "Longitude": -6.290663,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Naul",
+        "Full_Address_of_Bring_Bank_Loca": "Naul - Church Laneway Site 360L"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.290663,
+          53.585354
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 39,
+        "Bring_Bank_Site": "Oldtown Public House",
+        "Latitude": 53.524782,
+        "Longitude": -6.315176,
+        "What_it_Takes_in_Bring_Banks__e": "Glass- Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Oldtown,Naul",
+        "Full_Address_of_Bring_Bank_Loca": "Oldtown - The Naul - Oldtown Public House Site 360L "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.315176,
+          53.524782
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 40,
+        "Bring_Bank_Site": "Portmarnock - Golf Links Road Car Park",
+        "Latitude": 53.407654,
+        "Longitude": -6.124664,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Portmarnock",
+        "Full_Address_of_Bring_Bank_Loca": "Golf Links Car Park  -1100 Lt Wheelie Bins"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.124664,
+          53.407654
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 41,
+        "Bring_Bank_Site": "Portmarnock - Sports and Leisure Club",
+        "Latitude": 53.434592,
+        "Longitude": -6.137608,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Portmarnock",
+        "Full_Address_of_Bring_Bank_Loca": "Portmarnock - Sports and Leisure Centre"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.137608,
+          53.434592
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 42,
+        "Bring_Bank_Site": "Portmarnock Beach Car Park",
+        "Latitude": 53.43007347,
+        "Longitude": -6.12558035,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Portmarnock",
+        "Full_Address_of_Bring_Bank_Loca": "Portmarnock - Beach Car Park  (Country Club)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.12558035,
+          53.43007347
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 43,
+        "Bring_Bank_Site": "Reservoir Car Park, Howth",
+        "Latitude": 53.369386,
+        "Longitude": -6.06053,
+        "What_it_Takes_in_Bring_Banks__e": "Glass- Clear/Green/Brown & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Howth",
+        "Full_Address_of_Bring_Bank_Loca": "Howth - Resvior Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.06053,
+          53.369386
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 44,
+        "Bring_Bank_Site": "River Valley Scouts Hall Swords",
+        "Latitude": 53.45307514,
+        "Longitude": -6.2428254,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Swords",
+        "Full_Address_of_Bring_Bank_Loca": "Swords - River Valley Scouts Hall and Credit Union"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2428254,
+          53.45307514
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 45,
+        "Bring_Bank_Site": "Rolestown Cemetery",
+        "Latitude": 53.488307,
+        "Longitude": -6.304285,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Rowlestown",
+        "Full_Address_of_Bring_Bank_Loca": "Rowlestown- Rowlestown Cemetery Car Park 350 L Bins"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.304285,
+          53.488307
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 46,
+        "Bring_Bank_Site": "Rush - Hilly Skilly Caravan Park",
+        "Latitude": 53.51726,
+        "Longitude": -6.10271,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Rush",
+        "Full_Address_of_Bring_Bank_Loca": "Rush - Hill Caravan Car Park  360L Bins"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.10271,
+          53.51726
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 47,
+        "Bring_Bank_Site": "Rush - Ryans Caravan Park",
+        "Latitude": 53.525585,
+        "Longitude": -6.086162,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Rush",
+        "Full_Address_of_Bring_Bank_Loca": "Rush - Ryans Cavan Site Car Park 360L Bins"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.086162,
+          53.525585
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 48,
+        "Bring_Bank_Site": "Rush - St Catherine's Estate",
+        "Latitude": 53.538171,
+        "Longitude": -6.094065,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Rush",
+        "Full_Address_of_Bring_Bank_Loca": "Rush - St Catherines Site"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.094065,
+          53.538171
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 49,
+        "Bring_Bank_Site": "Rush - St Maur's GAA",
+        "Latitude": 53.53215,
+        "Longitude": -6.105338,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Brown/Green",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Rush",
+        "Full_Address_of_Bring_Bank_Loca": "Rush- St Maura's GAA "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.105338,
+          53.53215
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 50,
+        "Bring_Bank_Site": "Rush - Tesco",
+        "Latitude": 53.52281,
+        "Longitude": -6.102762,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Rush",
+        "Full_Address_of_Bring_Bank_Loca": "Rush - Tesco -Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.102762,
+          53.52281
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 51,
+        "Bring_Bank_Site": "Rush South Beach Car Park",
+        "Latitude": 53.51860673,
+        "Longitude": -6.09118107,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Rush",
+        "Full_Address_of_Bring_Bank_Loca": "Rush - South Beach Car Park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.09118107,
+          53.51860673
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 52,
+        "Bring_Bank_Site": "Skerries Distributor Road",
+        "Latitude": 53.57796934,
+        "Longitude": -6.12505939,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Skerries",
+        "Full_Address_of_Bring_Bank_Loca": "Skerries - Distributor Road Skerries, Co Dublin"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.12505939,
+          53.57796934
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 53,
+        "Bring_Bank_Site": "Skerries, South Strand, Opposite Bobs Casino, ",
+        "Latitude": 53.58071572,
+        "Longitude": -6.10543151,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown ",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Skerries",
+        "Full_Address_of_Bring_Bank_Loca": "Skerries - South Strand (opposite Bob's Casino) 360 L Bins"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.10543151,
+          53.58071572
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 54,
+        "Bring_Bank_Site": "Skerries, Super Valu, ",
+        "Latitude": 53.57757569,
+        "Longitude": -6.1088473,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown ",
+        "Ownership_FCC_Private": "Rehab / Glassco",
+        "Location": "Skerries",
+        "Full_Address_of_Bring_Bank_Loca": "Skerries - Supervalue - car park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.1088473,
+          53.57757569
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 55,
+        "Bring_Bank_Site": "Sutton - St Fintan's Cemetery",
+        "Latitude": 53.378594,
+        "Longitude": -6.091393,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Sutton",
+        "Full_Address_of_Bring_Bank_Loca": "Sutton- St Fintan's Cemetery "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.091393,
+          53.378594
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 56,
+        "Bring_Bank_Site": "Sutton - Sutton Lawn Tennis Club",
+        "Latitude": 53.38885,
+        "Longitude": -6.107174,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Sutton",
+        "Full_Address_of_Bring_Bank_Loca": "Sutton - Lawn Tennis Club - Sutton"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.107174,
+          53.38885
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 57,
+        "Bring_Bank_Site": "Sutton SuperValu",
+        "Latitude": 53.390283,
+        "Longitude": -6.108202,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Rehab / Glassco",
+        "Location": "Sutton",
+        "Full_Address_of_Bring_Bank_Loca": "Sutton - Super Valu - car park"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.108202,
+          53.390283
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 58,
+        "Bring_Bank_Site": "Swords - Manor SC",
+        "Latitude": 53.46002882,
+        "Longitude": -6.2455263,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Swords",
+        "Full_Address_of_Bring_Bank_Loca": "Swords - Swords Manor Shopping Centre"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.2455263,
+          53.46002882
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 59,
+        "Bring_Bank_Site": "Swords - St Colmcille's GAA",
+        "Latitude": 53.468138,
+        "Longitude": -6.221112,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Swords",
+        "Full_Address_of_Bring_Bank_Loca": "Swords - St Colmcilles GAA Site "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.221112,
+          53.468138
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 60,
+        "Bring_Bank_Site": "Swords Watery Lane",
+        "Latitude": 53.462969,
+        "Longitude": -6.222441,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium & Textiles",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Swords",
+        "Full_Address_of_Bring_Bank_Loca": "Swords Watery Lane Site"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.222441,
+          53.462969
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Id_No": 61,
+        "Bring_Bank_Site": "Red Arches Coast Road Baldoyle ",
+        "Latitude": 53.40174948,
+        "Longitude": -6.143263352,
+        "What_it_Takes_in_Bring_Banks__e": "Glass - Clear/Green/Brown & Recoverable Resources/Aluminium",
+        "Ownership_FCC_Private": "Council Owned - FCC",
+        "Location": "Baldoyle",
+        "Full_Address_of_Bring_Bank_Loca": "Baldoyle - Red Arches, Coast Road, Baldoyle, Co Dublin"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6.143263352,
+          53.40174948
+        ]
+      }
+    }
+  ]
+}

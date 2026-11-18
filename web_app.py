@@ -73,6 +73,24 @@ DCC_BOTTLE_BANKS_FILE = os.path.join(
     "dcc_bottle_banks.csv",
 )
 
+FINGAL_PUBLIC_BINS_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "data",
+    "fingal_public_bins.geojson",
+)
+
+FINGAL_BRING_BANKS_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "data",
+    "fingal_bring_banks.geojson",
+)
+
+FINGAL_RECYCLING_CENTRES_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "data",
+    "fingal_recycling_centres.geojson",
+)
+
 
 def load_dcc_bins():
     try:
@@ -225,6 +243,145 @@ def load_dcc_bottle_banks():
 DCC_BOTTLE_BANKS = load_dcc_bottle_banks()
 
 
+def load_fingal_public_bins():
+    """Load Fingal public litter bins, excluding dog-only bins."""
+    try:
+        with open(FINGAL_PUBLIC_BINS_FILE, "r", encoding="utf-8") as file:
+            geojson = json.load(file)
+
+        bins = []
+
+        for feature in geojson.get("features", []):
+            geometry = feature.get("geometry", {})
+            properties = feature.get("properties", {})
+            coordinates = geometry.get("coordinates", [])
+
+            if geometry.get("type") != "Point" or len(coordinates) < 2:
+                continue
+
+            # Fingal records dog-only bins in the same dataset. They are not
+            # suitable as general public litter bins.
+            bin_type = properties.get("type")
+            if bin_type == "dog_bin":
+                continue
+
+            lon, lat = coordinates[:2]
+
+            bins.append({
+                "id": f"fingal-{properties.get('bin_id', len(bins))}",
+                "lat": float(lat),
+                "lon": float(lon),
+                "tags": {
+                    "amenity": "waste_basket",
+                    "source": "Fingal County Council",
+                    "bin_type": bin_type,
+                    "park_name": properties.get("ParkName"),
+                    "electoral_area": properties.get("LEA"),
+                    "townland": properties.get("Townland"),
+                },
+            })
+
+        print(f"Fingal public bins loaded: {len(bins)}")
+        return bins
+
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
+        print(f"Could not load Fingal public-bin data: {error}")
+        return []
+
+
+def load_fingal_bring_banks():
+    """Load official Fingal bring-bank locations and accepted materials."""
+    try:
+        with open(FINGAL_BRING_BANKS_FILE, "r", encoding="utf-8") as file:
+            geojson = json.load(file)
+
+        bins = []
+
+        for feature in geojson.get("features", []):
+            geometry = feature.get("geometry", {})
+            properties = feature.get("properties", {})
+            coordinates = geometry.get("coordinates", [])
+
+            if geometry.get("type") != "Point" or len(coordinates) < 2:
+                continue
+
+            lon, lat = coordinates[:2]
+
+            bins.append({
+                "id": f"fingal-bring-{properties.get('Id_No', len(bins))}",
+                "lat": float(lat),
+                "lon": float(lon),
+                "tags": {
+                    "amenity": "recycling",
+                    "source": "Fingal County Council",
+                    "name": properties.get("Bring_Bank_Site"),
+                    "address": properties.get("Full_Address_of_Bring_Bank_Loca"),
+                    "accepted_materials": properties.get(
+                        "What_it_Takes_in_Bring_Banks__e"
+                    ),
+                    "facility_type": "bottle_bank",
+                    "ownership": properties.get("Ownership_FCC_Private"),
+                },
+            })
+
+        print(f"Fingal bring banks loaded: {len(bins)}")
+        return bins
+
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
+        print(f"Could not load Fingal bring-bank data: {error}")
+        return []
+
+
+def load_fingal_recycling_centres():
+    """Load Fingal's full-service recycling centres."""
+    try:
+        with open(
+            FINGAL_RECYCLING_CENTRES_FILE,
+            "r",
+            encoding="utf-8",
+        ) as file:
+            geojson = json.load(file)
+
+        bins = []
+
+        for feature in geojson.get("features", []):
+            geometry = feature.get("geometry", {})
+            properties = feature.get("properties", {})
+            coordinates = geometry.get("coordinates", [])
+
+            if geometry.get("type") != "Point" or len(coordinates) < 2:
+                continue
+
+            lon, lat = coordinates[:2]
+
+            bins.append({
+                "id": f"fingal-recycling-{properties.get('ID', len(bins))}",
+                "lat": float(lat),
+                "lon": float(lon),
+                "tags": {
+                    "amenity": "recycling",
+                    "source": "Fingal County Council",
+                    "name": properties.get("NAME"),
+                    "address": properties.get("ADDRESS"),
+                    "eircode": properties.get("Eircode"),
+                    "telephone": properties.get("Telephone"),
+                    "facility_type": "recycling_centre",
+                },
+            })
+
+        print(f"Fingal recycling centres loaded: {len(bins)}")
+        return bins
+
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
+        print(f"Could not load Fingal recycling-centre data: {error}")
+        return []
+
+
+FINGAL_PUBLIC_BINS = load_fingal_public_bins()
+FINGAL_BRING_BANKS = load_fingal_bring_banks()
+FINGAL_RECYCLING_CENTRES = load_fingal_recycling_centres()
+
+
 def distance_metres(lat1, lon1, lat2, lon2):
     earth_radius = 6371000
 
@@ -249,10 +406,10 @@ def distance_metres(lat1, lon1, lat2, lon2):
     return earth_radius * c
 
 
-def get_dcc_bins_nearby(user_lat, user_lon):
+def get_official_public_bins_nearby(user_lat, user_lon):
     nearby = []
 
-    for bin_item in DCC_BINS:
+    for bin_item in DCC_BINS + FINGAL_PUBLIC_BINS:
         distance = distance_metres(
             user_lat,
             user_lon,
@@ -266,14 +423,22 @@ def get_dcc_bins_nearby(user_lat, user_lon):
     return nearby
 
 
-def get_dcc_recycling_bins_nearby(user_lat, user_lon):
+def get_official_recycling_bins_nearby(user_lat, user_lon):
     nearby = []
 
-    # Bottle banks contain the broad mapped coverage. The smaller recycling-
-    # centre file adds full-service sites, with close duplicates removed.
+    # Bring banks contain the broad mapped coverage. The smaller recycling-
+    # centre files add full-service sites, with close duplicates removed.
     official_bins = merge_recycling_bins(
         DCC_RECYCLING_BINS,
         DCC_BOTTLE_BANKS,
+    )
+    official_bins = merge_recycling_bins(
+        FINGAL_RECYCLING_CENTRES,
+        official_bins,
+    )
+    official_bins = merge_recycling_bins(
+        FINGAL_BRING_BANKS,
+        official_bins,
     )
 
     for bin_item in official_bins:
@@ -288,6 +453,40 @@ def get_dcc_recycling_bins_nearby(user_lat, user_lon):
             nearby.append(bin_item)
 
     return nearby
+
+
+def describe_data_source(data, osm_bins, official_bins):
+    """Build a precise attribution label for the records in a result."""
+    authorities = []
+    source_values = {
+        bin_item.get("tags", {}).get("source", "")
+        for bin_item in official_bins
+    }
+
+    if any(source.startswith("Dublin City Council") for source in source_values):
+        authorities.append("Dublin City Council")
+
+    if "Fingal County Council" in source_values:
+        authorities.append("Fingal County Council")
+
+    sources = []
+
+    if (
+        data is not None
+        and data.get("source") == "live"
+        and osm_bins
+    ):
+        sources.append("OSM")
+
+    sources.extend(authorities)
+
+    if sources:
+        return " + ".join(sources)
+
+    if data is not None:
+        return data.get("source")
+
+    return None
 
 
 def merge_public_bins(osm_bins, dcc_bins):
@@ -370,11 +569,14 @@ def merge_with_official_bins(osm_bins, bin_type, user_lat, user_lon):
     bins = list(osm_bins)
 
     if bin_type in ("public", "all"):
-        public_bins = get_dcc_bins_nearby(user_lat, user_lon)
+        public_bins = get_official_public_bins_nearby(user_lat, user_lon)
         bins = merge_public_bins(bins, public_bins)
 
     if bin_type in ("recycling", "all"):
-        recycling_bins = get_dcc_recycling_bins_nearby(user_lat, user_lon)
+        recycling_bins = get_official_recycling_bins_nearby(
+            user_lat,
+            user_lon,
+        )
         bins = merge_recycling_bins(bins, recycling_bins)
 
     return bins, public_bins, recycling_bins
@@ -385,6 +587,21 @@ def get_search_radius(bin_type):
         return RECYCLING_SEARCH_RADIUS
 
     return search_radius
+
+
+def official_results_cover_search(
+    bin_type,
+    official_public_bins,
+    official_recycling_bins,
+):
+    """Avoid a slow live lookup when official data covers the request."""
+    if bin_type == "public":
+        return bool(official_public_bins)
+
+    if bin_type == "recycling":
+        return bool(official_recycling_bins)
+
+    return bool(official_public_bins and official_recycling_bins)
 
 
 def build_bins_query(bin_type, user_lat, user_lon):
@@ -592,33 +809,50 @@ def find_bin():
     if bin_type not in ("public", "recycling", "all"):
         bin_type = "public"
 
-    query = build_bins_query(bin_type, user_lat, user_lon)
-
-    data = get_bins(
-        url,
-        query,
-        headers,
-        allow_cache=bin_type != "recycling",
+    _, initial_public_bins, initial_recycling_bins = merge_with_official_bins(
+        [],
+        bin_type,
+        user_lat,
+        user_lon,
     )
 
+    if official_results_cover_search(
+        bin_type,
+        initial_public_bins,
+        initial_recycling_bins,
+    ):
+        data = None
+    else:
+        query = build_bins_query(bin_type, user_lat, user_lon)
+        data = get_bins(
+            url,
+            query,
+            headers,
+            allow_cache=bin_type != "recycling",
+        )
+
     if data is not None:
-        data_source = data.get("source")
         osm_bins = normalise_osm_bins(data.get("elements", []))
 
         print(f"Bins returned by Overpass: {len(osm_bins)}")
 
-        bins, dcc_bins, dcc_recycling_bins = merge_with_official_bins(
-            osm_bins,
-            bin_type,
-            user_lat,
-            user_lon,
+        bins, official_public_bins, official_recycling_bins = (
+            merge_with_official_bins(
+                osm_bins,
+                bin_type,
+                user_lat,
+                user_lon,
+            )
         )
 
-        print(f"DCC public bins nearby: {len(dcc_bins)}")
-        print(f"DCC recycling centres nearby: {len(dcc_recycling_bins)}")
+        print(f"Official public bins nearby: {len(official_public_bins)}")
+        print(
+            "Official recycling sites nearby: "
+            f"{len(official_recycling_bins)}"
+        )
 
-        if dcc_bins or dcc_recycling_bins:
-            data_source = "OSM + Dublin City Council"
+        official_bins = official_public_bins + official_recycling_bins
+        data_source = describe_data_source(data, osm_bins, official_bins)
 
         print(f"Combined bins: {len(bins)}")
 
@@ -649,7 +883,7 @@ def find_bin():
             nearest_distance = nearest_bins[0]["distance"]
 
             # Only apply the old cache-distance safeguard when
-            # we have no official DCC results supplementing it.
+            # we have no official local-authority results supplementing it.
             if (
                 data_source == "cache"
                 and nearest_distance is not None
@@ -672,11 +906,13 @@ def find_bin():
             )
 
     else:
-        bins, _, _ = merge_with_official_bins(
-            [],
-            bin_type,
-            user_lat,
-            user_lon,
+        bins, official_public_bins, official_recycling_bins = (
+            merge_with_official_bins(
+                [],
+                bin_type,
+                user_lat,
+                user_lon,
+            )
         )
 
         if bins:
@@ -688,7 +924,11 @@ def find_bin():
 
             nearest_bin = nearest_bins[0]["bin"]
             nearest_distance = nearest_bins[0]["distance"]
-            data_source = "Dublin City Council"
+            data_source = describe_data_source(
+                None,
+                [],
+                official_public_bins + official_recycling_bins,
+            )
         else:
             error_message = (
                 "The bin service is temporarily unavailable. "
@@ -739,25 +979,40 @@ def nearby_bins():
     if bin_type not in ("public", "recycling", "all"):
         bin_type = "public"
 
-    query = build_bins_query(bin_type, user_lat, user_lon)
-
-    data = get_bins(
-        url,
-        query,
-        headers,
-        allow_cache=bin_type != "recycling",
+    _, initial_public_bins, initial_recycling_bins = merge_with_official_bins(
+        [],
+        bin_type,
+        user_lat,
+        user_lon,
     )
+
+    if official_results_cover_search(
+        bin_type,
+        initial_public_bins,
+        initial_recycling_bins,
+    ):
+        data = None
+    else:
+        query = build_bins_query(bin_type, user_lat, user_lon)
+        data = get_bins(
+            url,
+            query,
+            headers,
+            allow_cache=bin_type != "recycling",
+        )
 
     osm_bins = []
 
     if data is not None:
         osm_bins = normalise_osm_bins(data.get("elements", []))
 
-    bins, dcc_bins, dcc_recycling_bins = merge_with_official_bins(
-        osm_bins,
-        bin_type,
-        user_lat,
-        user_lon,
+    bins, official_public_bins, official_recycling_bins = (
+        merge_with_official_bins(
+            osm_bins,
+            bin_type,
+            user_lat,
+            user_lon,
+        )
     )
 
     if not bins:
@@ -776,16 +1031,8 @@ def nearby_bins():
         user_lon,
     )
 
-    official_bins = dcc_bins or dcc_recycling_bins
-
-    if official_bins and osm_bins:
-        data_source = "OSM + Dublin City Council"
-    elif official_bins:
-        data_source = "Dublin City Council"
-    elif data is not None:
-        data_source = data.get("source")
-    else:
-        data_source = None
+    official_bins = official_public_bins + official_recycling_bins
+    data_source = describe_data_source(data, osm_bins, official_bins)
 
     return jsonify({
         "userLatitude": user_lat,

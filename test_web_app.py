@@ -108,7 +108,13 @@ class RecyclingSearchTests(unittest.TestCase):
             "tags": {"amenity": "recycling"},
         }
 
-        with patch("web_app.get_bins") as get_bins:
+        with (
+            patch(
+                "web_app.get_official_recycling_bins_nearby",
+                return_value=[],
+            ),
+            patch("web_app.get_bins") as get_bins,
+        ):
             get_bins.return_value = {
                 "source": "live",
                 "elements": [recycling_bin],
@@ -136,7 +142,13 @@ class RecyclingSearchTests(unittest.TestCase):
             "tags": {"amenity": "recycling"},
         }
 
-        with patch("web_app.get_bins") as get_bins:
+        with (
+            patch(
+                "web_app.get_official_recycling_bins_nearby",
+                return_value=[],
+            ),
+            patch("web_app.get_bins") as get_bins,
+        ):
             get_bins.return_value = {
                 "source": "live",
                 "elements": [recycling_bin],
@@ -167,7 +179,7 @@ class RecyclingSearchTests(unittest.TestCase):
         response_data = response.get_json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response_data["dataSource"], "Dublin City Council")
+        self.assertIn("Dublin City Council", response_data["dataSource"])
         self.assertGreaterEqual(len(response_data["nearestBins"]), 1)
         self.assertEqual(
             response_data["nearestBins"][0]["bin"]["tags"]["amenity"],
@@ -209,6 +221,53 @@ class RecyclingSearchTests(unittest.TestCase):
             herzog["tags"]["accepted_materials"],
         )
 
+    @patch("web_app.get_bins")
+    def test_fingal_public_bins_cover_blanchardstown_without_live_data(
+        self,
+        get_bins,
+    ):
+        response = self.client.post("/nearby-bins", json={
+            "latitude": 53.3844588,
+            "longitude": -6.3829415,
+            "bin_type": "public",
+        })
+
+        response_data = response.get_json()
+        nearest = response_data["nearestBins"][0]
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Fingal County Council", response_data["dataSource"])
+        self.assertLess(nearest["distance"], 300)
+        self.assertEqual(
+            nearest["bin"]["tags"]["source"],
+            "Fingal County Council",
+        )
+        self.assertNotEqual(nearest["bin"]["tags"]["bin_type"], "dog_bin")
+        get_bins.assert_not_called()
+
+    @patch("web_app.get_bins")
+    def test_fingal_bring_banks_cover_blanchardstown_without_live_data(
+        self,
+        get_bins,
+    ):
+        response = self.client.post("/nearby-bins", json={
+            "latitude": 53.3844588,
+            "longitude": -6.3829415,
+            "bin_type": "recycling",
+        })
+
+        response_data = response.get_json()
+        nearest = response_data["nearestBins"][0]
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Fingal County Council", response_data["dataSource"])
+        self.assertLess(nearest["distance"], 100)
+        self.assertEqual(
+            nearest["bin"]["tags"]["name"],
+            "D15 Roselawn Shopping Centre",
+        )
+        get_bins.assert_not_called()
+
     def test_live_osm_duplicate_does_not_repeat_official_bottle_bank(self):
         live_osm_bin = {
             "id": 564430856,
@@ -217,7 +276,7 @@ class RecyclingSearchTests(unittest.TestCase):
             "tags": {"amenity": "recycling"},
         }
 
-        official_bins = web_app.get_dcc_recycling_bins_nearby(
+        official_bins = web_app.get_official_recycling_bins_nearby(
             53.3210,
             -6.2666,
         )

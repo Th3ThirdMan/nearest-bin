@@ -163,6 +163,9 @@ Every push to the `main` branch triggers a new deployment.
 - OpenRouteService
 - [Dublin City Council open data](https://data.gov.ie/en_GB/dataset/waste-data-glassco)
   for public bins, recycling centres and mapped bottle banks (Glassco)
+- [Fingal County Council public-bin data](https://data.gov.ie/dataset/public-bins-locations-mappingfcc3)
+- [Fingal County Council bring-bank data](https://data.gov.ie/dataset/90037c13-9a27-4448-8ca0-12d316c40d0b)
+- [Fingal County Council recycling-centre data](https://data.gov.ie/dataset/recycling-centers-fcc2)
 
 ---
 

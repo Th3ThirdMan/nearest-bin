@@ -1,0 +1,33 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 1,
+        "NAME": "Coolmine Recycling Centre",
+        "ADDRESS": "Porter's Road, Coolmine Industrial Estate, Dublin 15",
+        "Eircode": "D15F7X9",
+        "Telephone": "(01) 890 5986"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-6.39624201, 53.38386057]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 2,
+        "NAME": "Estuary Recycling Centre",
+        "ADDRESS": "Seatown Road, Swords, Co. Dublin",
+        "Eircode": "K67V003",
+        "Telephone": "(01) 890 5985"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-6.20297913, 53.46078865]
+      }
+    }
+  ]
+}
