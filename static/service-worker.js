@@ -1,9 +1,10 @@
-const CACHE_NAME = "findmybin-v12";
+const CACHE_NAME = "findmybin-v13";
+const ASSET_VERSION = "13";
 
 const APP_SHELL = [
   "/",
-  "/static/style.css",
-  "/static/js/app.js",
+  `/static/style.css?v=${ASSET_VERSION}`,
+  `/static/js/app.js?v=${ASSET_VERSION}`,
   "/static/manifest.json",
   "/static/icons/icon-v2-192.png",
   "/static/icons/icon-v2-512.png",
