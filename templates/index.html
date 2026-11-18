@@ -41,7 +41,7 @@
 
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css', v='14') }}"
+      href="{{ url_for('static', filename='style.css', v='15') }}"
     />
   </head>
 
@@ -105,11 +105,16 @@
       <section class="result-card">
         <div class="result-summary">
           <div class="result-heading">
-            <div class="result-bin-icon" aria-hidden="true">
+            <div id="resultBinIcon" class="result-bin-icon" aria-hidden="true">
               <i class="bi bi-trash3-fill"></i>
             </div>
 
             <h2 id="resultHeading">Nearest Public Bin</h2>
+          </div>
+
+          <div id="resultBinInfo" class="result-bin-info" hidden>
+            <p id="resultBinName" class="result-bin-name"></p>
+            <p id="resultBinMaterials" class="result-bin-materials"></p>
           </div>
 
           <div class="result-details">
@@ -216,13 +221,13 @@
     </script>
     {% endif %}
 
-    <script src="{{ url_for('static', filename='js/app.js', v='14') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js', v='15') }}"></script>
 
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker
-            .register("/static/service-worker.js?v=14", {
+            .register("/static/service-worker.js?v=15", {
               updateViaCache: "none",
             })
             .then(function (registration) {

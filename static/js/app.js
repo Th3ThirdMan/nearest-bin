@@ -202,6 +202,78 @@ if (window.findMyBinData) {
     return `${Math.round(distance)} m`;
   }
 
+  const recyclingMaterialLabels = {
+    "recycling:aluminium": "Aluminium",
+    "recycling:batteries": "Batteries",
+    "recycling:cans": "Cans",
+    "recycling:clothes": "Clothes",
+    "recycling:glass": "Glass",
+    "recycling:glass_bottles": "Glass bottles",
+    "recycling:green_waste": "Garden waste",
+    "recycling:metal": "Metal",
+    "recycling:paper": "Paper",
+    "recycling:plastic": "Plastic",
+    "recycling:plastic_bottles": "Plastic bottles",
+    "recycling:waste_oil": "Waste oil",
+  };
+
+  function getAcceptedMaterials(tags = {}) {
+    if (tags.accepted_materials) {
+      return tags.accepted_materials
+        .replace(/^Materials accepted:\s*/i, "")
+        .replace(/\bAluminiu\b/g, "Aluminium")
+        .trim();
+    }
+
+    const materials = Object.entries(recyclingMaterialLabels)
+      .filter(function ([tag]) {
+        return tags[tag] === "yes";
+      })
+      .map(function ([tag, label]) {
+        return label;
+      });
+
+    return [...new Set(materials)].join(", ");
+  }
+
+  function getBinDetails(wasteBin) {
+    const tags = wasteBin.tags || {};
+    const isRecycling = tags.amenity === "recycling";
+
+    return {
+      isRecycling,
+      name: isRecycling && tags.name ? tags.name : "",
+      materials: isRecycling ? getAcceptedMaterials(tags) : "",
+    };
+  }
+
+  function updateResultBinInfo(wasteBin) {
+    const details = getBinDetails(wasteBin);
+    const info = document.getElementById("resultBinInfo");
+    const name = document.getElementById("resultBinName");
+    const materials = document.getElementById("resultBinMaterials");
+    const resultIcon = document.querySelector("#resultBinIcon i");
+
+    resultIcon.className = details.isRecycling
+      ? "bi bi-recycle"
+      : "bi bi-trash3-fill";
+
+    if (!details.name && !details.materials) {
+      info.hidden = true;
+      name.textContent = "";
+      materials.textContent = "";
+      return;
+    }
+
+    name.textContent = details.name;
+    name.hidden = !details.name;
+    materials.textContent = details.materials
+      ? `Accepts: ${details.materials}`
+      : "";
+    materials.hidden = !details.materials;
+    info.hidden = false;
+  }
+
   function renderNearbyBinsList(bins) {
     const container = document.getElementById("nearbyBinsList");
 
@@ -212,22 +284,52 @@ if (window.findMyBinData) {
 
       const card = document.createElement("div");
       card.className = "nearby-bin-item" + (index === 0 ? " active" : "");
-      const itemLabel =
-        item.bin.tags?.amenity === "recycling"
-          ? "♻️ Recycling Bin"
-          : "🗑️ Public Bin";
-      card.innerHTML = `
-      <span>${binType === "all" ? itemLabel : `${binDisplay.icon} ${binDisplay.label}`}</span>
-      <div>
-  <div class="nearby-bin-distance">
-    ${formatDistance(binDistance)}
-  </div>
-  <div class="nearby-bin-label">
-    Tap to navigate
-  </div>
-</div>
-      <span class="nearby-bin-arrow">›</span>
-    `;
+      const details = getBinDetails(item.bin);
+
+      const binInfo = document.createElement("div");
+      binInfo.className = "nearby-bin-info";
+
+      const binTitle = document.createElement("div");
+      binTitle.className = "nearby-bin-title";
+
+      const typeIcon = document.createElement("i");
+      typeIcon.className = details.isRecycling
+        ? "bi bi-recycle nearby-bin-type-icon recycling-type-icon"
+        : "bi bi-trash3-fill nearby-bin-type-icon public-type-icon";
+      typeIcon.setAttribute("aria-hidden", "true");
+
+      const titleText = document.createElement("span");
+      titleText.textContent =
+        details.name || (details.isRecycling ? "Recycling Bin" : "Public Bin");
+
+      binTitle.append(typeIcon, titleText);
+      binInfo.appendChild(binTitle);
+
+      if (details.materials) {
+        const materials = document.createElement("div");
+        materials.className = "nearby-bin-materials";
+        materials.textContent = `Accepts: ${details.materials}`;
+        binInfo.appendChild(materials);
+      }
+
+      const routeInfo = document.createElement("div");
+      routeInfo.className = "nearby-bin-route";
+
+      const distance = document.createElement("div");
+      distance.className = "nearby-bin-distance";
+      distance.textContent = formatDistance(binDistance);
+
+      const routeLabel = document.createElement("div");
+      routeLabel.className = "nearby-bin-label";
+      routeLabel.textContent = "Tap to navigate";
+
+      routeInfo.append(distance, routeLabel);
+
+      const arrow = document.createElement("span");
+      arrow.className = "nearby-bin-arrow";
+      arrow.textContent = "›";
+
+      card.append(binInfo, routeInfo, arrow);
 
       card.addEventListener("click", function () {
         binMarkers[index].fire("click");
@@ -422,12 +524,15 @@ if (window.findMyBinData) {
         document.getElementById("straightLineDistance").innerText =
           `${formatDistance(binDistance)} away`;
 
+        updateResultBinInfo(wasteBin);
+
         loadWalkingRoute(selectedBinLatitude, selectedBinLongitude);
       });
 
       if (index === 0) {
         selectedMarker = marker;
         marker.openPopup();
+        updateResultBinInfo(wasteBin);
       }
 
       binMarkers.push(marker);

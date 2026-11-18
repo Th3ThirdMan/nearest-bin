@@ -225,6 +225,29 @@ button:disabled {
   letter-spacing: -0.4px;
 }
 
+.result-bin-info {
+  margin: 9px auto 0;
+  max-width: 480px;
+}
+
+.result-bin-name,
+.result-bin-materials {
+  margin: 0;
+}
+
+.result-bin-name {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.result-bin-materials {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
 .result-details {
   display: flex;
   align-items: stretch;
@@ -562,6 +585,57 @@ button:disabled {
   background: white;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.nearby-bin-info {
+  flex: 1;
+  min-width: 0;
+  margin-right: 12px;
+}
+
+.nearby-bin-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.nearby-bin-title span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nearby-bin-type-icon {
+  flex: 0 0 auto;
+  font-size: 0.95rem;
+}
+
+.public-type-icon {
+  color: var(--navy);
+}
+
+.recycling-type-icon {
+  color: var(--green);
+}
+
+.nearby-bin-materials {
+  display: -webkit-box;
+  margin-top: 4px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.nearby-bin-route {
+  flex: 0 0 auto;
+  text-align: right;
 }
 
 .nearby-bin-item:hover {
