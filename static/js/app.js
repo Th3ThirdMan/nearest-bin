@@ -107,6 +107,95 @@ function setupFilterButtons() {
 
 setupFilterButtons();
 
+function setupManualLocationSearch() {
+  const toggle = document.getElementById("manualSearchToggle");
+  const panel = document.getElementById("manualSearchPanel");
+  const input = document.getElementById("manualLocationInput");
+  const searchButton = document.getElementById("manualSearchButton");
+  const errorMessage = document.getElementById("manualSearchError");
+  const loadingMessage = document.getElementById("loading");
+  const form = document.querySelector("form");
+
+  function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.hidden = !message;
+  }
+
+  toggle.addEventListener("click", function () {
+    const willOpen = panel.hidden;
+
+    panel.hidden = !willOpen;
+    toggle.setAttribute("aria-expanded", String(willOpen));
+
+    if (willOpen) {
+      input.focus();
+    } else {
+      showError("");
+    }
+  });
+
+  async function searchLocation() {
+    const query = input.value.trim();
+
+    if (query.length < 3) {
+      showError("Enter an address, area or Eircode.");
+      input.focus();
+      return;
+    }
+
+    const originalButtonText = searchButton.innerText;
+
+    showError("");
+    searchButton.disabled = true;
+    searchButton.innerText = "Searching...";
+
+    try {
+      const response = await fetch("/geocode-location", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
+      });
+      const location = await response.json();
+
+      if (!response.ok) {
+        throw new Error(location.error || "That location could not be found.");
+      }
+
+      document.getElementById("latitude").value = location.latitude;
+      document.getElementById("longitude").value = location.longitude;
+
+      sessionStorage.setItem(
+        "findMyBinLocation",
+        JSON.stringify({
+          latitude: location.latitude,
+          longitude: location.longitude,
+        }),
+      );
+
+      loadingMessage.style.display = "block";
+      form.submit();
+    } catch (error) {
+      console.error("Manual location search failed:", error);
+      showError(error.message);
+      searchButton.disabled = false;
+      searchButton.innerText = originalButtonText;
+    }
+  }
+
+  searchButton.addEventListener("click", searchLocation);
+
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      searchLocation();
+    }
+  });
+}
+
+setupManualLocationSearch();
+
 // Restore the saved coordinates without automatically searching again.
 document.addEventListener("DOMContentLoaded", function () {
   if (window.findMyBinData) {

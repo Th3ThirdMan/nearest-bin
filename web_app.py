@@ -2,6 +2,9 @@ import csv
 import json
 import math
 import os
+import threading
+import time
+from functools import lru_cache
 
 import requests
 from flask import Flask, jsonify, render_template, request
@@ -17,11 +20,19 @@ from app import (
 
 load_dotenv()
 ORS_API_KEY = os.getenv("ORS_API_KEY")
+GEOCODING_SEARCH_URL = os.getenv(
+    "GEOCODING_SEARCH_URL",
+    "https://nominatim.openstreetmap.org/search",
+)
 
 app = Flask(__name__)
 
 
 RECYCLING_SEARCH_RADIUS = 10000
+NOMINATIM_REQUEST_INTERVAL = 1.0
+
+_nominatim_lock = threading.Lock()
+_last_nominatim_request_at = 0.0
 
 
 ASSET_LINKS = [
@@ -430,6 +441,54 @@ def normalise_osm_bins(elements):
     return bins
 
 
+@lru_cache(maxsize=256)
+def geocode_address(query):
+    """Resolve one user-submitted Irish place search through Nominatim."""
+    global _last_nominatim_request_at
+
+    with _nominatim_lock:
+        elapsed = time.monotonic() - _last_nominatim_request_at
+        wait_time = NOMINATIM_REQUEST_INTERVAL - elapsed
+
+        if wait_time > 0:
+            time.sleep(wait_time)
+
+        _last_nominatim_request_at = time.monotonic()
+
+        response = requests.get(
+            GEOCODING_SEARCH_URL,
+            params={
+                "q": query,
+                "format": "jsonv2",
+                "limit": 1,
+                "countrycodes": "ie",
+                "addressdetails": 0,
+            },
+            headers={
+                "User-Agent": (
+                    "FindMyBin/1.0 "
+                    "(https://findmybin.app/privacy)"
+                ),
+                "Referer": "https://findmybin.app/",
+                "Accept-Language": "en",
+            },
+            timeout=(5, 12),
+        )
+        response.raise_for_status()
+        results = response.json()
+
+    if not isinstance(results, list) or not results:
+        return None
+
+    result = results[0]
+
+    return {
+        "latitude": float(result["lat"]),
+        "longitude": float(result["lon"]),
+        "displayName": result.get("display_name", query),
+    }
+
+
 # --------------------------------------------------
 # Home
 # --------------------------------------------------
@@ -452,6 +511,43 @@ def home():
 @app.route("/privacy")
 def privacy_policy():
     return render_template("privacy.html")
+
+
+@app.route("/geocode-location", methods=["POST"])
+def geocode_location():
+    request_data = request.get_json(silent=True) or {}
+    raw_query = request_data.get("query", "")
+
+    if not isinstance(raw_query, str):
+        return jsonify({"error": "Enter a valid location."}), 400
+
+    query = " ".join(raw_query.split())
+
+    if len(query) < 3 or len(query) > 160:
+        return jsonify({
+            "error": "Enter an address, area or Eircode."
+        }), 400
+
+    try:
+        result = geocode_address(query.casefold())
+
+    except (
+        KeyError,
+        TypeError,
+        ValueError,
+        requests.RequestException,
+    ) as error:
+        print(f"Location search failed: {error}")
+        return jsonify({
+            "error": "Location search is temporarily unavailable."
+        }), 503
+
+    if result is None:
+        return jsonify({
+            "error": "That location could not be found in Ireland."
+        }), 404
+
+    return jsonify(result)
 
 
 @app.route("/.well-known/assetlinks.json")

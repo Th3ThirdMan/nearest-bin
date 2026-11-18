@@ -7,7 +7,61 @@ import web_app
 class RecyclingSearchTests(unittest.TestCase):
     def setUp(self):
         web_app.app.config["TESTING"] = True
+        web_app.geocode_address.cache_clear()
+        web_app._last_nominatim_request_at = 0.0
         self.client = web_app.app.test_client()
+
+    @patch("web_app.requests.get")
+    def test_manual_location_search_uses_identified_cached_request(
+        self,
+        requests_get,
+    ):
+        requests_get.return_value.json.return_value = [{
+            "lat": "53.3210",
+            "lon": "-6.2666",
+            "display_name": "Rathmines, Dublin, Ireland",
+        }]
+
+        first_response = self.client.post("/geocode-location", json={
+            "query": "Rathmines",
+        })
+        second_response = self.client.post("/geocode-location", json={
+            "query": "  RATHMINES  ",
+        })
+
+        self.assertEqual(first_response.status_code, 200)
+        self.assertEqual(second_response.status_code, 200)
+        self.assertEqual(first_response.get_json()["latitude"], 53.3210)
+        self.assertEqual(requests_get.call_count, 1)
+        self.assertEqual(
+            requests_get.call_args.kwargs["params"]["countrycodes"],
+            "ie",
+        )
+        self.assertIn(
+            "FindMyBin",
+            requests_get.call_args.kwargs["headers"]["User-Agent"],
+        )
+
+    @patch("web_app.requests.get")
+    def test_manual_location_search_reports_no_match(
+        self,
+        requests_get,
+    ):
+        requests_get.return_value.json.return_value = []
+
+        response = self.client.post("/geocode-location", json={
+            "query": "No such Irish place",
+        })
+
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("could not be found", response.get_json()["error"])
+
+    def test_manual_location_search_validates_query(self):
+        response = self.client.post("/geocode-location", json={
+            "query": "x",
+        })
+
+        self.assertEqual(response.status_code, 400)
 
     def test_recycling_query_uses_wider_nwr_search(self):
         query = web_app.build_bins_query("recycling", 53.34, -6.26)

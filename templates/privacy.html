@@ -14,7 +14,7 @@
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css', v='17') }}"
+      href="{{ url_for('static', filename='style.css', v='18') }}"
     />
   </head>
 
@@ -36,7 +36,9 @@
         </div>
       </header>
 
-      <p class="privacy-updated"><strong>Effective date:</strong> 27 August 2026</p>
+      <p class="privacy-updated">
+        <strong>Effective date:</strong> 18 November 2026
+      </p>
 
       <section>
         <h2>Overview</h2>
@@ -65,6 +67,15 @@
           with an account.
         </p>
 
+        <h3>Location search text</h3>
+        <p>
+          If you choose <strong>Search another location</strong>, FindMyBin
+          processes the address, area or Eircode you enter to obtain matching
+          coordinates. Repeated searches may be cached temporarily in server
+          memory to reduce external requests. Searches are not associated with
+          an account or used to build a profile.
+        </p>
+
         <h3>Technical information</h3>
         <p>
           Our hosting provider and the external services described below may
@@ -77,9 +88,10 @@
 
       <section>
         <h2>How information is used</h2>
-        <p>Location and technical information are used only to:</p>
+        <p>Location, search text and technical information are used only to:</p>
         <ul>
           <li>find and display bins near your current position;</li>
+          <li>find bins near a location that you explicitly search for;</li>
           <li>calculate distances and walking routes;</li>
           <li>open directions when you choose Google Maps; and</li>
           <li>operate, secure, and troubleshoot the service.</li>
@@ -104,6 +116,11 @@
             <strong>OpenStreetMap and the Overpass API</strong> provide bin and
             map data. A nearby-area query containing your coordinates is sent to
             the Overpass API, and map requests reveal the area being displayed.
+          </li>
+          <li>
+            <strong>OpenStreetMap Nominatim</strong> receives location text only
+            when you submit <strong>Search another location</strong> and returns
+            coordinates for the best matching place in Ireland.
           </li>
           <li>
             <strong>Dublin City Council open data</strong> supplies public-bin,
@@ -137,6 +154,7 @@
           server after responding to a request. The temporary location stored on
           your device lasts only for the current browser or app session and can
           be removed by closing the session or clearing the app's site data.
+          Location-search results may remain temporarily in an in-memory cache.
           Service providers may retain routine security and operational records
           according to their own retention policies.
         </p>
@@ -150,9 +168,9 @@
         <h2>Your choices</h2>
         <p>
           You can decline or revoke location permission in your device or
-          browser settings. You may also clear FindMyBin's temporary site data.
-          Revoking location access prevents nearby-bin searches and walking-route
-          calculations from working.
+          browser settings and instead search another location manually. You may
+          also clear FindMyBin's temporary site data. Revoking location access
+          prevents current-location searches and live location updates.
         </p>
       </section>
 

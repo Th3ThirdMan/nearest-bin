@@ -13,6 +13,7 @@ The application provides walking directions, an interactive map, nearby bin loca
 - 🗑️ Find the nearest public bin
 - ♻️ Find the nearest recycling bin
 - 🌍 Search all supported bin types
+- 🔎 Search by address, area or Eircode
 - 🗺️ Interactive Leaflet map
 - 🚶 Estimated walking time
 - 📍 Straight-line distance calculation

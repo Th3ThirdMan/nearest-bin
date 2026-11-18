@@ -41,7 +41,7 @@
 
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css', v='17') }}"
+      href="{{ url_for('static', filename='style.css', v='18') }}"
     />
   </head>
 
@@ -97,6 +97,51 @@
           <i class="bi bi-crosshair"></i>
           <span>Find a Bin</span>
         </button>
+
+        <button
+          id="manualSearchToggle"
+          class="manual-search-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="manualSearchPanel"
+        >
+          <i class="bi bi-search"></i>
+          <span>Search another location</span>
+        </button>
+
+        <div id="manualSearchPanel" class="manual-search-panel" hidden>
+          <label for="manualLocationInput">Address, area or Eircode</label>
+
+          <div class="manual-search-controls">
+            <input
+              id="manualLocationInput"
+              class="manual-location-input"
+              type="search"
+              maxlength="160"
+              autocomplete="off"
+              placeholder="e.g. Rathmines or D06"
+            />
+
+            <button
+              id="manualSearchButton"
+              class="manual-search-button"
+              type="button"
+            >
+              Search
+            </button>
+          </div>
+
+          <p
+            id="manualSearchError"
+            class="manual-search-error"
+            role="status"
+            hidden
+          ></p>
+
+          <p class="manual-search-attribution">
+            Location search © OpenStreetMap contributors.
+          </p>
+        </div>
       </form>
 
       <p id="loading" class="loading-message">Searching for nearby bins...</p>
@@ -221,13 +266,13 @@
     </script>
     {% endif %}
 
-    <script src="{{ url_for('static', filename='js/app.js', v='17') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js', v='18') }}"></script>
 
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker
-            .register("/static/service-worker.js?v=17", {
+            .register("/static/service-worker.js?v=18", {
               updateViaCache: "none",
             })
             .then(function (registration) {
