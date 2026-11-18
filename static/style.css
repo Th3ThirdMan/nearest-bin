@@ -409,15 +409,15 @@ button:disabled {
 }
 
 .new-search-action {
-  border-color: var(--blue);
-  background: var(--blue);
+  border-color: var(--navy);
+  background: var(--navy);
   color: white;
-  box-shadow: 0 6px 14px rgba(30, 136, 229, 0.2);
+  box-shadow: 0 6px 14px rgba(23, 63, 103, 0.22);
 }
 
 .new-search-action:hover:not(:disabled) {
-  border-color: #1676c9;
-  background: #1676c9;
+  border-color: #0f3150;
+  background: #0f3150;
   color: white;
 }
 
