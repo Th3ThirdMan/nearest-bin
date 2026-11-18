@@ -48,15 +48,17 @@
   <body>
     <main class="container">
       <header class="app-header">
-        <img
-          src="{{ url_for('static', filename='icons/logo.png') }}"
-          class="logo"
-          alt="FindMyBin logo"
-        />
+        <a class="brand-home-link" href="/" aria-label="FindMyBin home">
+          <img
+            src="{{ url_for('static', filename='icons/logo.png') }}"
+            class="logo"
+            alt=""
+          />
 
-        <h1 class="brand-title">
-          <span>Find</span><span class="brand-accent">My</span><span>Bin</span>
-        </h1>
+          <h1 class="brand-title">
+            <span>Find</span><span class="brand-accent">My</span><span>Bin</span>
+          </h1>
+        </a>
 
         <p class="subtitle">
           Find the nearest public bin,<br />
